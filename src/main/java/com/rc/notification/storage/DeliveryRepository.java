@@ -6,6 +6,8 @@ import com.rc.notification.application.RequestSnapshot;
 import com.rc.notification.configuration.StoredConfigurationJson;
 import com.rc.notification.application.AttemptCursor;
 import com.rc.notification.retry.RetryPolicy;
+import com.rc.notification.retry.RetryAfter;
+import com.rc.notification.worker.AuthRecoveryState;
 import com.rc.notification.worker.Attempt;
 import com.rc.notification.worker.AttemptView;
 import com.rc.notification.worker.Completion;
@@ -14,6 +16,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.security.MessageDigest;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -122,6 +125,10 @@ public class DeliveryRepository {
 
     /** T3: a durable send intent, not proof that any request reached the network. */
     public boolean markRequestStarted(Lease lease, Attempt attempt, String credentialVersion) {
+        return markRequestStarted(lease, attempt, credentialVersion, null);
+    }
+
+    public boolean markRequestStarted(Lease lease, Attempt attempt, String credentialVersion, byte[] usedTokenDigest) {
         if (credentialVersion == null || credentialVersion.isBlank() || credentialVersion.length() > 128) {
             throw new IllegalArgumentException("Invalid credential version");
         }
@@ -129,6 +136,8 @@ public class DeliveryRepository {
             TaskState state = lock(lease.taskId());
             Instant now = now();
             if (!owns(state, lease, now) || !same(lease, attempt)) return false;
+            if (state.rejectedDigest != null && (usedTokenDigest == null || usedTokenDigest.length != 32
+                    || MessageDigest.isEqual(state.rejectedDigest, usedTokenDigest))) return false;
             int changed = jdbc.update("""
                     UPDATE notification_attempt SET phase='REQUEST_STARTED',outcome='UNKNOWN',request_started_at=?,credential_version=?
                     WHERE task_id=? AND run_number=? AND attempt_no=? AND lease_token=?
@@ -138,6 +147,14 @@ public class DeliveryRepository {
                             AND t.status='processing' AND t.lease_until>clock_timestamp())
                     """, ts(now), credentialVersion, lease.taskId(), lease.runNumber(), attempt.attemptNo(), lease.leaseToken());
             if (changed == 0) return false;
+            if (state.recoveryRequired) {
+                int cleared = jdbc.update("""
+                        UPDATE notification_task SET auth_recovery_required=false,updated_at=clock_timestamp()
+                        WHERE id=? AND run_number=? AND lease_token=? AND status='processing' AND lease_until>clock_timestamp()
+                        """, lease.taskId(), lease.runNumber(), lease.leaseToken());
+                if (cleared == 0) { ignored.setRollbackOnly(); return false; }
+                one(cleared);
+            }
             if (!stillExecutable(lease, attempt)) { ignored.setRollbackOnly(); return false; }
             return true;
         }));
@@ -164,24 +181,35 @@ public class DeliveryRepository {
             String status = completion.outcome().equals("HTTP_ACKNOWLEDGED") ? "succeeded" : "failed";
             String reason = completion.errorCode();
             Instant nextAttempt = null;
-            if (!status.equals("succeeded") && completion.retryable()) {
+            boolean firstAuthRecovery = completion.authRecovery() && !state.recoveryUsed;
+            boolean retryable = completion.authRecovery() ? firstAuthRecovery : completion.retryable();
+            if (completion.authRecovery() && state.recoveryUsed) reason = "AUTH_RECOVERY_EXHAUSTED";
+            if (!status.equals("succeeded") && retryable) {
                 Instant scheduleNow = now();
                 if (state.count >= state.maximum) reason = "ATTEMPTS_EXHAUSTED";
                 else if (!state.deadline.isAfter(scheduleNow)) reason = "DEADLINE_EXCEEDED";
                 else {
                     Instant proposed = retryPolicy.nextAttemptAt(scheduleNow, attempt.attemptNo(), Map.of("retry-after", completion.retryAfterValues()));
+                    Instant cooldownUntil;
+                    try { cooldownUntil = scheduleNow.plus(completion.retryDelay()); }
+                    catch (java.time.DateTimeException | ArithmeticException excessive) { cooldownUntil = Instant.MAX; }
+                    if (cooldownUntil.isAfter(proposed)) proposed = cooldownUntil;
                     if (!proposed.isBefore(state.deadline)) reason = "DEADLINE_EXCEEDED";
-                    else { status = "pending"; nextAttempt = proposed; reason = "RETRY_BACKOFF"; }
+                    else { status = "pending"; nextAttempt = proposed; reason = firstAuthRecovery ? "AUTH_RECOVERY_REQUIRED" : "RETRY_BACKOFF"; }
                 }
             }
             int taskUpdated = jdbc.update("""
                     UPDATE notification_task SET status=?,last_outcome=?,last_error_code=?,last_http_status=?,
-                        lease_token=NULL,lease_owner=NULL,lease_until=NULL,next_attempt_at=?,defer_reason=?,updated_at=?
+                        lease_token=NULL,lease_owner=NULL,lease_until=NULL,next_attempt_at=?,defer_reason=?,updated_at=?,
+                        auth_recovery_used=CASE WHEN ? THEN true ELSE auth_recovery_used END,
+                        auth_recovery_required=CASE WHEN ? THEN true ELSE auth_recovery_required END,
+                        rejected_token_digest=CASE WHEN ? THEN CAST(? AS bytea) ELSE rejected_token_digest END
                     WHERE id=? AND run_number=? AND lease_token=? AND status='processing'
                         AND lease_until>clock_timestamp()
                         AND EXISTS (SELECT 1 FROM notification_attempt a WHERE a.task_id=notification_task.id
                             AND a.run_number=notification_task.run_number AND a.attempt_no=? AND a.execution_deadline>clock_timestamp())
                     """, status, completion.outcome(), completion.errorCode(), completion.httpStatus(), ts(nextAttempt), reason, ts(now),
+                    firstAuthRecovery, firstAuthRecovery, firstAuthRecovery, completion.rejectedTokenDigest(),
                     lease.taskId(), lease.runNumber(), lease.leaseToken(), attempt.attemptNo());
             if (taskUpdated == 0) { ignored.setRollbackOnly(); return false; }
             one(taskUpdated);
@@ -192,6 +220,46 @@ public class DeliveryRepository {
             }
             String decision = status.equals("succeeded") ? "SUCCESS" : status.equals("pending") ? "RETRY" : "FAIL";
             afterCommit(() -> metrics.counter("notification.worker.decision", "decision", decision).increment());
+            if (completion.authRecovery()) afterCommit(() -> metrics.counter("notification.oauth.recovery", "result",
+                    firstAuthRecovery ? "REQUESTED" : "EXHAUSTED").increment());
+            return true;
+        }));
+    }
+
+    public Optional<AuthRecoveryState> authRecovery(Lease lease) {
+        return jdbc.query("""
+                SELECT auth_recovery_used,auth_recovery_required,rejected_token_digest FROM notification_task
+                WHERE id=? AND run_number=? AND lease_token=? AND status='processing' AND lease_until>clock_timestamp()
+                """, (row, n) -> new AuthRecoveryState(row.getBoolean("auth_recovery_used"), row.getBoolean("auth_recovery_required"),
+                row.getBytes("rejected_token_digest")), lease.taskId(), lease.runNumber(), lease.leaseToken()).stream().findFirst();
+    }
+
+    /** Pre-reservation admission deferral consumes no attempt and preserves the last observed result. */
+    public boolean defer(Lease lease, Duration delay, List<String> retryAfterValues, String reason) {
+        if (delay == null || delay.isNegative() || reason == null || !reason.matches("[A-Z0-9_]{1,64}")) throw new IllegalArgumentException("Invalid admission deferral");
+        return Boolean.TRUE.equals(transaction.execute(ignored -> {
+            TaskState state = lock(lease.taskId());
+            Instant now = now();
+            if (!owns(state, lease, now)) return false;
+            Integer open = jdbc.queryForObject("SELECT count(*) FROM notification_attempt WHERE task_id=? AND run_number=? AND ended_at IS NULL",
+                    Integer.class, lease.taskId(), lease.runNumber());
+            if (open == null || open != 0) return false;
+            Instant next;
+            try { next = now.plus(delay); } catch (RuntimeException excessive) { next = Instant.MAX; }
+            for (String value : retryAfterValues) {
+                Instant lower = RetryAfter.parse(value, now).orElse(now);
+                if (lower.isAfter(next)) next = lower;
+            }
+            boolean canRetry = state.count < state.maximum && next.isBefore(state.deadline);
+            String recordedReason = state.count >= state.maximum ? "ATTEMPTS_EXHAUSTED" : !next.isBefore(state.deadline) ? "DEADLINE_EXCEEDED" : reason;
+            int changed = jdbc.update("""
+                    UPDATE notification_task SET status=?,next_attempt_at=?,defer_reason=?,lease_token=NULL,lease_owner=NULL,lease_until=NULL,
+                        updated_at=clock_timestamp() WHERE id=? AND run_number=? AND lease_token=? AND status='processing' AND lease_until>clock_timestamp()
+                    """, canRetry ? "pending" : "failed", canRetry ? ts(next) : null, recordedReason,
+                    lease.taskId(), lease.runNumber(), lease.leaseToken());
+            if (changed == 0) return false;
+            if (!state.leaseUntil.isAfter(now())) { ignored.setRollbackOnly(); return false; }
+            afterCommit(() -> metrics.counter("notification.worker.deferred", "reason", reason).increment());
             return true;
         }));
     }
@@ -317,11 +385,13 @@ public class DeliveryRepository {
     private static boolean same(Lease lease, Attempt attempt) {
         return lease.taskId().equals(attempt.taskId()) && lease.runNumber() == attempt.runNumber() && lease.leaseToken().equals(attempt.leaseToken());
     }
-    private record TaskState(UUID id, String status, int run, UUID token, Instant leaseUntil, Instant deadline, int count, int maximum) { }
+    private record TaskState(UUID id, String status, int run, UUID token, Instant leaseUntil, Instant deadline, int count, int maximum,
+                             boolean recoveryUsed, boolean recoveryRequired, byte[] rejectedDigest) { }
     private static TaskState state(ResultSet row) throws SQLException {
         return new TaskState(row.getObject("id", UUID.class), row.getString("status"), row.getInt("run_number"),
                 row.getObject("lease_token", UUID.class), instant(row, "lease_until"), instant(row, "deadline_at"),
-                row.getInt("run_attempt_count"), row.getInt("max_attempts"));
+                row.getInt("run_attempt_count"), row.getInt("max_attempts"), row.getBoolean("auth_recovery_used"),
+                row.getBoolean("auth_recovery_required"), row.getBytes("rejected_token_digest"));
     }
     private static Lease lease(ResultSet row) throws SQLException {
         Map<String, String> headers = new LinkedHashMap<>();

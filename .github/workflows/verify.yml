@@ -31,6 +31,10 @@ jobs:
       # Fixed fake credentials for the real environment-backed resolver in integration tests.
       CP04_TEST_SECRET: cp04-test-only-secret
       CP04_TEST_SECRET_VERSION: fixture-v1
+      CP06_CLIENT_SECRET: 'cp06 fake:+密钥'
+      CP06_CLIENT_SECRET_VERSION: fixture-oauth-v1
+      CP06_ROTATED_SECRET: 'cp06 rotated secret'
+      CP06_ROTATED_SECRET_VERSION: fixture-oauth-v2
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
@@ -51,5 +55,6 @@ jobs:
           name: test-evidence
           path: |
             target/surefire-reports/
+            target/evidence/
             target/dependency-tree.txt
           if-no-files-found: error

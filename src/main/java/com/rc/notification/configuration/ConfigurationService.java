@@ -274,7 +274,8 @@ public class ConfigurationService {
                 for (JsonNode scope : input.get("scopes")) if (!scope.isTextual() || !scope.textValue().matches("[\\x21\\x23-\\x5B\\x5D-\\x7E]+")) throw invalid();
             }
             if (input.has("tokenLifetimeSeconds") && (!input.get("tokenLifetimeSeconds").isIntegralNumber()
-                    || !input.get("tokenLifetimeSeconds").canConvertToLong() || input.get("tokenLifetimeSeconds").longValue() <= 0)) throw invalid();
+                    || !input.get("tokenLifetimeSeconds").canConvertToLong() || input.get("tokenLifetimeSeconds").longValue() <= 0
+                    || input.get("tokenLifetimeSeconds").longValue() > Long.MAX_VALUE / 1_000_000_000L)) throw invalid();
         } else throw invalid();
     }
 

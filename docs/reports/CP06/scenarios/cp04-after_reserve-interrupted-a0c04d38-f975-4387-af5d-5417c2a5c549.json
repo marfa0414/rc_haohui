@@ -1,0 +1,36 @@
+{
+  "scenario" : "cp04-after_reserve-interrupted",
+  "observedAt" : "2026-10-13T05:09:03.825743Z",
+  "task" : {
+    "id" : "a0c04d38-f975-4387-af5d-5417c2a5c549",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "processing",
+    "lease_token" : "7e3ab372-09a3-4c6b-b9a1-55acca55605a",
+    "lease_until" : "2026-10-13T13:09:06.804001+08:00",
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T13:09:03.800415+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "a0c04d38-f975-4387-af5d-5417c2a5c549",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "7e3ab372-09a3-4c6b-b9a1-55acca55605a",
+    "phase" : "RESERVED",
+    "outcome" : "NOT_SENT",
+    "http_status" : null,
+    "error_code" : null,
+    "started_at" : "2026-10-13T13:09:03.80615+08:00",
+    "ended_at" : null,
+    "request_started_at" : null,
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T13:09:05.80615+08:00"
+  } ],
+  "httpCalls" : [ ],
+  "sideEffects" : 0
+}

@@ -30,6 +30,10 @@ public final class WorkerFixture implements AutoCloseable {
     }
 
     public WorkerFixture(Map<String, Object> overrides, Class<?>... testSources) throws Exception {
+        this(overrides, List.of(), testSources);
+    }
+
+    public WorkerFixture(Map<String, Object> overrides, List<Integer> additionalHttpPorts, Class<?>... testSources) throws Exception {
         this.testSources = testSources;
         assertEquals("cp04-test-only-secret", System.getenv("CP04_TEST_SECRET"),
                 "Set the documented fake CP04_TEST_SECRET to run real environment-backed credential tests; never skip.");
@@ -39,7 +43,10 @@ public final class WorkerFixture implements AutoCloseable {
         properties.put("app.outbound.allowed-hosts", "supplier.invalid,127.0.0.1");
         properties.put("app.outbound.allowed-ports", "443," + mock.uri("/notify").getPort());
         properties.put("app.outbound.development-http-hosts", "127.0.0.1");
-        properties.put("app.outbound.development-http-ports", Integer.toString(mock.uri("/notify").getPort()));
+        var developmentPorts = new ArrayList<>(additionalHttpPorts);
+        developmentPorts.add(mock.uri("/notify").getPort());
+        properties.put("app.outbound.development-http-ports", developmentPorts.stream().map(Object::toString)
+                .collect(java.util.stream.Collectors.joining(",")));
         properties.put("app.worker.scheduling-enabled", "false");
         properties.put("app.worker.global-concurrency", "2");
         properties.put("app.worker.lease-duration", "3s");

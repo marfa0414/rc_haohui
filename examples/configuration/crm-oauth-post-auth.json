@@ -1,0 +1,12 @@
+{
+  "authProfileKey": "example-crm-oauth-post",
+  "version": 1,
+  "tenantId": "tenant-a",
+  "type": "oauth2_client_credentials",
+  "tokenUrl": "https://auth.crm.example.com/oauth/token",
+  "clientId": "tenant-a-crm-client",
+  "clientSecretRef": "env:EXAMPLE_CRM_CLIENT_SECRET",
+  "clientAuthenticationMethod": "client_secret_post",
+  "scopes": ["contacts.write"],
+  "tokenLifetimeSeconds": 3600
+}

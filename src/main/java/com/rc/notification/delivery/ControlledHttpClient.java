@@ -1,6 +1,8 @@
 package com.rc.notification.delivery;
 
 import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
@@ -26,6 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
+import java.util.function.IntPredicate;
 import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -37,12 +40,13 @@ import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.config.Http1Config;
 import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.hc.core5.util.Timeout;
 
 /**
  * One physical request, a bounded executor and a total deadline including actual-address validation.
- * Response bodies are deliberately not consumed: acknowledgement needs the final status/headers only.
+ * Business acknowledgement reads headers only; token exchanges may use bounded body decoding.
  */
 public final class ControlledHttpClient implements AutoCloseable {
     private static final Duration MAX_TOTAL_TIMEOUT = Duration.ofMinutes(1);
@@ -54,6 +58,13 @@ public final class ControlledHttpClient implements AutoCloseable {
     private final AtomicBoolean closed = new AtomicBoolean();
 
     public record Response(int statusCode, Map<String, List<String>> headers) { }
+    @FunctionalInterface
+    public interface BodyDecoder<T> { T decode(Response response, byte[] body) throws IOException; }
+    @FunctionalInterface
+    private interface ResponseHandler<T> { T handle(Response headers, ClassicHttpResponse response, CallState state) throws IOException; }
+    public static final class ResponseTooLargeException extends IOException {
+        public ResponseTooLargeException() { super("Response exceeded the configured byte limit"); }
+    }
 
     public ControlledHttpClient(DnsResolver resolver, int maxConcurrent) {
         this(resolver, maxConcurrent, (target, address) -> true);
@@ -77,6 +88,7 @@ public final class ControlledHttpClient implements AutoCloseable {
 
         var connections = PoolingHttpClientConnectionManagerBuilder.create()
                 .setConnectionFactory(ManagedHttpClientConnectionFactory.builder()
+                        .http1Config(Http1Config.custom().setMaxLineLength(16384).setMaxHeaderCount(100).build())
                         .requestWriterFactory(Utf8RequestWriter::new).build())
                 .setDnsResolver(new DeadlineDnsResolver(resolver))
                 .setMaxConnTotal(maxConcurrent)
@@ -116,6 +128,28 @@ public final class ControlledHttpClient implements AutoCloseable {
     public Response execute(URI uri, String method, Map<String, String> headers, byte[] body,
                             Duration totalTimeout, Consumer<Instant> onTransportStart)
             throws IOException, TimeoutException, InterruptedException {
+        return executeHandled(uri, method, headers, body, totalTimeout, onTransportStart, (head, response, state) -> head);
+    }
+
+    /** Reading and decoding run inside the same bounded task and total deadline as DNS and I/O. */
+    public <T> T executeWithBody(URI uri, String method, Map<String, String> headers, byte[] body,
+                                 Duration totalTimeout, int maximumResponseBytes, IntPredicate needsBody,
+                                 BodyDecoder<T> decoder) throws IOException, TimeoutException, InterruptedException {
+        if (maximumResponseBytes < 1 || maximumResponseBytes > 65536) throw new IllegalArgumentException("Invalid response byte limit");
+        Objects.requireNonNull(needsBody, "needsBody");
+        Objects.requireNonNull(decoder, "decoder");
+        return executeHandled(uri, method, headers, body, totalTimeout, ignored -> { }, (head, response, state) -> {
+            byte[] bytes = needsBody.test(head.statusCode()) ? readBody(response, maximumResponseBytes, state) : new byte[0];
+            state.checkActive();
+            T decoded = decoder.decode(head, bytes);
+            state.checkActive();
+            return decoded;
+        });
+    }
+
+    private <T> T executeHandled(URI uri, String method, Map<String, String> headers, byte[] body,
+                                 Duration totalTimeout, Consumer<Instant> onTransportStart, ResponseHandler<T> handler)
+            throws IOException, TimeoutException, InterruptedException {
         Objects.requireNonNull(uri, "uri");
         Objects.requireNonNull(method, "method");
         Objects.requireNonNull(headers, "headers");
@@ -137,10 +171,10 @@ public final class ControlledHttpClient implements AutoCloseable {
             throw new RejectedExecutionException("HTTP execution capacity is exhausted");
         }
         CallState state = new CallState(uri, totalTimeout.toNanos(), admission, onTransportStart);
-        FutureTask<Response> future = new FutureTask<>(() -> {
+        FutureTask<T> future = new FutureTask<>(() -> {
             state.executionStarted.set(true);
             try {
-                return send(request, state);
+                return send(request, state, handler);
             } finally {
                 state.releasePermit();
             }
@@ -189,7 +223,7 @@ public final class ControlledHttpClient implements AutoCloseable {
         }
     }
 
-    private Response send(HttpUriRequestBase request, CallState state) throws IOException {
+    private <T> T send(HttpUriRequestBase request, CallState state, ResponseHandler<T> handler) throws IOException {
         callState.set(state);
         ClassicHttpResponse response = null;
         try {
@@ -204,7 +238,7 @@ public final class ControlledHttpClient implements AutoCloseable {
             }
             Map<String, List<String>> immutable = new LinkedHashMap<>();
             mutable.forEach((key, values) -> immutable.put(key, List.copyOf(values)));
-            return new Response(response.getCode(), Map.copyOf(immutable));
+            return handler.handle(new Response(response.getCode(), Map.copyOf(immutable)), response, state);
         } finally {
             // Abort before close: closing an entity stream alone may drain an unbounded response body.
             // This foundation trades keep-alive reuse for an unambiguous bounded close path.
@@ -220,7 +254,25 @@ public final class ControlledHttpClient implements AutoCloseable {
         }
     }
 
-    private static void cancel(HttpUriRequestBase request, CallState state, Future<Response> future) {
+    private static byte[] readBody(ClassicHttpResponse response, int maximumBytes, CallState state) throws IOException {
+        if (response.getEntity() == null) return new byte[0];
+        if (response.getEntity().getContentLength() > maximumBytes) throw new ResponseTooLargeException();
+        // The request is aborted in send's finally before the entity is closed; never drain an excess body.
+        InputStream input = response.getEntity().getContent();
+        ByteArrayOutputStream output = new ByteArrayOutputStream(Math.min(maximumBytes, 8192));
+        byte[] chunk = new byte[4096];
+        while (true) {
+            state.checkActive();
+            int count = input.read(chunk, 0, Math.min(chunk.length, maximumBytes - output.size() + 1));
+            if (count < 0) break;
+            if (count > maximumBytes - output.size()) throw new ResponseTooLargeException();
+            output.write(chunk, 0, count);
+        }
+        state.checkActive();
+        return output.toByteArray();
+    }
+
+    private static void cancel(HttpUriRequestBase request, CallState state, Future<?> future) {
         state.cancelled.set(true);
         request.cancel();
         future.cancel(true);

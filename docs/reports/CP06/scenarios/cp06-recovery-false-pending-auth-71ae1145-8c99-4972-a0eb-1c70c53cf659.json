@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-recovery-false-pending-authentication",
+  "observedAt" : "2026-10-13T05:10:02.845806Z",
+  "taskId" : "71ae1145-8c99-4972-a0eb-1c70c53cf659",
+  "runNumber" : 1,
+  "recoveryUsed" : true,
+  "recoveryRequired" : true,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T05:10:02.810776Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}
