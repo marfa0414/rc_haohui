@@ -1,0 +1,16 @@
+[
+  {
+    "artifact": "resilience4j-circuitbreaker-2.4.0.jar",
+    "sha256": "31ab1d15570357271b8c28d82b2f412c5f36a81ac253145aa32177c4f087efdc",
+    "baseClassMajorVersions": [
+      61
+    ]
+  },
+  {
+    "artifact": "resilience4j-core-2.4.0.jar",
+    "sha256": "a15d25c4709a4c12432cd0a4f620e37a00a82dbe112f5d1a7a68b31325ffc978",
+    "baseClassMajorVersions": [
+      61
+    ]
+  }
+]

@@ -8,6 +8,7 @@ import com.rc.notification.auth.TokenFailure;
 import com.rc.notification.configuration.ConfigurationRepository;
 import com.rc.notification.delivery.BusinessHttpSender;
 import com.rc.notification.retry.RetryPolicy;
+import com.rc.notification.protection.ProtectionGate;
 import com.rc.notification.runtime.RoleConfiguration;
 import com.rc.notification.storage.DeliveryRepository;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -36,11 +37,12 @@ public class WorkerEngine {
     private final MeterRegistry metrics;
     private final RetryPolicy retryPolicy;
     private final String environment;
+    private final ProtectionGate protection;
 
     public WorkerEngine(DeliveryRepository repository, ConfigurationRepository configurations, AuthStrategyRegistry authenticationStrategies,
                         BusinessHttpSender sender, WorkerProperties properties,
                         ObjectProvider<WorkerLifecycleListener> listeners, MeterRegistry metrics, RetryPolicy retryPolicy,
-                        @Value("${app.environment:production}") String environment) {
+                        @Value("${app.environment:production}") String environment, ProtectionGate protection) {
         this.repository = repository;
         this.configurations = configurations;
         this.authenticationStrategies = authenticationStrategies;
@@ -50,17 +52,23 @@ public class WorkerEngine {
         this.metrics = metrics;
         this.retryPolicy = retryPolicy;
         this.environment = environment;
+        this.protection = protection;
     }
 
     public void process(Lease lease) {
         Attempt attempt = null;
+        ProtectionGate.Permit permit = null;
         try {
             phase(WorkerLifecycleListener.Phase.AFTER_CLAIM, lease, null);
+            var admission = protection.acquire(lease);
+            permit = admission.permit();
             var profile = configurations.auth(lease.authProfileId(), false);
             var context = new AuthContext(environment, lease.tenantId(), lease.authProfileId(), profile);
             var cooldown = authenticationStrategies.cooldown(context);
-            if (!cooldown.remaining().isZero() && !cooldown.remaining().isNegative()) {
-                repository.defer(lease, cooldown.remaining(), cooldown.retryAfterValues(), "AUTH_COOLDOWN");
+            if (!admission.admitted() || !cooldown.remaining().isZero() && !cooldown.remaining().isNegative()) {
+                boolean authDominates = cooldown.remaining().compareTo(admission.delay()) > 0;
+                repository.defer(lease, authDominates ? cooldown.remaining() : admission.delay(), cooldown.retryAfterValues(),
+                        authDominates ? "AUTH_COOLDOWN" : admission.reason());
                 return;
             }
             long budgetStarted = System.nanoTime();
@@ -77,7 +85,7 @@ public class WorkerEngine {
                 if (Thread.currentThread().isInterrupted() || failure.code().equals("TOKEN_CANCELLED")) return;
                 Duration authDelay = failure.retryable() ? authenticationStrategies.cooldown(context).remaining() : Duration.ZERO;
                 finish(lease, attempt, new Completion("NOT_SENT", null, failure.code(), null, failure.retryable(), failure.retryAfterValues(),
-                        false, null, authDelay));
+                        false, null, authDelay), context);
                 return;
             }
             Duration beforeIntent = remaining(lease, attempt, budgetStarted);
@@ -89,22 +97,33 @@ public class WorkerEngine {
             try {
                 authenticationStrategies.ensureValidForSend(authentication, remaining);
             } catch (TokenFailure expired) {
-                finish(lease, attempt, new Completion("NOT_SENT", null, expired.code(), null, true, List.of()));
+                finish(lease, attempt, new Completion("NOT_SENT", null, expired.code(), null, true, List.of()), context);
+                return;
+            }
+            Duration quotaRemaining = protection.cooldown(lease);
+            if (!quotaRemaining.isZero() && !quotaRemaining.isNegative()) {
+                finish(lease, attempt, new Completion("NOT_SENT", null, "QUOTA_COOLDOWN", null, true, List.of(),
+                        false, null, quotaRemaining), context);
                 return;
             }
             Completion completion;
+            long httpStarted = System.nanoTime();
             try {
                 var result = sender.send(lease.snapshot(), authentication.transport(), remaining);
+                Duration quotaDelay = result.statusCode() == 429
+                        ? protection.recordQuota429(lease, result.headers().getOrDefault("retry-after", List.of()), repository.currentTime()) : Duration.ZERO;
+                permit.complete(result.statusCode(), null, Duration.ofNanos(System.nanoTime() - httpStarted));
                 boolean invalidToken = authentication.oauth() && result.statusCode() == 401 && BearerChallenge.invalidToken(result.headers());
                 completion = new Completion(result.acknowledged() ? "HTTP_ACKNOWLEDGED" : "HTTP_REJECTED",
                         result.statusCode(), result.acknowledged() ? null : invalidToken ? "AUTH_INVALID_TOKEN" : "HTTP_REJECTED", result.httpSendStartedAt(),
                         invalidToken || retryPolicy.classify(result.statusCode(), null) == RetryPolicy.Outcome.RETRY,
-                        result.headers().getOrDefault("retry-after", List.of()), invalidToken, invalidToken ? authentication.tokenDigest() : null);
+                        result.headers().getOrDefault("retry-after", List.of()), invalidToken, invalidToken ? authentication.tokenDigest() : null, quotaDelay);
             } catch (BusinessHttpSender.SendFailure failure) {
                 if (failure.kind() == BusinessHttpSender.FailureKind.CANCELLED) {
                     Thread.currentThread().interrupt();
                     return;
                 }
+                permit.complete(null, failure.kind(), Duration.ofNanos(System.nanoTime() - httpStarted));
                 // A local rejection before execute is provably not sent; network uncertainty remains UNKNOWN.
                 boolean notSent = failure.kind() == BusinessHttpSender.FailureKind.TARGET_REJECTED
                         || failure.httpSendStartedAt() == null && failure.kind() == BusinessHttpSender.FailureKind.CAPACITY;
@@ -113,7 +132,7 @@ public class WorkerEngine {
                         retryPolicy.classify(null, failure.kind()) == RetryPolicy.Outcome.RETRY, List.of());
             }
             phase(WorkerLifecycleListener.Phase.AFTER_HTTP, lease, attempt);
-            boolean committed = finish(lease, attempt, completion);
+            boolean committed = finish(lease, attempt, completion, context);
             if (committed && completion.authRecovery() && !recovery.used()) {
                 phase(WorkerLifecycleListener.Phase.AFTER_COMPLETION, lease, attempt);
                 authenticationStrategies.invalidate(authentication);
@@ -128,6 +147,8 @@ public class WorkerEngine {
         } catch (RuntimeException unexpected) {
             metrics.counter("notification.worker.execution_failure").increment();
             LOG.error("delivery_execution_failed taskId={} run={} exceptionType={}", lease.taskId(), lease.runNumber(), unexpected.getClass().getSimpleName());
+        } finally {
+            if (permit != null) permit.close();
         }
     }
 
@@ -153,7 +174,16 @@ public class WorkerEngine {
         for (var listener : listeners) listener.onPhase(phase, lease, attempt);
     }
 
-    private boolean finish(Lease lease, Attempt attempt, Completion completion) {
+    private boolean finish(Lease lease, Attempt attempt, Completion completion, AuthContext context) {
+        if (completion.retryable()) {
+            Duration delay = completion.retryDelay();
+            Duration quota = protection.cooldown(lease);
+            Duration auth = authenticationStrategies.cooldown(context).remaining();
+            if (quota.compareTo(delay) > 0) delay = quota;
+            if (auth.compareTo(delay) > 0) delay = auth;
+            completion = new Completion(completion.outcome(), completion.httpStatus(), completion.errorCode(), completion.httpSendStartedAt(),
+                    true, completion.retryAfterValues(), completion.authRecovery(), completion.rejectedTokenDigest(), delay);
+        }
         boolean committed = repository.complete(lease, attempt, completion);
         metrics.counter("notification.worker.completion", "result", committed ? completion.outcome() : "STALE_OWNER").increment();
         LOG.info("delivery_completion taskId={} run={} attempt={} outcome={} committed={}", lease.taskId(), lease.runNumber(),

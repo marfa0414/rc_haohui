@@ -1,0 +1,69 @@
+{
+  "scenario" : "cp06-delayed-old-401",
+  "observedAt" : "2026-10-13T05:38:33.542689Z",
+  "task" : {
+    "id" : "89305767-6f6e-483b-b046-6a9c7575cf84",
+    "run_number" : 1,
+    "run_attempt_count" : 2,
+    "total_attempt_count" : 2,
+    "status" : "succeeded",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T13:38:33.407721+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "89305767-6f6e-483b-b046-6a9c7575cf84",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "ff0c335a-ed1d-4d1f-893a-dc6c7f4a610e",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 401,
+    "error_code" : "AUTH_INVALID_TOKEN",
+    "started_at" : "2026-10-13T13:38:33.413856+08:00",
+    "ended_at" : "2026-10-13T13:38:33.48734+08:00",
+    "request_started_at" : "2026-10-13T13:38:33.417597+08:00",
+    "http_send_started_at" : "2026-10-13T13:38:33.419521+08:00",
+    "execution_deadline" : "2026-10-13T13:38:37.413856+08:00"
+  }, {
+    "task_id" : "89305767-6f6e-483b-b046-6a9c7575cf84",
+    "run_number" : 1,
+    "attempt_no" : 2,
+    "lease_token" : "6a3144e2-c398-467d-92d6-a20e4e0dee3d",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "started_at" : "2026-10-13T13:38:33.50467+08:00",
+    "ended_at" : "2026-10-13T13:38:33.510268+08:00",
+    "request_started_at" : "2026-10-13T13:38:33.507626+08:00",
+    "http_send_started_at" : "2026-10-13T13:38:33.509867+08:00",
+    "execution_deadline" : "2026-10-13T13:38:37.50467+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T05:38:33.419792Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "3d771d9f1018336db89b56b471d3ab7921431957b246ccfb98fc347bec3d8ace"
+  }, {
+    "receivedAt" : "2026-10-13T05:38:33.430034Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "c9f443d3fbe2ec0eb28f8a404f5c76726e0ee3837dad7d55bf0e5308e967b855"
+  }, {
+    "receivedAt" : "2026-10-13T05:38:33.468275Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "c9f443d3fbe2ec0eb28f8a404f5c76726e0ee3837dad7d55bf0e5308e967b855"
+  }, {
+    "receivedAt" : "2026-10-13T05:38:33.510238Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "3d771d9f1018336db89b56b471d3ab7921431957b246ccfb98fc347bec3d8ace"
+  } ]
+}

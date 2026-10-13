@@ -1,6 +1,7 @@
 package com.rc.notification.application;
 
 import com.rc.notification.api.ApiException;
+import com.rc.notification.admission.AdmissionGate;
 import com.rc.notification.security.CallerPrincipal;
 import com.rc.notification.storage.NotificationRepository;
 import com.rc.notification.storage.DeliveryRepository;
@@ -21,11 +22,13 @@ public class NotificationService {
     private final RequestSnapshotFactory snapshots;
     private final DeliveryRepository deliveries;
     private final TransactionTemplate transaction;
+    private final AdmissionGate admission;
     public NotificationService(NotificationRepository repository, RequestSnapshotFactory snapshots,
-                               PlatformTransactionManager manager, DeliveryRepository deliveries) {
+                               PlatformTransactionManager manager, DeliveryRepository deliveries, AdmissionGate admission) {
         this.repository = repository;
         this.snapshots = snapshots;
         this.deliveries = deliveries;
+        this.admission = admission;
         transaction = new TransactionTemplate(manager);
         transaction.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
         transaction.setTimeout(10);
@@ -48,10 +51,18 @@ public class NotificationService {
 
     public Accepted submit(Submission submission, CallerPrincipal caller) {
         caller.requireSubmission(submission.tenantId(), submission.operation());
+        admission.requireRateCapacity();
         // TransactionTemplate only returns after commit; a commit failure cannot produce HTTP 202.
         return Objects.requireNonNull(transaction.execute(ignored -> {
             var existing = repository.findEvent(submission);
             if (existing.isPresent()) return duplicate(existing.get(), submission);
+            long backlog = repository.backlogCount(admission.backlogLimit());
+            if (backlog >= admission.backlogLimit()) {
+                // A concurrently committed duplicate still takes precedence over backlog rejection.
+                var concurrent = repository.findEvent(submission);
+                if (concurrent.isPresent()) return duplicate(concurrent.get(), submission);
+                admission.requireBacklogCapacity(backlog);
+            }
             var route = repository.route(submission);
             var snapshot = snapshots.create(route.configuration(), submission);
             var inserted = repository.insert(submission, route, snapshot);

@@ -1,0 +1,21 @@
+{
+  "scenario" : "cp06-auth-cooldown-unreserved",
+  "observedAt" : "2026-10-13T05:38:27.323065Z",
+  "task" : {
+    "id" : "a0b954f6-5cf2-4f29-a424-1e6154e11261",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T13:38:28.252493+08:00",
+    "deadline_at" : "2026-10-14T13:38:27.269974+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : "AUTH_COOLDOWN"
+  },
+  "attempts" : [ ],
+  "httpCalls" : [ ]
+}

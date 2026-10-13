@@ -149,7 +149,7 @@ class TokenCacheLifecycleTest {
     void tokenRateLimitHonorsSecondsAndHttpDateBeyondTheShortFailureCooldown(boolean httpDate) throws Exception {
         try (var f = new LifecycleFixture()) {
             String retryAfter = httpDate
-                    ? DateTimeFormatter.RFC_1123_DATE_TIME.format(f.wall.get().plusSeconds(120).atZone(ZoneOffset.UTC)) : "120";
+                    ? HttpMock.httpDate(f.wall.get().plusSeconds(120)) : "120";
             var status = new AtomicInteger(429);
             f.mock.route("/token", exchange -> {
                 exchange.getResponseHeaders().set("Retry-After", retryAfter);

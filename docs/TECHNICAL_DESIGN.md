@@ -43,7 +43,7 @@
 | PostgreSQL | `17.11` | 官方发布说明可核验；CP01 固定可取得的镜像摘要并执行真实 PG 迁移测试。[发布说明](https://www.postgresql.org/docs/17/release-17-11.html) |
 | 数据访问/迁移 | Spring JDBC、HikariCP、Flyway、PostgreSQL JDBC | 由固定 Boot BOM 管理受管依赖；使用显式 SQL，避免 ORM 隐式锁与 flush 行为；Flyway 加入 PostgreSQL 数据库模块 |
 | 出站 HTTP | Apache HttpClient 5 | 需要可控 DNS、连接地址、取消请求、大小与时间限制；版本优先由 Boot BOM 固定，CP01 验证所需 API，必要的版本覆盖需附依据。[连接管理 API](https://hc.apache.org/httpcomponents-client-5.6.x/current/httpclient5/apidocs/org/apache/hc/client5/http/impl/io/PoolingHttpClientConnectionManagerBuilder.html) |
-| 熔断 | `resilience4j-circuitbreaker:2.3.0` 核心库 | 显式调用许可与结果 API，不使用注解自动包裹重试；该版本官方发布可核验，避免无意引入要求更高 JDK 的升级。[官方发布](https://github.com/resilience4j/resilience4j/releases/tag/v2.3.0) |
+| 熔断 | `resilience4j-circuitbreaker:2.4.0` 核心库 | CP07 从原计划 2.3.0 更新为已发布的 2.4.0，仍只引入核心库，不使用注解/AOP 自动包裹重试。核验该 tag 的 Java 17 构建配置，实际下载的 circuitbreaker/core 基础 class 版本均为 61；运行兼容性另由 CP07 完整门禁验证。[官方发布](https://github.com/resilience4j/resilience4j/releases/tag/v2.4.0)、[该版本构建配置](https://github.com/resilience4j/resilience4j/blob/v2.4.0/build.gradle) |
 | 测试 | JUnit、Spring Boot Test、真实 PG、可编程 HTTP Mock | 受管版本随 BOM；容器/Mock 工具在 CP01 固定准确版本，保留依赖树和校验记录；不在方案阶段伪称兼容验证通过 |
 
 2026-10-12 的只读环境检查还发现 Docker CLI `29.7.2`。这只说明命令存在，尚未验证 daemon、Compose、拉取权限或 Testcontainers。没有安装依赖、拉取镜像或启动容器。所有版本的组合兼容、镜像可获取性、构建与安全修复情况由 CP01 的真实结果裁决；存在不兼容时先修订版本表和证据，不使用 `latest` 悄悄漂移。
@@ -328,6 +328,8 @@ deadline 扫描独立使用 deadline 索引处理所有超期 pending，不要�
 
 429 默认 quotaKey 为环境/租户/认证配置版本，可部署配置显式映射实际共享配额范围。将本任务 next_attempt_at 持久化并以本进程 map 更新同配额任务的冷却；多实例不保证全局冷却。Token 的 429 更新认证上下文冷却，不污染业务熔断。
 
+冷却准入检查位于 T2 前，被拒绝的任务不预留 attempt。若其他任务在当前任务完成 T2 后才触发 429，发送前会再次检查配额冷却，尚未进入业务传输则记 NOT_SENT 并延期；已预留的次数不能倒扣。已经进入传输的请求无法撤回，不能把进程内冷却描述为对供应商在途请求的撤销机制。
+
 人工重投 T5：鉴权后先查询 replay_request，同键同摘要返回保存的原操作响应，同键不同 expectedRunNumber/原因返回 409。没有记录则锁任务；必须 failed 且 run_number 匹配，才加一轮次、重置本轮计数/认证恢复、保存当前部署的 maxAttempts 和新 24h deadline，保持任务 ID/快照/事件标识/累计次数。插入 replay_request 与 audit_event 后一并提交。等待行锁的竞争请求先重新检查同键记录；不同键只能一个成功，其余 409。当前任务后来进入新状态，也不能改变同一重投键的固定结果。
 
 接口为 `POST /admin/notifications/{id}/replay`，要求 OPERATOR 或 ADMIN 角色及该任务的租户、操作权限。请求严格包含 `replayRequestId`、`expectedRunNumber`、`reason`；成功返回 200 和固定的 `{notificationId,status:"pending",runNumber,replayRequestId}`。非 failed、轮次不符、同键参数变化均为 `409 REPLAY_CONFLICT`。原因最多 512 个 Unicode 码点且不含 NUL；通过事务审计保留。样例见 [恢复操作](../examples/recovery/README.md)。
@@ -380,7 +382,22 @@ T3 记录已使用合格的新 Token 后可清除 required，但 used 与拒绝�
 
 计时与请求完成竞态使用一次性终结标志，保证每个业务请求最多贡献一个熔断结果与一次许可释放。故障任务延期到可探测时间附近加抖动，保留 deadline；独立截止扫描保证最终可收敛。重启会丢本地熔断状态，多进程可以各自探测一次，这属于文档化边界。
 
+熔断与配额状态各最多保留 1000 个条目。容量不足时受控延期；无在途许可且闲置超过 30 分钟的熔断条目可以回收，OPEN 状态还必须经过其打开等待时间。再次出现流量时重新建立统计窗口。这是进程内保护的容量策略，不承诺跨重启或长期闲置保存故障历史；活动探测绝不因容量清理而移除，旧状态代次的晚到结果也不能影响新的半开探测。
+
+业务 429 的共享冷却默认按环境、租户和认证配置划分，允许通过部署配置将指定认证配置映射到共享配额组。有效 Retry-After 按最大有效值延长当前冷却，合法的 0 或过去日期不额外强加等待；缺失或全部无效时使用默认 30 秒。业务 HTTP 日期以数据库时间计算，进程内剩余等待使用单调时钟。当前任务的普通退避、认证冷却与配额冷却最终取最大值；已经预留的 attempt 不因后来出现的冷却而撤销计次。
+
 入站连接数、请求大小、本地 token bucket 接入速率和积压阈值都设上限。幂等命中请求可在鉴权和基础保护后优先返回，新增受理才检查容量阈值；已返回 202 的任务不能被容量策略删除。积压阈值允许近似，不承诺多实例精确总配额；返回 429/503 时带可解释错误码。
+
+CP07 将初始部署参数具体化为下表，后续性能测试记录实际覆盖值。速率桶按 API 进程共享，不随任意租户输入创建新桶。
+
+| 参数 | 初始值 | 作用 |
+| --- | ---: | --- |
+| `app.worker.provider-concurrency` | 3 | 各供应商在本 Worker 进程的执行槽位，包含 Token 准备 |
+| `app.admission.requests-per-second` | 100 | 本 API 进程每秒补充的提交令牌 |
+| `app.admission.burst-capacity` | 200 | 本进程提交令牌桶上限 |
+| `app.admission.max-backlog` | 10000 | 新受理前检查的 pending + processing 阈值 |
+
+合法调用先通过提交权限与本地速率保护，耗尽返回 `429 ADMISSION_RATE_LIMITED` 和 Retry-After；已有事件随后优先返回原结果或冲突。只有新事件检查积压，达到阈值返回 `503 BACKLOG_CAPACITY_EXCEEDED`。积压查询对活动任务使用部分索引，并将计数输入限制在阈值以内；实际执行计划与资源成本在 CP10 检查。不将检查与其他 API 进程协调成严格全局配额，并发接入可能短暂超过阈值。
 
 ## 10 出站安全与资源限制
 

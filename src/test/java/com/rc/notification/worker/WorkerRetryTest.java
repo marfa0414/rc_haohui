@@ -59,6 +59,8 @@ class WorkerRetryTest {
     void exhaustedAttemptBudgetHasNoAdditionalReservationOrPhysicalSend(int maximum) throws Exception {
         var properties = new java.util.HashMap<String, Object>(fastRetries());
         properties.put("app.delivery.max-attempts", Integer.toString(maximum));
+        // CP07: isolate the budget invariant from independently tested default ten-sample opening.
+        if (maximum == 12) properties.put("app.protection.minimum-calls", "20");
         try (var f = new WorkerFixture(properties)) {
             f.mock.route("/notify", e -> HttpMock.respond(e, 500, "permanent-outage"));
             var id = f.submit("budget-" + maximum, "{}");
@@ -114,7 +116,7 @@ class WorkerRetryTest {
                     } else {
                         Instant date = Instant.now().plusSeconds(2).truncatedTo(java.time.temporal.ChronoUnit.SECONDS);
                         minimum.set(date);
-                        e.getResponseHeaders().set("Retry-After", DateTimeFormatter.RFC_1123_DATE_TIME.format(date.atZone(ZoneOffset.UTC)));
+                        e.getResponseHeaders().set("Retry-After", HttpMock.httpDate(date));
                     }
                     HttpMock.respond(e, 429, "quota");
                 } else HttpMock.respond(e, 200, "ok");
@@ -203,7 +205,7 @@ class WorkerRetryTest {
         Instant deadline = Instant.now().plusSeconds(20).truncatedTo(java.time.temporal.ChronoUnit.SECONDS);
         try (var f = new WorkerFixture(fastRetries())) {
             f.mock.route("/notify", e -> {
-                e.getResponseHeaders().set("Retry-After", DateTimeFormatter.RFC_1123_DATE_TIME.format(deadline.atZone(ZoneOffset.UTC)));
+                e.getResponseHeaders().set("Retry-After", HttpMock.httpDate(deadline));
                 HttpMock.respond(e, 503, "next-at-deadline");
             });
             var id = f.submit("retry-equal-deadline", "{}");

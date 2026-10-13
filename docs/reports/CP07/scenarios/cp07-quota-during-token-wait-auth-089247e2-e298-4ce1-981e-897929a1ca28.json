@@ -1,0 +1,17 @@
+{
+  "scenario" : "cp07-quota-during-token-wait-authentication",
+  "observedAt" : "2026-10-13T05:37:02.734966Z",
+  "taskId" : "089247e2-e298-4ce1-981e-897929a1ca28",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T05:37:01.354939Z",
+    "method" : "POST",
+    "path" : "/token"
+  }, {
+    "receivedAt" : "2026-10-13T05:37:02.644554Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

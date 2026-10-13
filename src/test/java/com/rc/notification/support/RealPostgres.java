@@ -60,6 +60,7 @@ public final class RealPostgres implements AutoCloseable {
 
     public Map<String, Object> springProperties(String mode) {
         return Map.ofEntries(
+                Map.entry("server.address", "127.0.0.1"),
                 Map.entry("server.port", "0"),
                 Map.entry("spring.main.banner-mode", "off"),
                 Map.entry("spring.datasource.url", url),

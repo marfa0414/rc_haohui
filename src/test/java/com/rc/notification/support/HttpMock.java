@@ -52,6 +52,12 @@ public final class HttpMock implements AutoCloseable {
         return journal.stream().filter(request -> request.uri().getPath().equals(path)).count();
     }
 
+    /** IMF-fixdate requires a two-digit day; the JDK RFC-1123 formatter emits a single digit on days 1–9. */
+    public static String httpDate(Instant instant) {
+        return java.time.format.DateTimeFormatter.ofPattern("EEE, dd MMM uuuu HH:mm:ss 'GMT'", java.util.Locale.US)
+                .withZone(java.time.ZoneOffset.UTC).format(instant);
+    }
+
     public static void respond(HttpExchange exchange, int status, String body) throws IOException {
         byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
         exchange.sendResponseHeaders(status, bytes.length);

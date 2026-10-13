@@ -1,0 +1,26 @@
+{
+  "scenario" : "cp07-half-open-real-200-unreserved",
+  "observedAt" : "2026-10-13T05:36:56.681725Z",
+  "task" : {
+    "id" : "21958911-5372-4db4-b563-68fbedb9c982",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T13:36:56.58444+08:00",
+    "deadline_at" : "2026-10-14T13:36:56.401172+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : "CIRCUIT_HALF_OPEN"
+  },
+  "attempts" : [ ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T05:36:56.569904Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "38a9ddcb6757a9a3b052fbeac58c6627df67441c676a04b2e4fe89ea5df3cdce"
+  } ]
+}

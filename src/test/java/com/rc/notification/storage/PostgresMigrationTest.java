@@ -21,7 +21,7 @@ class PostgresMigrationTest {
         try (RealPostgres database = new RealPostgres()) {
             var first = database.flyway().migrate();
             assertTrue(first.success);
-            assertTrue(first.migrationsExecuted > 0, "At least the initial schema must actually execute");
+            assertEquals(6, first.migrationsExecuted, "All six migrations must execute against the empty schema");
             assertEquals(first.migrationsExecuted, database.historyCount());
             assertExpectedFoundationTables(database);
 
@@ -51,7 +51,7 @@ class PostgresMigrationTest {
             start.countDown();
             int totalExecuted = first.get(30, TimeUnit.SECONDS) + second.get(30, TimeUnit.SECONDS);
 
-            assertTrue(totalExecuted > 0);
+            assertEquals(6, totalExecuted, "Concurrent migrators must apply all six versions exactly once");
             assertEquals(database.historyCount(), totalExecuted, "Every migration executes exactly once across both contenders");
             assertEquals(0, database.flyway().migrate().migrationsExecuted);
             assertExpectedFoundationTables(database);

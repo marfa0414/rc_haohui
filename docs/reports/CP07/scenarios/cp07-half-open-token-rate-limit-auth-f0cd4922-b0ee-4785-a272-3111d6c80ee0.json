@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp07-half-open-token-rate-limit-authentication",
+  "observedAt" : "2026-10-13T05:36:54.410884Z",
+  "taskId" : "f0cd4922-b0ee-4785-a272-3111d6c80ee0",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T05:36:54.358139Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReadinessProbe {
-    private static final String EXPECTED_SCHEMA_VERSION = "5";
+    private static final String EXPECTED_SCHEMA_VERSION = "6";
     private final JdbcTemplate jdbc;
     private final Flyway flyway;
     private final ApplicationAvailability availability;

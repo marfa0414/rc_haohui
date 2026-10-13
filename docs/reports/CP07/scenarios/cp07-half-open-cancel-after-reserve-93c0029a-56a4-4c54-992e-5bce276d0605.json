@@ -1,0 +1,35 @@
+{
+  "scenario" : "cp07-half-open-cancel-after-reserve",
+  "observedAt" : "2026-10-13T05:36:55.560821Z",
+  "task" : {
+    "id" : "93c0029a-56a4-4c54-992e-5bce276d0605",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "processing",
+    "lease_token" : "6e9d9873-6d04-46df-a3fb-2a7ed90c9c54",
+    "lease_until" : "2026-10-13T13:36:58.528282+08:00",
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T13:36:55.362387+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "93c0029a-56a4-4c54-992e-5bce276d0605",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "6e9d9873-6d04-46df-a3fb-2a7ed90c9c54",
+    "phase" : "RESERVED",
+    "outcome" : "NOT_SENT",
+    "http_status" : null,
+    "error_code" : null,
+    "started_at" : "2026-10-13T13:36:55.532171+08:00",
+    "ended_at" : null,
+    "request_started_at" : null,
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T13:36:57.532171+08:00"
+  } ],
+  "httpCalls" : [ ]
+}

@@ -365,6 +365,8 @@ public class DeliveryRepository {
         return jdbc.query("SELECT * FROM notification_task WHERE id=? FOR UPDATE", (row, n) -> state(row), id).stream().findFirst().orElse(null);
     }
     private Instant now() { return Objects.requireNonNull(jdbc.queryForObject("SELECT clock_timestamp()", Timestamp.class)).toInstant(); }
+    /** Database time is authoritative for shared Retry-After HTTP-date interpretation. */
+    public Instant currentTime() { return now(); }
     private boolean stillExecutable(Lease lease, Attempt attempt) {
         return Boolean.TRUE.equals(jdbc.queryForObject("""
                 SELECT EXISTS (SELECT 1 FROM notification_task t JOIN notification_attempt a ON a.task_id=t.id

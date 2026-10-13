@@ -4,6 +4,8 @@ import com.rc.notification.runtime.RoleConfiguration;
 import com.rc.notification.storage.DeliveryRepository;
 import io.micrometer.core.instrument.MeterRegistry;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
@@ -38,6 +40,7 @@ public class WorkerRuntime implements SmartLifecycle, AutoCloseable {
     private final AtomicBoolean closed = new AtomicBoolean();
     private final AtomicBoolean refillQueued = new AtomicBoolean();
     private final AtomicInteger active = new AtomicInteger();
+    private final Map<String, Integer> providerSlots = new HashMap<>();
     private String providerCursor;
 
     public WorkerRuntime(DeliveryRepository repository, WorkerEngine engine, WorkerProperties properties, MeterRegistry metrics) {
@@ -86,12 +89,16 @@ public class WorkerRuntime implements SmartLifecycle, AutoCloseable {
             while (running.get() && progress && claimed < claimBudget && slots.availablePermits() > 0) {
                 progress = false;
                 for (String provider : providers) {
-                    if (!running.get() || claimed >= claimBudget || !slots.tryAcquire()) break;
+                    if (!running.get() || claimed >= claimBudget) break;
+                    providerCursor = provider;
+                    // Provider permits are non-blocking and precede global permits; a slow
+                    // provider cannot reserve the shared capacity while waiting for itself.
+                    if (!tryProvider(provider)) continue;
+                    if (!slots.tryAcquire()) { releaseProvider(provider); break; }
                     Lease lease;
                     try { lease = repository.claim(provider, owner, properties.leaseDuration()).orElse(null); }
-                    catch (RuntimeException failure) { slots.release(); throw failure; }
-                    if (lease == null) { slots.release(); continue; }
-                    providerCursor = provider;
+                    catch (RuntimeException failure) { releaseProvider(provider); slots.release(); throw failure; }
+                    if (lease == null) { releaseProvider(provider); slots.release(); continue; }
                     active.incrementAndGet();
                     OwnedWork work = new OwnedWork(lease);
                     try { executor.execute(work); }
@@ -125,6 +132,7 @@ public class WorkerRuntime implements SmartLifecycle, AutoCloseable {
         }
         private void release() {
             if (released.compareAndSet(false, true)) {
+                releaseProvider(lease.providerId());
                 active.decrementAndGet();
                 slots.release();
                 requestRefill();
@@ -139,7 +147,27 @@ public class WorkerRuntime implements SmartLifecycle, AutoCloseable {
     }
 
     public int activeCount() { return active.get(); }
-    public boolean isIdle() { return active.get() == 0 && !polling.get(); }
+    public int activeCount(String provider) { synchronized (providerSlots) { return providerSlots.getOrDefault(provider, 0); } }
+    public int providerEntryCount() { synchronized (providerSlots) { return providerSlots.size(); } }
+    public int queuedCount() { return executor.getQueue().size(); }
+    private boolean tryProvider(String provider) {
+        synchronized (providerSlots) {
+            int used = providerSlots.getOrDefault(provider, 0);
+            if (used >= properties.providerConcurrency()) return false;
+            providerSlots.put(provider, used + 1);
+            return true;
+        }
+    }
+    private void releaseProvider(String provider) {
+        synchronized (providerSlots) {
+            int used = providerSlots.getOrDefault(provider, 0);
+            if (used <= 1) providerSlots.remove(provider);
+            else providerSlots.put(provider, used - 1);
+        }
+    }
+    public boolean isIdle() {
+        return active.get() == 0 && !polling.get() && slots.availablePermits() == properties.globalConcurrency();
+    }
     @Override public boolean isRunning() { return running.get(); }
     @Override public boolean isAutoStartup() { return true; }
     @Override public int getPhase() { return 100; }

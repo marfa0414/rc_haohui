@@ -1,0 +1,22 @@
+{
+  "scenario" : "cp04-after_claim-interrupted",
+  "observedAt" : "2026-10-13T05:37:15.473137Z",
+  "task" : {
+    "id" : "0a7aadb3-b5af-4062-9233-249f19520315",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "status" : "processing",
+    "lease_token" : "d246142e-ddfc-44cd-88f3-2dd18f87a441",
+    "lease_until" : "2026-10-13T13:37:18.459239+08:00",
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T13:37:15.455279+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : null
+  },
+  "attempts" : [ ],
+  "httpCalls" : [ ],
+  "sideEffects" : 0
+}

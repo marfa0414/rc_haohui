@@ -21,6 +21,9 @@ class AttemptHistoryTest {
     void historyHasStableKeysetPagesAcrossRunsWithNoSensitivePayloadOrAuthorizationLeak() throws Exception {
         var properties = new java.util.HashMap<String, Object>(fastRetries());
         properties.put("app.delivery.max-attempts", "105");
+        // CP07: retain 105 real failed attempts while testing pagination, independently of circuit opening.
+        properties.put("app.protection.sliding-window-size", "200");
+        properties.put("app.protection.minimum-calls", "200");
         try (var f = new WorkerFixture(properties)) {
             f.mock.route("/notify", e -> HttpMock.respond(e, 500, "supplier-sensitive-response-sentinel"));
             var id = f.submit("history-pagination", "{\"payload\":{\"secret\":\"body-sensitive-sentinel\"}}");

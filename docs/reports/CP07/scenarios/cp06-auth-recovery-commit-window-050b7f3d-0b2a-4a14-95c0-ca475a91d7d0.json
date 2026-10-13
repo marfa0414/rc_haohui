@@ -1,0 +1,40 @@
+{
+  "scenario" : "cp06-auth-recovery-commit-window",
+  "observedAt" : "2026-10-13T05:38:32.861225Z",
+  "task" : {
+    "id" : "050b7f3d-0b2a-4a14-95c0-ca475a91d7d0",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T13:38:32.850283+08:00",
+    "deadline_at" : "2026-10-14T13:38:32.829841+08:00",
+    "last_outcome" : "HTTP_REJECTED",
+    "last_error_code" : "AUTH_INVALID_TOKEN",
+    "last_http_status" : 401,
+    "defer_reason" : "AUTH_RECOVERY_REQUIRED"
+  },
+  "attempts" : [ {
+    "task_id" : "050b7f3d-0b2a-4a14-95c0-ca475a91d7d0",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "eb4cdbe0-b2af-48bc-95e6-c161b15aa0b9",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 401,
+    "error_code" : "AUTH_INVALID_TOKEN",
+    "started_at" : "2026-10-13T13:38:32.843093+08:00",
+    "ended_at" : "2026-10-13T13:38:32.848451+08:00",
+    "request_started_at" : "2026-10-13T13:38:32.846339+08:00",
+    "http_send_started_at" : "2026-10-13T13:38:32.848253+08:00",
+    "execution_deadline" : "2026-10-13T13:38:34.843093+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T05:38:32.848493Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "c4e5438c6db8faf2a53156966b7b51a3091ef361ad5003b394604de1581c05b9"
+  } ]
+}

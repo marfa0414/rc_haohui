@@ -15,7 +15,9 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class ApiExceptionHandler {
     @ExceptionHandler(ApiException.class)
     ResponseEntity<ApiErrors.ErrorBody> domain(ApiException failure, HttpServletRequest request) {
-        return response(failure.status(), failure.code(), failure.getMessage(), request);
+        var response = ResponseEntity.status(failure.status());
+        if (failure.retryAfterSeconds() != null) response.header("Retry-After", failure.retryAfterSeconds().toString());
+        return response.body(new ApiErrors.ErrorBody(failure.code(), failure.getMessage(), ApiErrors.requestId(request)));
     }
 
     @ExceptionHandler({DataAccessException.class, TransactionException.class})

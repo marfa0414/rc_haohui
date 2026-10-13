@@ -47,6 +47,12 @@ public class NotificationRepository {
     public record Route(UUID templateId, UUID authProfileId, long revision, String providerId,
                         String endpointGroup, JsonNode configuration) { }
 
+    public long backlogCount(long cap) {
+        return java.util.Objects.requireNonNull(jdbc.queryForObject("""
+                SELECT count(*) FROM (SELECT 1 FROM notification_task WHERE status IN ('pending','processing') LIMIT ?) backlog
+                """, Long.class, cap));
+    }
+
     public Optional<Existing> findEvent(Submission submission) {
         return jdbc.query("SELECT " + VIEW_COLUMNS + ", request_hash FROM notification_task WHERE tenant_id=? AND operation=? AND event_id=?",
                 (row, number) -> new Existing(view(row), row.getBytes("request_hash")),

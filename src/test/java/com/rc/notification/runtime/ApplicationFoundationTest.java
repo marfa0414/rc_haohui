@@ -32,6 +32,11 @@ class ApplicationFoundationTest {
     @CsvSource({"api,true,false", "worker,false,true", "all,true,true"})
     void enablesOnlyTheSelectedRolesAndExposesHealthyEndpoints(String mode, boolean api, boolean worker) throws Exception {
         try (RealPostgres database = new RealPostgres(); var application = start(database, mode)) {
+            assertEquals("127.0.0.1", application.getEnvironment().getProperty("server.address"));
+            var server = (org.springframework.boot.web.embedded.tomcat.TomcatWebServer)
+                    ((ServletWebServerApplicationContext) application).getWebServer();
+            var protocol = (org.apache.coyote.AbstractProtocol<?>) server.getTomcat().getConnector().getProtocolHandler();
+            assertEquals("127.0.0.1", protocol.getAddress().getHostAddress(), "The randomly assigned listener must match the IPv4 test client");
             assertEquals(api ? 1 : 0, application.getBeansOfType(RoleConfiguration.ApiRole.class).size());
             assertEquals(worker ? 1 : 0, application.getBeansOfType(RoleConfiguration.WorkerRole.class).size());
             assertHealth(application, "/health/live", 200, "UP");

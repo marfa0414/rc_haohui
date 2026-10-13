@@ -1,0 +1,54 @@
+{
+  "scenario" : "cp06-recovery-token-failure-pending",
+  "observedAt" : "2026-10-13T05:38:33.849923Z",
+  "task" : {
+    "id" : "f714bf75-75f3-4d20-ac22-8e69d5695e62",
+    "run_number" : 1,
+    "run_attempt_count" : 2,
+    "total_attempt_count" : 2,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T13:38:33.83783+08:00",
+    "deadline_at" : "2026-10-14T13:38:33.794173+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : "TOKEN_SERVER_ERROR",
+    "last_http_status" : null,
+    "defer_reason" : "RETRY_BACKOFF"
+  },
+  "attempts" : [ {
+    "task_id" : "f714bf75-75f3-4d20-ac22-8e69d5695e62",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "a3cc3591-f5a7-4c8a-aa0d-a4c1a6c0b675",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 401,
+    "error_code" : "AUTH_INVALID_TOKEN",
+    "started_at" : "2026-10-13T13:38:33.805652+08:00",
+    "ended_at" : "2026-10-13T13:38:33.810898+08:00",
+    "request_started_at" : "2026-10-13T13:38:33.808771+08:00",
+    "http_send_started_at" : "2026-10-13T13:38:33.810718+08:00",
+    "execution_deadline" : "2026-10-13T13:38:35.805652+08:00"
+  }, {
+    "task_id" : "f714bf75-75f3-4d20-ac22-8e69d5695e62",
+    "run_number" : 1,
+    "attempt_no" : 2,
+    "lease_token" : "ece910a4-3768-4687-9536-407df16f71d4",
+    "phase" : "COMPLETED",
+    "outcome" : "NOT_SENT",
+    "http_status" : null,
+    "error_code" : "TOKEN_SERVER_ERROR",
+    "started_at" : "2026-10-13T13:38:33.832203+08:00",
+    "ended_at" : "2026-10-13T13:38:33.835084+08:00",
+    "request_started_at" : null,
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T13:38:35.832203+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T05:38:33.810981Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "7aa5eaa3c15ce7c26fdb347d4dfa11f3b8707d4863d545c73b751ad41f7f001a"
+  } ]
+}
