@@ -48,4 +48,11 @@ public class NotificationController {
                                           @AuthenticationPrincipal CallerPrincipal caller) {
         return service.list(tenantId, status, cursor, limit, caller);
     }
+
+    @GetMapping("/{id}/attempts")
+    public NotificationService.AttemptPage attempts(@PathVariable UUID id, @RequestParam(required = false) String cursor,
+                                                   @RequestParam(defaultValue = "20") int limit,
+                                                   @AuthenticationPrincipal CallerPrincipal caller) {
+        return service.attempts(id, cursor, limit, caller);
+    }
 }

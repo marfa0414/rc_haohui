@@ -72,6 +72,8 @@ public class WorkerRuntime implements SmartLifecycle, AutoCloseable {
         if (!running.get() || !polling.compareAndSet(false, true)) return 0;
         int claimed = 0;
         try {
+            int expired = repository.expirePending(100);
+            if (expired > 0) metrics.counter("notification.worker.expired").increment(expired);
             int recovered = repository.recoverExpired(100);
             if (recovered > 0) metrics.counter("notification.worker.recovered").increment(recovered);
             List<String> providers = repository.dueProviders(providerCursor, 100);

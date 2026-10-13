@@ -9,6 +9,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import shutil
 import xml.etree.ElementTree as ET
 
 
@@ -16,6 +17,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("checkpoint")
     parser.add_argument("--scope", required=True)
+    parser.add_argument("--require-scenario-evidence", action="store_true")
     args = parser.parse_args()
     if not args.checkpoint.startswith("CP") or not args.checkpoint[2:].isdigit():
         parser.error("checkpoint must have the form CP03")
@@ -40,6 +42,18 @@ def main():
                        "rawXmlSha256": hashlib.sha256(path.read_bytes()).hexdigest()})
     if not suites:
         raise SystemExit("FAIL: No test reports; run clean verify first")
+    scenarios = sorted(Path("target/evidence").glob("*.json"))
+    if args.require_scenario_evidence and not scenarios:
+        raise SystemExit("FAIL: No scenario evidence; fault tests must save sanitized state observations")
+    scenario_index = []
+    for path in scenarios:
+        if path.stat().st_size > 1024 * 1024:
+            raise SystemExit(f"FAIL: Scenario evidence exceeds 1 MiB: {path}")
+        data = json.loads(path.read_text())
+        if not isinstance(data, dict) or not data:
+            raise SystemExit(f"FAIL: Scenario evidence must be a nonempty object: {path}")
+        scenario_index.append({"file": "scenarios/" + path.name,
+                               "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
     totals = {key: sum(s[key] for s in suites) for key in ("tests", "failures", "errors", "skipped")}
     paths = [p for d in ("src", ".mvn", ".github", "scripts", "examples")
              for p in Path(d).rglob("*") if p.is_file() and "__pycache__" not in p.parts]
@@ -47,7 +61,12 @@ def main():
                                "Dockerfile", "compose.yaml") if Path(p).is_file()]
     out.mkdir(parents=True, exist_ok=True)
     (out / "results.json").write_text(json.dumps({"checkpoint": args.checkpoint,
-        "suiteScope": args.scope, "suites": suites, "totals": totals}, ensure_ascii=False, indent=2) + "\n")
+        "suiteScope": args.scope, "suites": suites, "totals": totals,
+        "scenarioEvidence": scenario_index}, ensure_ascii=False, indent=2) + "\n")
+    if scenarios:
+        (out / "scenarios").mkdir()
+        for path in scenarios:
+            shutil.copyfile(path, out / "scenarios" / path.name)
     (out / "source-sha256.txt").write_text("".join(
         f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p}\n" for p in sorted(set(paths))))
     print(json.dumps({"directory": str(out), "totals": totals}))

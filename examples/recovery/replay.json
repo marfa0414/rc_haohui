@@ -1,0 +1,5 @@
+{
+  "replayRequestId": "operator-recovery-001",
+  "expectedRunNumber": 1,
+  "reason": "供应商故障已修复，按原始请求快照重新投递"
+}

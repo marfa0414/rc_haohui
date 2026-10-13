@@ -36,6 +36,8 @@ public final class NotificationApiFixture implements AutoCloseable {
     public static final String LIMITED = "cp02-limited-test-only";
     public static final String CONFIG_A = "cp03-config-a-test-only";
     public static final String CONFIG_B = "cp03-config-b-test-only";
+    public static final String OPERATOR_A = "cp05-operator-a-test-only";
+    public static final String OPERATOR_B = "cp05-operator-b-test-only";
     public static final HttpClient HTTP = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(2))
             .followRedirects(HttpClient.Redirect.NEVER).build();
     public final RealPostgres database;
@@ -51,6 +53,11 @@ public final class NotificationApiFixture implements AutoCloseable {
     }
 
     public NotificationApiFixture(RealPostgres database, String mode, Map<String, Object> overrides, Class<?>... testSources) throws Exception {
+        this(database, mode, overrides, true, testSources);
+    }
+
+    public NotificationApiFixture(RealPostgres database, String mode, Map<String, Object> overrides, boolean seed,
+            Class<?>... testSources) throws Exception {
         this.database = database;
         Map<String, Object> properties = new HashMap<>(database.springProperties(mode));
         properties.put("app.outbound.allowed-hosts", "supplier.invalid,supplier-two.invalid,oauth.invalid");
@@ -60,6 +67,8 @@ public final class NotificationApiFixture implements AutoCloseable {
         caller(properties, 3, "limited", LIMITED, "BUSINESS", "tenant-a", "order.paid");
         caller(properties, 4, "config-a", CONFIG_A, "CONFIG_ADMIN", "tenant-a", "*");
         caller(properties, 5, "config-b", CONFIG_B, "CONFIG_ADMIN", "tenant-b", "*");
+        caller(properties, 6, "operator-a", OPERATOR_A, "OPERATOR", "tenant-a", "*");
+        caller(properties, 7, "operator-b", OPERATOR_B, "OPERATOR", "tenant-b", "*");
         properties.putAll(overrides);
         application = new SpringApplicationBuilder(NotificationApplication.class).web(WebApplicationType.SERVLET)
                 .sources(testSources)
@@ -68,10 +77,12 @@ public final class NotificationApiFixture implements AutoCloseable {
                 .run();
         int port = ((ServletWebServerApplicationContext) application).getWebServer().getPort();
         baseUri = URI.create("http://127.0.0.1:" + port);
-        route("tenant-a", "user.registered");
-        route("tenant-a", "order.paid");
-        route("tenant-b", "user.registered");
-        route("tenant-b", "order.paid");
+        if (seed) {
+            route("tenant-a", "user.registered");
+            route("tenant-a", "order.paid");
+            route("tenant-b", "user.registered");
+            route("tenant-b", "order.paid");
+        }
     }
 
     private static void caller(Map<String, Object> target, int index, String id, String token, String role,

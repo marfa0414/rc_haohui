@@ -8,4 +8,4 @@ public record TaskView(UUID notificationId, String tenantId, String operation, S
                        int runNumber, int runAttemptCount, long totalAttemptCount, Instant nextAttemptAt,
                        Instant deadlineAt, String lastOutcome, String lastErrorCode, Integer lastHttpStatus,
                        UUID templateVersionId, UUID authProfileId, long routeRevision,
-                       Instant createdAt, Instant updatedAt) { }
+                       Instant createdAt, Instant updatedAt, String deferReason) { }

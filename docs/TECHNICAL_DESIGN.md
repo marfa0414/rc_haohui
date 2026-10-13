@@ -319,13 +319,18 @@ deadline 扫描独立使用 deadline 索引处理所有超期 pending，不要�
 | Token 网络故障/429/5xx | NOT_SENT，认证上下文退避 | 不计 |
 | invalid_client/unauthorized_client/invalid_scope | NOT_SENT，failed | 不计 |
 | 本地非法配置、禁止地址、请求过大 | NOT_SENT，failed | 不计 |
+| 已预留后 HTTP 执行池暂时耗尽 | NOT_SENT，有预算则退避 | 不计 |
 | 准入/熔断/冷却拒绝 | 未预留时延期，deadline 不变 | 不计 |
 
 退避采用 full jitter：`U(0,min(30s*2^(attemptNo-1),1h))`，实现使用饱和计算避免溢出。下一时间取普通退避时间、Retry-After、配额冷却、认证上下文短冷却的最大值；有效 Retry-After 是下限，不做截短。HTTP 日期以 UTC 解析，负数/无效值回到退避，过去的合法日期等于无需额外等待。若 nextAttemptAt 大于或等于 deadline，立即 failed，记录截止原因；attempt 已达 12 次也不再排队。
 
+`Retry-After` 的秒数接受非负十进制整数，包括 0；合法但超过时间表示范围的巨大数值按极远未来处理，由本轮截止规则终止，不能因整数溢出回到短退避。HTTP 日期兼容 IMF-fixdate、RFC850 和 asctime，依据 [RFC 9110 §5.6.7](https://www.rfc-editor.org/rfc/rfc9110.html#section-5.6.7) 与 [§10.2.3](https://www.rfc-editor.org/rfc/rfc9110.html#section-10.2.3)。秒数等待基于 T4 的数据库时间计算，可能比响应到达时稍晚，保持保守下限。
+
 429 默认 quotaKey 为环境/租户/认证配置版本，可部署配置显式映射实际共享配额范围。将本任务 next_attempt_at 持久化并以本进程 map 更新同配额任务的冷却；多实例不保证全局冷却。Token 的 429 更新认证上下文冷却，不污染业务熔断。
 
 人工重投 T5：鉴权后先查询 replay_request，同键同摘要返回保存的原操作响应，同键不同 expectedRunNumber/原因返回 409。没有记录则锁任务；必须 failed 且 run_number 匹配，才加一轮次、重置本轮计数/认证恢复、保存当前部署的 maxAttempts 和新 24h deadline，保持任务 ID/快照/事件标识/累计次数。插入 replay_request 与 audit_event 后一并提交。等待行锁的竞争请求先重新检查同键记录；不同键只能一个成功，其余 409。当前任务后来进入新状态，也不能改变同一重投键的固定结果。
+
+接口为 `POST /admin/notifications/{id}/replay`，要求 OPERATOR 或 ADMIN 角色及该任务的租户、操作权限。请求严格包含 `replayRequestId`、`expectedRunNumber`、`reason`；成功返回 200 和固定的 `{notificationId,status:"pending",runNumber,replayRequestId}`。非 failed、轮次不符、同键参数变化均为 `409 REPLAY_CONFLICT`。原因最多 512 个 Unicode 码点且不含 NUL；通过事务审计保留。样例见 [恢复操作](../examples/recovery/README.md)。
 
 ## 8 动态认证与 Token 生命周期
 
@@ -386,6 +391,8 @@ T3 记录已使用合格的新 Token 后可清除 required，但 used 与拒绝�
 ## 11 查询、日志、健康与运维
 
 单任务查询同时限制 tenantId，越权与不存在统一 404；失败列表按 `(created_at,id)` keyset 分页，游标携带排序键并校验结构，租户与过滤范围始终按本次授权请求重新限定，默认 20、最多 100。返回状态、轮次/次数、调度和截止、最后结果、错误代码和配置版本，不返回 Body、认证头、密钥值或 Token 指纹。审计查询也按权限限制。
+
+`GET /v1/notifications/{id}/attempts` 返回授权任务的尝试历史，按 `(runNumber,attemptNo)` 倒序 keyset 分页，默认 20、最多 100。任务投影的 `deferReason` 单独解释当前延期或终止原因；纯截止清理和人工重投保留 `lastOutcome/lastHttpStatus/lastErrorCode`，使状态变化不会伪造一次新投递结果。
 
 结构化日志保留 requestId/notificationId/tenantId/operation/providerId/runNumber/attemptNo/phase/耗时/errorCode。对供应商错误只使用本服务枚举和允许的状态字段，不直接打印异常携带的请求、响应或 Secret。预览的动态业务值默认掩码，保留字段路径/类型/长度与编码格式供核验；精确字节由使用非敏感测试夹具的自动化测试验证。
 

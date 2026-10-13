@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -30,7 +31,7 @@ public final class HttpMock implements AutoCloseable {
         server.createContext(path, exchange -> {
             byte[] bytes = exchange.getRequestBody().readAllBytes();
             journal.add(new ReceivedRequest(exchange.getRequestMethod(), exchange.getRequestURI(),
-                    Map.copyOf(exchange.getRequestHeaders()), bytes));
+                    Map.copyOf(exchange.getRequestHeaders()), bytes, Instant.now()));
             handler.handle(exchange);
         });
     }
@@ -67,7 +68,7 @@ public final class HttpMock implements AutoCloseable {
         executor.shutdownNow();
     }
 
-    public record ReceivedRequest(String method, URI uri, Map<String, List<String>> headers, byte[] body) {
+    public record ReceivedRequest(String method, URI uri, Map<String, List<String>> headers, byte[] body, Instant receivedAt) {
         public String firstHeader(String name) {
             return headers.entrySet().stream()
                     .filter(entry -> entry.getKey().equalsIgnoreCase(name))

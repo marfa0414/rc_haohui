@@ -3,6 +3,7 @@ package com.rc.notification.worker;
 import com.rc.notification.auth.ApiKeyAuthStrategy;
 import com.rc.notification.configuration.ConfigurationRepository;
 import com.rc.notification.delivery.BusinessHttpSender;
+import com.rc.notification.retry.RetryPolicy;
 import com.rc.notification.runtime.RoleConfiguration;
 import com.rc.notification.storage.DeliveryRepository;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -28,10 +29,11 @@ public class WorkerEngine {
     private final WorkerProperties properties;
     private final List<WorkerLifecycleListener> listeners;
     private final MeterRegistry metrics;
+    private final RetryPolicy retryPolicy;
 
     public WorkerEngine(DeliveryRepository repository, ConfigurationRepository configurations, ApiKeyAuthStrategy apiKeys,
                         BusinessHttpSender sender, WorkerProperties properties,
-                        ObjectProvider<WorkerLifecycleListener> listeners, MeterRegistry metrics) {
+                        ObjectProvider<WorkerLifecycleListener> listeners, MeterRegistry metrics, RetryPolicy retryPolicy) {
         this.repository = repository;
         this.configurations = configurations;
         this.apiKeys = apiKeys;
@@ -39,6 +41,7 @@ public class WorkerEngine {
         this.properties = properties;
         this.listeners = listeners.orderedStream().toList();
         this.metrics = metrics;
+        this.retryPolicy = retryPolicy;
     }
 
     public void process(Lease lease) {
@@ -71,7 +74,9 @@ public class WorkerEngine {
             try {
                 var result = sender.send(lease.snapshot(), authentication, remaining);
                 completion = new Completion(result.acknowledged() ? "HTTP_ACKNOWLEDGED" : "HTTP_REJECTED",
-                        result.statusCode(), result.acknowledged() ? null : "HTTP_REJECTED", result.httpSendStartedAt());
+                        result.statusCode(), result.acknowledged() ? null : "HTTP_REJECTED", result.httpSendStartedAt(),
+                        retryPolicy.classify(result.statusCode(), null) == RetryPolicy.Outcome.RETRY,
+                        result.headers().getOrDefault("retry-after", List.of()));
             } catch (BusinessHttpSender.SendFailure failure) {
                 if (failure.kind() == BusinessHttpSender.FailureKind.CANCELLED) {
                     Thread.currentThread().interrupt();
@@ -81,7 +86,8 @@ public class WorkerEngine {
                 boolean notSent = failure.kind() == BusinessHttpSender.FailureKind.TARGET_REJECTED
                         || failure.httpSendStartedAt() == null && failure.kind() == BusinessHttpSender.FailureKind.CAPACITY;
                 completion = new Completion(notSent ? "NOT_SENT" : "UNKNOWN", null,
-                        "HTTP_" + failure.kind().name(), failure.httpSendStartedAt());
+                        "HTTP_" + failure.kind().name(), failure.httpSendStartedAt(),
+                        retryPolicy.classify(null, failure.kind()) == RetryPolicy.Outcome.RETRY, List.of());
             }
             phase(WorkerLifecycleListener.Phase.AFTER_HTTP, lease, attempt);
             finish(lease, attempt, completion);

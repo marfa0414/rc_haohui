@@ -39,6 +39,7 @@ class WorkerCrashWindowTest {
                 var attempt = fixture.attempts(id).get(0);
                 assertEquals(phase == WorkerLifecycleListener.Phase.AFTER_REQUEST_STARTED ? "UNKNOWN" : "NOT_SENT", attempt.path("outcome").asText());
             }
+            fixture.evidence("cp04-" + phase.name().toLowerCase() + "-interrupted", id, 0);
             fixture.awaitExpiredLease(id, Duration.ofSeconds(5));
             assertEquals(1, fixture.repository.recoverExpired(100));
             assertEquals(0, fixture.repository.recoverExpired(100), "Recovery must be idempotent");
@@ -56,6 +57,7 @@ class WorkerCrashWindowTest {
             assertEquals(reserved ? 2 : 1, completed.path("total_attempt_count").asLong());
             assertEquals(reserved ? 2 : 1, fixture.attempts(id).size());
             assertEquals(1, fixture.mock.journal().size());
+            fixture.evidence("cp04-" + phase.name().toLowerCase() + "-recovered", id, 1);
         }
     }
 
@@ -79,6 +81,7 @@ class WorkerCrashWindowTest {
             assertEquals(1, sideEffects.get());
             assertEquals("processing", fixture.task(id).path("status").asText());
             assertEquals("UNKNOWN", fixture.attempts(id).get(0).path("outcome").asText());
+            fixture.evidence("cp04-after-http-" + supplierDeduplicates + "-interrupted", id, sideEffects.get());
             fixture.awaitExpiredLease(id, Duration.ofSeconds(5));
             assertEquals(1, fixture.repository.recoverExpired(100));
             fixture.worker.tick();
@@ -88,6 +91,7 @@ class WorkerCrashWindowTest {
             assertEquals(fixture.mock.journal().get(0).firstHeader("X-Event-Id"), fixture.mock.journal().get(1).firstHeader("X-Event-Id"));
             assertArrayEquals(fixture.mock.journal().get(0).body(), fixture.mock.journal().get(1).body());
             assertEquals(2, fixture.attempts(id).size());
+            fixture.evidence("cp04-after-http-" + supplierDeduplicates + "-recovered", id, sideEffects.get());
         }
     }
 }

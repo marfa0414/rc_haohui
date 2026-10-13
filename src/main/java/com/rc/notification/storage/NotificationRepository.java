@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.notification.api.ApiException;
 import com.rc.notification.configuration.StoredConfigurationJson;
 import com.rc.notification.application.RequestSnapshot;
+import com.rc.notification.application.DeliveryProperties;
 import com.rc.notification.application.Submission;
 import com.rc.notification.application.TaskCursor;
 import com.rc.notification.application.TaskView;
@@ -31,13 +32,15 @@ public class NotificationRepository {
     private static final String VIEW_COLUMNS = """
             id, tenant_id, operation, event_id, status, run_number, run_attempt_count,
             total_attempt_count, next_attempt_at, deadline_at, last_outcome, last_error_code,
-            last_http_status, template_version_id, auth_profile_id, route_revision, created_at, updated_at
+            last_http_status, template_version_id, auth_profile_id, route_revision, created_at, updated_at, defer_reason
             """;
     private final JdbcTemplate jdbc;
     private final NamedParameterJdbcTemplate named;
-    public NotificationRepository(JdbcTemplate jdbc) {
+    private final DeliveryProperties defaults;
+    public NotificationRepository(JdbcTemplate jdbc, DeliveryProperties defaults) {
         this.jdbc = jdbc;
         this.named = new NamedParameterJdbcTemplate(jdbc);
+        this.defaults = defaults;
     }
 
     public record Existing(TaskView view, byte[] digest) { }
@@ -82,7 +85,8 @@ public class NotificationRepository {
                 .addValue("provider", route.providerId()).addValue("endpoint", route.endpointGroup())
                 .addValue("quota", submission.tenantId() + ":" + route.authProfileId())
                 .addValue("url", snapshot.url()).addValue("method", snapshot.method()).addValue("headers", headers)
-                .addValue("contentType", snapshot.contentType()).addValue("body", snapshot.body());
+                .addValue("contentType", snapshot.contentType()).addValue("body", snapshot.body())
+                .addValue("maxAttempts", defaults.maxAttempts()).addValue("runMillis", defaults.runDuration().toMillis());
         return named.query("""
                 WITH accepted AS MATERIALIZED (SELECT clock_timestamp() AS at)
                 INSERT INTO notification_task(id, tenant_id, operation, event_id, request_hash,
@@ -91,12 +95,20 @@ public class NotificationRepository {
                     status, max_attempts, run_started_at, deadline_at, next_attempt_at, created_at, updated_at)
                 SELECT :id, :tenant, :operation, :event, :hash, :template, :auth, :revision, :provider, :endpoint,
                     :quota, :url, :method, CAST(:headers AS jsonb), :contentType, :body,
-                    'pending', 12, at, at + interval '24 hours', at, at, at FROM accepted
+                    'pending', :maxAttempts, at, at + :runMillis * interval '1 millisecond', at, at, at FROM accepted
                 ON CONFLICT (tenant_id, operation, event_id) DO NOTHING RETURNING id
                 """, parameters, (row, number) -> row.getObject("id", UUID.class)).stream().findFirst();
     }
 
     public Optional<TaskView> find(UUID id, CallerPrincipal caller) {
+        return find(id, caller, false);
+    }
+
+    public Optional<TaskView> findForUpdate(UUID id, CallerPrincipal caller) {
+        return find(id, caller, true);
+    }
+
+    private Optional<TaskView> find(UUID id, CallerPrincipal caller, boolean lock) {
         if (caller.tenants().isEmpty() || caller.operations().isEmpty()) return Optional.empty();
         StringBuilder sql = new StringBuilder("SELECT ").append(VIEW_COLUMNS)
                 .append(" FROM notification_task WHERE id=:id");
@@ -109,6 +121,7 @@ public class NotificationRepository {
             sql.append(" AND operation IN (:operations)");
             parameters.addValue("operations", caller.operations());
         }
+        if (lock) sql.append(" FOR UPDATE");
         return named.query(sql.toString(), parameters, VIEW_MAPPER).stream().findFirst();
     }
 
@@ -146,7 +159,7 @@ public class NotificationRepository {
                 instant(row, "deadline_at"), row.getString("last_outcome"), row.getString("last_error_code"),
                 row.getObject("last_http_status", Integer.class), row.getObject("template_version_id", UUID.class),
                 row.getObject("auth_profile_id", UUID.class), row.getLong("route_revision"),
-                instant(row, "created_at"), instant(row, "updated_at"));
+                instant(row, "created_at"), instant(row, "updated_at"), row.getString("defer_reason"));
     }
     private static Instant instant(ResultSet row, String column) throws SQLException {
         Timestamp value = row.getTimestamp(column);

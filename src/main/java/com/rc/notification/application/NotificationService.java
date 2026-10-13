@@ -3,6 +3,8 @@ package com.rc.notification.application;
 import com.rc.notification.api.ApiException;
 import com.rc.notification.security.CallerPrincipal;
 import com.rc.notification.storage.NotificationRepository;
+import com.rc.notification.storage.DeliveryRepository;
+import com.rc.notification.worker.AttemptView;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Objects;
@@ -17,11 +19,13 @@ import org.springframework.transaction.support.TransactionTemplate;
 public class NotificationService {
     private final NotificationRepository repository;
     private final RequestSnapshotFactory snapshots;
+    private final DeliveryRepository deliveries;
     private final TransactionTemplate transaction;
     public NotificationService(NotificationRepository repository, RequestSnapshotFactory snapshots,
-                               PlatformTransactionManager manager) {
+                               PlatformTransactionManager manager, DeliveryRepository deliveries) {
         this.repository = repository;
         this.snapshots = snapshots;
+        this.deliveries = deliveries;
         transaction = new TransactionTemplate(manager);
         transaction.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
         transaction.setTimeout(10);
@@ -29,6 +33,18 @@ public class NotificationService {
 
     public record Accepted(UUID notificationId, String status, int runNumber, boolean deduplicated) { }
     public record Page(List<TaskView> items, String nextCursor) { }
+    public record AttemptPage(List<AttemptView> items, String nextCursor) { }
+
+    public AttemptPage attempts(UUID id, String encodedCursor, int limit, CallerPrincipal caller) {
+        get(id, caller);
+        if (limit < 1 || limit > 100) throw ApiException.invalid();
+        AttemptCursor cursor = AttemptCursor.parse(encodedCursor);
+        List<AttemptView> rows = deliveries.attemptsPage(id, cursor, limit + 1);
+        boolean more = rows.size() > limit;
+        List<AttemptView> items = List.copyOf(rows.subList(0, Math.min(limit, rows.size())));
+        AttemptView last = items.isEmpty() ? null : items.get(items.size() - 1);
+        return new AttemptPage(items, more ? new AttemptCursor(last.runNumber(), last.attemptNo()).encode() : null);
+    }
 
     public Accepted submit(Submission submission, CallerPrincipal caller) {
         caller.requireSubmission(submission.tenantId(), submission.operation());

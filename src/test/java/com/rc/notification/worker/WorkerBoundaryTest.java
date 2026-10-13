@@ -37,6 +37,7 @@ class WorkerBoundaryTest {
             fixture.worker.tick();
             assertTrue(arrived.await(1, TimeUnit.SECONDS));
             awaitDatabaseCondition(fixture, id, "deadline_at <= clock_timestamp()", Duration.ofSeconds(2));
+            assertEquals(0, fixture.repository.expirePending(100), "Deadline scanning must not steal an in-flight valid lease");
             release.countDown();
             fixture.awaitStatus(id, "succeeded", Duration.ofSeconds(3));
             assertEquals(1, fixture.mock.journal().size());
@@ -89,6 +90,7 @@ class WorkerBoundaryTest {
             faults.release();
             fixture.awaitIdle(Duration.ofSeconds(3));
             assertEquals(succeeded, fixture.task(id), "The actual released old worker must also be fenced at T4");
+            fixture.evidence("cp04-late-owner-fenced", id, null);
         } finally { if (faults != null) faults.release(); }
     }
 
@@ -154,12 +156,18 @@ class WorkerBoundaryTest {
             assertEquals(1, fixture.mock.journal().size(), "A failed T4 must never create a hidden second send in its attempt");
             assertTrue(fixture.attempts(id).get(0).path("ended_at").isNull());
             assertEquals("UNKNOWN", fixture.attempts(id).get(0).path("outcome").asText());
+            fixture.evidence("cp04-http-success-writeback-rollback", id, null);
+            var metrics = fixture.api.application.getBean(io.micrometer.core.instrument.MeterRegistry.class);
+            var uncommittedSuccess = metrics.find("notification.worker.decision").tag("decision", "SUCCESS").counter();
+            assertTrue(uncommittedSuccess == null || uncommittedSuccess.count() == 0.0,
+                    "Rolled-back acknowledgements must not be counted as committed successes");
             fixture.api.sql("DROP TRIGGER test_fail_result_commit ON notification_task");
             assertEquals(1, fixture.repository.recoverExpired(100));
             fixture.worker.tick();
             fixture.awaitStatus(id, "succeeded", Duration.ofSeconds(5));
             assertEquals(2, fixture.mock.journal().size());
             assertEquals(2, fixture.attempts(id).size());
+            fixture.evidence("cp04-http-success-writeback-recovered", id, null);
         }
     }
 

@@ -18,21 +18,23 @@ import java.util.concurrent.locks.LockSupport;
 /** CP04 actual worker, actual delivery transport and actual PostgreSQL; only the supplier is a local server. */
 public final class WorkerFixture implements AutoCloseable {
     public final HttpMock mock;
-    public final NotificationApiFixture api;
-    public final ConfigurationFixture configuration;
-    public final DeliveryRepository repository;
-    public final WorkerRuntime worker;
+    public NotificationApiFixture api;
+    public ConfigurationFixture configuration;
+    public DeliveryRepository repository;
+    public WorkerRuntime worker;
+    private final Map<String, Object> properties = new HashMap<>();
+    private final Class<?>[] testSources;
 
     public WorkerFixture(Class<?>... testSources) throws Exception {
         this(Map.of(), testSources);
     }
 
     public WorkerFixture(Map<String, Object> overrides, Class<?>... testSources) throws Exception {
+        this.testSources = testSources;
         assertEquals("cp04-test-only-secret", System.getenv("CP04_TEST_SECRET"),
                 "Set the documented fake CP04_TEST_SECRET to run real environment-backed credential tests; never skip.");
         assertEquals("fixture-v1", System.getenv("CP04_TEST_SECRET_VERSION"));
         mock = new HttpMock();
-        Map<String, Object> properties = new HashMap<>();
         properties.put("app.environment", "test");
         properties.put("app.outbound.allowed-hosts", "supplier.invalid,127.0.0.1");
         properties.put("app.outbound.allowed-ports", "443," + mock.uri("/notify").getPort());
@@ -119,6 +121,46 @@ public final class WorkerFixture implements AutoCloseable {
         }
         assertTrue(worker.isIdle(), "Worker must finish or cancel all owned execution within the bound");
         assertEquals(0, worker.activeCount());
+    }
+
+    public void restart(Map<String, Object> overrides) throws Exception {
+        var database = api.database;
+        api.application.close();
+        properties.putAll(overrides);
+        api = new NotificationApiFixture(database, "all", properties, false, testSources);
+        configuration = new ConfigurationFixture(api);
+        repository = api.application.getBean(DeliveryRepository.class);
+        worker = api.application.getBean(WorkerRuntime.class);
+    }
+
+    /** Explicit allowlist: no request/response bytes, credential headers, tokens or secret references. */
+    public void evidence(String scenario, UUID id, Integer sideEffects) throws Exception {
+        var document = JSON.createObjectNode().put("scenario", scenario).put("observedAt", java.time.Instant.now().toString());
+        var state = document.putObject("task");
+        var task = task(id);
+        for (String field : List.of("id", "run_number", "run_attempt_count", "total_attempt_count", "status", "lease_token",
+                "lease_until", "next_attempt_at", "deadline_at", "last_outcome", "last_error_code", "last_http_status", "defer_reason")) {
+            state.set(field, task.path(field));
+        }
+        var history = document.putArray("attempts");
+        for (var attempt : attempts(id)) {
+            var entry = history.addObject();
+            for (String field : List.of("task_id", "run_number", "attempt_no", "lease_token", "phase", "outcome", "http_status",
+                    "error_code", "started_at", "ended_at", "request_started_at", "http_send_started_at", "execution_deadline")) {
+                entry.set(field, attempt.path(field));
+            }
+        }
+        var calls = document.putArray("httpCalls");
+        for (var request : mock.journal()) {
+            calls.addObject().put("receivedAt", request.receivedAt().toString()).put("method", request.method())
+                    .put("path", request.uri().getPath()).put("bodySha256", java.util.HexFormat.of().formatHex(
+                            java.security.MessageDigest.getInstance("SHA-256").digest(request.body())));
+        }
+        if (sideEffects != null) document.put("sideEffects", sideEffects);
+        var directory = java.nio.file.Path.of("target", "evidence");
+        java.nio.file.Files.createDirectories(directory);
+        java.nio.file.Files.writeString(directory.resolve(scenario + "-" + id + ".json"),
+                JSON.writerWithDefaultPrettyPrinter().writeValueAsString(document) + "\n");
     }
 
     @Override public void close() throws Exception {

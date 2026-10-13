@@ -1,0 +1,59 @@
+{
+  "scenario" : "cp05-retry-after-seconds",
+  "observedAt" : "2026-10-13T04:36:16.585386Z",
+  "task" : {
+    "id" : "a4e9520b-c45f-4b4a-b1bb-96a508bb346f",
+    "run_number" : 1,
+    "run_attempt_count" : 2,
+    "total_attempt_count" : 2,
+    "status" : "succeeded",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T12:36:15.543647+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "a4e9520b-c45f-4b4a-b1bb-96a508bb346f",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "6615409a-6da6-4db4-ba9e-4e7b4c64c9ea",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 429,
+    "error_code" : "HTTP_REJECTED",
+    "started_at" : "2026-10-13T12:36:15.555158+08:00",
+    "ended_at" : "2026-10-13T12:36:15.560301+08:00",
+    "request_started_at" : "2026-10-13T12:36:15.557801+08:00",
+    "http_send_started_at" : "2026-10-13T12:36:15.559438+08:00",
+    "execution_deadline" : "2026-10-13T12:36:17.555158+08:00"
+  }, {
+    "task_id" : "a4e9520b-c45f-4b4a-b1bb-96a508bb346f",
+    "run_number" : 1,
+    "attempt_no" : 2,
+    "lease_token" : "982f4ca7-3169-4667-9929-2ec074469ec4",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "started_at" : "2026-10-13T12:36:16.566638+08:00",
+    "ended_at" : "2026-10-13T12:36:16.571709+08:00",
+    "request_started_at" : "2026-10-13T12:36:16.569198+08:00",
+    "http_send_started_at" : "2026-10-13T12:36:16.570771+08:00",
+    "execution_deadline" : "2026-10-13T12:36:18.566638+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T04:36:15.559841Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "a3f873a5a52be394aa3189559c8ae120dbeaad6fd67f0ba7df3b3fdc0bbdf18a"
+  }, {
+    "receivedAt" : "2026-10-13T04:36:16.571278Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "a3f873a5a52be394aa3189559c8ae120dbeaad6fd67f0ba7df3b3fdc0bbdf18a"
+  } ]
+}

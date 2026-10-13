@@ -4,36 +4,49 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.notification.application.RequestSnapshot;
 import com.rc.notification.configuration.StoredConfigurationJson;
+import com.rc.notification.application.AttemptCursor;
+import com.rc.notification.retry.RetryPolicy;
 import com.rc.notification.worker.Attempt;
 import com.rc.notification.worker.AttemptView;
 import com.rc.notification.worker.Completion;
 import com.rc.notification.worker.Lease;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /** All ownership changes are short independent transactions; callers must never perform HTTP inside them. */
 @Repository
 public class DeliveryRepository {
+    private static final Logger LOG = LoggerFactory.getLogger(DeliveryRepository.class);
     private static final ObjectMapper JSON = StoredConfigurationJson.newMapper();
     private final JdbcTemplate jdbc;
     private final TransactionTemplate transaction;
+    private final RetryPolicy retryPolicy;
+    private final MeterRegistry metrics;
 
-    public DeliveryRepository(JdbcTemplate jdbc, PlatformTransactionManager manager) {
+    public DeliveryRepository(JdbcTemplate jdbc, PlatformTransactionManager manager, RetryPolicy retryPolicy, MeterRegistry metrics) {
         this.jdbc = jdbc;
+        this.retryPolicy = retryPolicy;
+        this.metrics = metrics;
         transaction = new TransactionTemplate(manager);
         transaction.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
         transaction.setTimeout(10);
@@ -149,14 +162,26 @@ public class DeliveryRepository {
             if (updated == 0) return false;
             one(updated);
             String status = completion.outcome().equals("HTTP_ACKNOWLEDGED") ? "succeeded" : "failed";
+            String reason = completion.errorCode();
+            Instant nextAttempt = null;
+            if (!status.equals("succeeded") && completion.retryable()) {
+                Instant scheduleNow = now();
+                if (state.count >= state.maximum) reason = "ATTEMPTS_EXHAUSTED";
+                else if (!state.deadline.isAfter(scheduleNow)) reason = "DEADLINE_EXCEEDED";
+                else {
+                    Instant proposed = retryPolicy.nextAttemptAt(scheduleNow, attempt.attemptNo(), Map.of("retry-after", completion.retryAfterValues()));
+                    if (!proposed.isBefore(state.deadline)) reason = "DEADLINE_EXCEEDED";
+                    else { status = "pending"; nextAttempt = proposed; reason = "RETRY_BACKOFF"; }
+                }
+            }
             int taskUpdated = jdbc.update("""
                     UPDATE notification_task SET status=?,last_outcome=?,last_error_code=?,last_http_status=?,
-                        lease_token=NULL,lease_owner=NULL,lease_until=NULL,next_attempt_at=NULL,defer_reason=?,updated_at=?
+                        lease_token=NULL,lease_owner=NULL,lease_until=NULL,next_attempt_at=?,defer_reason=?,updated_at=?
                     WHERE id=? AND run_number=? AND lease_token=? AND status='processing'
                         AND lease_until>clock_timestamp()
                         AND EXISTS (SELECT 1 FROM notification_attempt a WHERE a.task_id=notification_task.id
                             AND a.run_number=notification_task.run_number AND a.attempt_no=? AND a.execution_deadline>clock_timestamp())
-                    """, status, completion.outcome(), completion.errorCode(), completion.httpStatus(), completion.errorCode(), ts(now),
+                    """, status, completion.outcome(), completion.errorCode(), completion.httpStatus(), ts(nextAttempt), reason, ts(now),
                     lease.taskId(), lease.runNumber(), lease.leaseToken(), attempt.attemptNo());
             if (taskUpdated == 0) { ignored.setRollbackOnly(); return false; }
             one(taskUpdated);
@@ -165,6 +190,8 @@ public class DeliveryRepository {
                 ignored.setRollbackOnly();
                 return false;
             }
+            String decision = status.equals("succeeded") ? "SUCCESS" : status.equals("pending") ? "RETRY" : "FAIL";
+            afterCommit(() -> metrics.counter("notification.worker.decision", "decision", decision).increment());
             return true;
         }));
     }
@@ -201,12 +228,69 @@ public class DeliveryRepository {
         }));
     }
 
+    /** Deadline cleanup never depends on next_attempt_at; it does not invent a new delivery result. */
+    public int expirePending(int limit) {
+        checkLimit(limit);
+        return Objects.requireNonNull(transaction.execute(ignored -> {
+            List<TaskState> deadlines = jdbc.query("""
+                    SELECT * FROM notification_task WHERE status='pending' AND deadline_at<=clock_timestamp()
+                    ORDER BY deadline_at,id FOR UPDATE SKIP LOCKED LIMIT ?
+                    """, (row, n) -> state(row), limit);
+            List<ExhaustedBudget> violations = new ArrayList<>();
+            for (TaskState task : deadlines) {
+                if (task.count >= task.maximum) violations.add(new ExhaustedBudget(task.id, task.run));
+                one(jdbc.update("""
+                    UPDATE notification_task SET status='failed',next_attempt_at=NULL,defer_reason='DEADLINE_EXCEEDED',updated_at=clock_timestamp()
+                    WHERE id=? AND status='pending' AND deadline_at<=clock_timestamp()
+                    """, task.id));
+            }
+            int room = limit - deadlines.size();
+            List<ExhaustedBudget> exhausted = room == 0 ? List.of() : jdbc.query("""
+                    SELECT id,run_number FROM notification_task WHERE status='pending' AND run_attempt_count>=max_attempts
+                    ORDER BY id FOR UPDATE SKIP LOCKED LIMIT ?
+                    """, (row, n) -> new ExhaustedBudget(row.getObject("id", UUID.class), row.getInt("run_number")), room);
+            for (ExhaustedBudget task : exhausted) one(jdbc.update("""
+                    UPDATE notification_task SET status='failed',next_attempt_at=NULL,defer_reason='ATTEMPTS_EXHAUSTED',updated_at=clock_timestamp()
+                    WHERE id=? AND status='pending' AND run_attempt_count>=max_attempts
+                    """, task.id()));
+            violations.addAll(exhausted);
+            if (!violations.isEmpty()) afterCommit(() -> {
+                metrics.counter("notification.worker.budget_invariant_violation").increment(violations.size());
+                for (ExhaustedBudget task : violations) LOG.warn("delivery_budget_invariant_violated taskId={} run={}", task.id(), task.run());
+            });
+            return deadlines.size() + exhausted.size();
+        }));
+    }
+
+    private record ExhaustedBudget(UUID id, int run) { }
+
+    private static void afterCommit(Runnable event) {
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override public void afterCommit() {
+                try { event.run(); }
+                catch (RuntimeException telemetryFailure) { LOG.warn("delivery_telemetry_failed"); }
+            }
+        });
+    }
+
     public List<AttemptView> attempts(UUID taskId) {
-        return jdbc.query("SELECT * FROM notification_attempt WHERE task_id=? ORDER BY run_number,attempt_no",
-                (row, n) -> new AttemptView(row.getObject("task_id", UUID.class), row.getInt("run_number"), row.getInt("attempt_no"),
+        return jdbc.query("SELECT * FROM notification_attempt WHERE task_id=? ORDER BY run_number,attempt_no", (row, n) -> attemptView(row), taskId);
+    }
+
+    public List<AttemptView> attemptsPage(UUID taskId, AttemptCursor cursor, int count) {
+        if (cursor == null) return jdbc.query("SELECT * FROM notification_attempt WHERE task_id=? ORDER BY run_number DESC,attempt_no DESC LIMIT ?",
+                (row, n) -> attemptView(row), taskId, count);
+        return jdbc.query("""
+                SELECT * FROM notification_attempt WHERE task_id=? AND (run_number,attempt_no)<(?,?)
+                ORDER BY run_number DESC,attempt_no DESC LIMIT ?
+                """, (row, n) -> attemptView(row), taskId, cursor.runNumber(), cursor.attemptNo(), count);
+    }
+
+    private static AttemptView attemptView(ResultSet row) throws SQLException {
+        return new AttemptView(row.getObject("task_id", UUID.class), row.getInt("run_number"), row.getInt("attempt_no"),
                         row.getString("phase"), row.getString("outcome"), row.getObject("http_status", Integer.class), row.getString("error_code"),
                         instant(row, "started_at"), instant(row, "ended_at"), instant(row, "request_started_at"),
-                        instant(row, "http_send_started_at"), instant(row, "execution_deadline"), row.getString("credential_version")), taskId);
+                        instant(row, "http_send_started_at"), instant(row, "execution_deadline"), row.getString("credential_version"));
     }
 
     private TaskState lock(UUID id) {
