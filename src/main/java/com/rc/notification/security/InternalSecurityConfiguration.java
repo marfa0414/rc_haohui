@@ -41,6 +41,7 @@ public class InternalSecurityConfiguration {
                 .logout(logout -> logout.disable()).requestCache(cache -> cache.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/health/live", "/health/ready").permitAll()
+                        .requestMatchers("/actuator/metrics", "/actuator/metrics/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .exceptionHandling(errors -> errors
                         .authenticationEntryPoint((request, response, failure) -> ApiErrors.write(mapper, request, response,

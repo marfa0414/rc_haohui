@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-token-http-429-pending-authentication",
+  "observedAt" : "2026-10-13T07:18:18.676871Z",
+  "taskId" : "dff941d9-6d5e-47bb-8b78-deecf0f4c6ed",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:18:18.647981Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

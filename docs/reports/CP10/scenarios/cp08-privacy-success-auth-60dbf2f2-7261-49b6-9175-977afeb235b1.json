@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp08-privacy-success-authentication",
+  "observedAt" : "2026-10-13T07:13:39.085881Z",
+  "taskId" : "60dbf2f2-7261-49b6-9175-977afeb235b1",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:13:39.035624Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

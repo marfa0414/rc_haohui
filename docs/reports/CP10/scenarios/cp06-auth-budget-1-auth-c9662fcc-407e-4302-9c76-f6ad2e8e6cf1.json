@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-auth-budget-1-authentication",
+  "observedAt" : "2026-10-13T07:18:24.829749Z",
+  "taskId" : "c9662fcc-407e-4302-9c76-f6ad2e8e6cf1",
+  "runNumber" : 1,
+  "recoveryUsed" : true,
+  "recoveryRequired" : true,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:18:24.799399Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp10-metrics-admission",
+  "observedAt" : "2026-10-13T07:13:56.919218Z",
+  "observations" : {
+    "deduplicated" : 1,
+    "rejectedRows" : 0,
+    "acceptedTaskIds" : [ "a4a753a5-a548-45c4-8cb8-f27258549554" ],
+    "rolledBack" : 1,
+    "committed" : 1,
+    "rateLimited" : 1,
+    "conflicted" : 1
+  }
+}

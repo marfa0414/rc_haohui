@@ -1,0 +1,69 @@
+# Demonstration configuration. Exact Mock exceptions are rejected if APP_ENVIRONMENT=production.
+app:
+  environment: ${APP_ENVIRONMENT:development}
+  database:
+    migration-mode: validate
+  security:
+    callers:
+      - id: demo-business
+        token: ${DEMO_BUSINESS_TOKEN:rc-demo-business-token}
+        roles: [BUSINESS]
+        tenants: [tenant-01, tenant-02, tenant-03, tenant-04, tenant-05, tenant-06, tenant-07, tenant-08, tenant-09, tenant-10]
+        operations: [notify]
+      - id: demo-admin
+        token: ${DEMO_ADMIN_TOKEN:rc-demo-admin-token}
+        roles: [ADMIN]
+        tenants: ['*']
+        operations: ['*']
+  secrets:
+    tenant-references:
+      tenant-01: ['env:DEMO_VENDOR_SECRET']
+      tenant-02: ['env:DEMO_VENDOR_SECRET']
+      tenant-03: ['env:DEMO_VENDOR_SECRET']
+      tenant-04: ['env:DEMO_VENDOR_SECRET']
+      tenant-05: ['env:DEMO_VENDOR_SECRET']
+      tenant-06: ['env:DEMO_VENDOR_SECRET']
+      tenant-07: ['env:DEMO_VENDOR_SECRET']
+      tenant-08: ['env:DEMO_VENDOR_SECRET']
+      tenant-09: ['env:DEMO_VENDOR_SECRET']
+      tenant-10: ['env:DEMO_VENDOR_SECRET']
+  outbound:
+    allowed-hosts: [mock]
+    allowed-ports: [9090]
+    development-http-hosts: [mock]
+    development-http-ports: [9090]
+    development-allowed-cidrs: ['172.30.86.10/32']
+  worker:
+    global-concurrency: ${WORKER_GLOBAL_CONCURRENCY:10}
+    provider-concurrency: ${WORKER_PROVIDER_CONCURRENCY:3}
+    poll-interval: ${WORKER_POLL_INTERVAL:100ms}
+    business-timeout: ${WORKER_BUSINESS_TIMEOUT:10s}
+    attempt-timeout: ${WORKER_ATTEMPT_TIMEOUT:30s}
+    lease-duration: ${WORKER_LEASE_DURATION:90s}
+    shutdown-grace-period: 30s
+  retry:
+    base-delay: ${RETRY_BASE_DELAY:30s}
+    max-delay: ${RETRY_MAX_DELAY:1h}
+  protection:
+    open-duration: ${PROTECTION_OPEN_DURATION:30s}
+    retry-delay: ${PROTECTION_RETRY_DELAY:1s}
+    jitter: ${PROTECTION_JITTER:1s}
+  delivery:
+    max-attempts: ${DELIVERY_MAX_ATTEMPTS:12}
+    run-duration: ${DELIVERY_RUN_DURATION:24h}
+  admission:
+    requests-per-second: ${ADMISSION_REQUESTS_PER_SECOND:100}
+    burst-capacity: ${ADMISSION_BURST_CAPACITY:200}
+    max-backlog: ${ADMISSION_MAX_BACKLOG:10000}
+  observability:
+    sample-interval: ${OBSERVABILITY_SAMPLE_INTERVAL:1s}
+
+spring:
+  datasource:
+    hikari:
+      schema: notifications
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+  flyway:
+    schemas: notifications
+    default-schema: notifications
+    create-schemas: false

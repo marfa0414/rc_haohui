@@ -1,0 +1,251 @@
+{
+  "artifactSha256": {
+    "analysis.json": "9b2fc278c16db4201c39fbb6df61705ea4fab860ef5cc1d6d1073936b102388b",
+    "attempts.jsonl": "0300b171e44029b69a070dea61cf55377186c8a48400b3878519e134c5437ef2",
+    "backlog-explain.txt": "48e659bdd7c690db46cadc324c9ffd57d99c9e6718e8cce61f33bd16c0d4ded9",
+    "claims.jsonl": "c8f15091cdcfd16bcc232355d741cf95190be1431e9ac303640591f20a8f524a",
+    "clock-after.json": "1122d92f83764b4a26dfebe8d27fb89d6623b82d7b1812b9df74aec1ceb794b7",
+    "clock-before.json": "20ac0c02fd72d265ce7ac1371ce70d82ffda4c766e683499af0f344ced32a614",
+    "configuration-ids.json": "ba54eac4371401b0095cab73c88c02b70ef5f77cc1f686858e2a445061190838",
+    "docker-resources.jsonl": "d01638d3d941f071372f703af5bf590d385d52dde1bce713cbe7a9ef8b3789e8",
+    "journal.jsonl": "a8d3f341f26d67a98a1c77b074465a1486cef45f1f14ab16d4bc527da5dab516",
+    "manifest.json": "13fba68ea09f460a8c6aa5912c455803c2b2b69267eb1d85c95a4db3982bfcfc",
+    "metric-inventory.json": "2288d070ea0c9ee1327788fcb070230a9385c0b600d2f75cb53482ce9fb7e075",
+    "mock-final.json": "24dda80aac6d2fe291f2a9cc394518de3666b28eca3b8bb4dee892aa6c55973b",
+    "mock-start.json": "6901969361e41fa244093589bb23164baa0fcedb7f4a843d4b385b6459e450e3",
+    "reconciliation.json": "e1aaa185dcf88a7012c2b03df7bd2bd5780c0384df868f9aa5ee2f1a696fe7fa",
+    "requests.jsonl": "26ef6369bf3d2948a6366ab5e0a203fdec64d925a84fcd7f77c0c740c09dbb90",
+    "resources.jsonl": "eb6b37df983cd426a64a2ea6ee3bb59066a87f86cb6250e303671cc930048654",
+    "tasks.jsonl": "8d8de62b0f7c790dc5e9efe7b118531ab916553b13b209d3ec05e13c81587046",
+    "warmup-attempts.jsonl": "8d10283199539ad3104fa84e4c7848f580101faaab7eeb85b375808e5e2d8059",
+    "warmup-journal.jsonl": "db640caeaf1e77fea7d8732e5a1281a967d5a97204480eabc0e1c682e1793ac7",
+    "warmup-requests.jsonl": "73ab5de0e7cc0ba6d0b60c422ff0d097e94fb957e11c33fdf7c34040f2974168",
+    "warmup-tasks.jsonl": "93e66daa24d89a940db042e10ebe4000d7240f94d74bfeb33e3a76aaa518e75b",
+    "warmup.json": "8e541c07a6982ec6a27cfdbcc48ffbab5daee3f46f035e94c3cadf9e217cf7e9",
+    "workload.json": "fb1d81417851c094d4eb0f2f77d87f2e3910686429cacd48d19baf60a9699232"
+  },
+  "auditedAt": "2026-10-13T07:46:54.356611+00:00",
+  "auditor": "independent test agent",
+  "checkpoint": "CP10",
+  "clockCalibration": [
+    {
+      "boundSeconds": 0.056414008140563965,
+      "offsetSeconds": 0.024591445922851562,
+      "phase": "clock-before.json",
+      "source": "postgres",
+      "uncertaintySeconds": 0.0318225622177124
+    },
+    {
+      "boundSeconds": 0.0011205673217773438,
+      "offsetSeconds": -0.0006520748138427734,
+      "phase": "clock-before.json",
+      "source": "mock",
+      "uncertaintySeconds": 0.0004684925079345703
+    },
+    {
+      "boundSeconds": 0.0023908615112304688,
+      "offsetSeconds": -0.0013098716735839844,
+      "phase": "clock-before.json",
+      "source": "jvm-0",
+      "uncertaintySeconds": 0.0010809898376464844
+    },
+    {
+      "boundSeconds": 0.053668975830078125,
+      "offsetSeconds": 0.02347850799560547,
+      "phase": "clock-after.json",
+      "source": "postgres",
+      "uncertaintySeconds": 0.030190467834472656
+    },
+    {
+      "boundSeconds": 0.0010758638381958008,
+      "offsetSeconds": -0.0006108283996582031,
+      "phase": "clock-after.json",
+      "source": "mock",
+      "uncertaintySeconds": 0.00046503543853759766
+    },
+    {
+      "boundSeconds": 0.001185297966003418,
+      "offsetSeconds": -0.0006587505340576172,
+      "phase": "clock-after.json",
+      "source": "jvm-0",
+      "uncertaintySeconds": 0.0005265474319458008
+    }
+  ],
+  "counts": {
+    "accepted202": 200,
+    "actualHttpTimeouts": 14,
+    "actualSideEffects": 200,
+    "attempts": 214,
+    "businessHttpCalls": 214,
+    "claimObservations": 753,
+    "claimsWithoutAttempt": 539,
+    "duplicateEffectsSuppressed": 14,
+    "mainOAuthExchanges": 0,
+    "physicalBodyHashesVerified": 214,
+    "planned": 200,
+    "succeededTasks": 200,
+    "uniqueEventsWithBodyHashVerified": 200,
+    "warmup": 100,
+    "warmupOAuthExchanges": 10
+  },
+  "failures": [],
+  "faultWindow": {
+    "actualTimedOutArrivalOffsetsSeconds": [
+      0.2841520309448242,
+      0.2878096103668213,
+      0.2919921875,
+      2.297102689743042,
+      2.2991042137145996,
+      2.300363302230835,
+      4.30309534072876,
+      4.305915117263794,
+      4.306315898895264,
+      6.314074277877808,
+      6.31560492515564,
+      6.317833423614502,
+      9.455164909362793,
+      12.481817960739136
+    ],
+    "allAAfter15AndAllB200": true,
+    "allAPre15ArrivalsTimedOut": true,
+    "durationSeconds": 15,
+    "startEpoch": 1791877275.4397042,
+    "timeoutResponseDelaySeconds": 3,
+    "workerBusinessTimeoutSeconds": 2
+  },
+  "passed": true,
+  "priorFailedRun": {
+    "accepted202": 192,
+    "acceptedAllSucceeded": true,
+    "change": "Only formal burst injector capacity/workers128to200. Application concurrency and deadlines unchanged. Other modes and every warmup remain128.",
+    "injectorCapacityFailures": 8,
+    "passed": false,
+    "planned": 200,
+    "reason": "Old128-slot injector rejected8 locally. Application lost no accepted task, but required200 acceptance failed.",
+    "requestEvidenceSha256": "b534d10dbde943987bac6d7e1a5f4136352a70f44bd6e72095800e813e3f81b6",
+    "runId": "burst-001",
+    "taskEvidenceSha256": "1e448e421bfe51e31dc57bf0472c7ad087d82e8267097d519135e338344d9b6f"
+  },
+  "privacy": {
+    "forbiddenFields": 0,
+    "sensitiveSentinelMatches": 0,
+    "tokenRequestBodyOrHashStored": false
+  },
+  "providers": {
+    "A": {
+      "accepted": 100,
+      "allCompletedAfterInputSeconds": 19.35326385498047,
+      "deadlineSeconds": 60,
+      "httpCalls": 114,
+      "succeeded": 100
+    },
+    "B": {
+      "accepted": 100,
+      "allCompletedAfterInputSeconds": 4.0707848072052,
+      "deadlineSeconds": 10,
+      "httpCalls": 100,
+      "succeeded": 100
+    }
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "resources": {
+    "allRequiredResourcesZeroAtEnd": true,
+    "applicationSamples": 64,
+    "dockerSampledPeaks": {
+      "rc-haohui-cp10-all-1": {
+        "cpuPercent": 68.92,
+        "imageId": "sha256:9f5c22b8351d182d1e8389d3fb8e6f8761ecff88be34553be3db2612e85c45e4",
+        "memoryLimitBytes": 805306368,
+        "memoryPercent": 34.86,
+        "pids": 167,
+        "pidsLimit": 256
+      },
+      "rc-haohui-cp10-mock-1": {
+        "cpuPercent": 14.71,
+        "imageId": "sha256:4cf9c53939d5480f3193cc446a96e8f09fc6d8bf50d0d0543edb8e1800b6147c",
+        "memoryLimitBytes": 268435456,
+        "memoryPercent": 16.69,
+        "pids": 8,
+        "pidsLimit": 256
+      },
+      "rc-haohui-cp10-postgres-1": {
+        "cpuPercent": 21.07,
+        "imageId": "sha256:f5b4994b83ffb19ae39e02206b97d6b7dd565c8af3e743f697436008d53593bc",
+        "memoryLimitBytes": 805306368,
+        "memoryPercent": 14.13,
+        "pids": 21,
+        "pidsLimit": null
+      }
+    },
+    "dockerSamples": 10,
+    "errors": 0,
+    "noOom": true,
+    "observedUntilSeconds": 62.507887840270996,
+    "peakInterpretation": "sampled maxima; Mock sleep handlers may outlive canceled client requests, so Worker/client pools define admission bounds",
+    "sampledBacklogPeak": 179,
+    "sampledMetricPeaks": {
+      "hikaricp.connections.active": 6.0,
+      "hikaricp.connections.max": 10.0,
+      "hikaricp.connections.pending": 27.0,
+      "jvm.memory.max": 389283840.0,
+      "jvm.memory.used": 78198720.0,
+      "jvm.threads.live": 158.0,
+      "notification.http.connections.available|client:business": 0.0,
+      "notification.http.connections.available|client:token": 0.0,
+      "notification.http.connections.leased|client:business": 6.0,
+      "notification.http.connections.leased|client:token": 0.0,
+      "notification.http.connections.max|client:business": 10.0,
+      "notification.http.connections.max|client:token": 10.0,
+      "notification.http.connections.pending|client:business": 0.0,
+      "notification.http.connections.pending|client:token": 0.0,
+      "notification.http.execution.active|client:business": 6.0,
+      "notification.http.execution.active|client:token": 0.0,
+      "notification.http.execution.capacity|client:business": 10.0,
+      "notification.http.execution.capacity|client:token": 10.0,
+      "notification.http.execution.permits_used|client:business": 6.0,
+      "notification.http.execution.permits_used|client:token": 0.0,
+      "notification.http.execution.queued|client:business": 0.0,
+      "notification.http.execution.queued|client:token": 0.0,
+      "notification.oauth.cache.entries": 10.0,
+      "notification.oauth.inflight": 0.0,
+      "notification.oauth.leaders.active": 0.0,
+      "notification.oauth.leaders.capacity": 10.0,
+      "notification.queue.oldest_due.seconds": 7.952475,
+      "notification.queue.sample.age.seconds": 0.383385708,
+      "notification.queue.sample.success": 1.0,
+      "notification.tasks|status:failed": 0.0,
+      "notification.tasks|status:pending": 179.0,
+      "notification.tasks|status:processing": 6.0,
+      "notification.tasks|status:succeeded": 16407.0,
+      "notification.worker.active": 6.0,
+      "notification.worker.capacity": 10.0,
+      "notification.worker.provider.active.max": 3.0,
+      "notification.worker.provider.capacity": 3.0,
+      "notification.worker.provider.entries": 2.0,
+      "notification.worker.queued": 0.0,
+      "process.cpu.usage": 0.3181818181818182,
+      "system.cpu.usage": 0.3187740909090909
+    }
+  },
+  "runId": "burst-002",
+  "scheduling": {
+    "actualArrivalSpanSeconds": 0.08920979499816895,
+    "claimInstrumentation": "test-only AFTER trigger INSERT in original transaction; task/result values unchanged; includes observation overhead",
+    "injectorCapacity": 200,
+    "minimumActualHttpSendAfterDueSeconds": 0.04346799850463867,
+    "minimumDatabaseClaimAfterDueSeconds": 0.000379,
+    "noEarlyClaimOrSend": true,
+    "plannedInputSeconds": 0.1,
+    "scheduleLagMaxMs": 14.159917016513646,
+    "warmupCapacity": 128
+  },
+  "scope": "OPS-05 burst; distributed Worker kill acceptance remains separate",
+  "sourceHashesMatch": {
+    "scripts/perf/README.md": true,
+    "scripts/perf/analyze.py": true,
+    "scripts/perf/claim_audit.sql": true,
+    "scripts/perf/common.py": true,
+    "scripts/perf/mock_server.py": true,
+    "scripts/perf/run.py": true
+  }
+}

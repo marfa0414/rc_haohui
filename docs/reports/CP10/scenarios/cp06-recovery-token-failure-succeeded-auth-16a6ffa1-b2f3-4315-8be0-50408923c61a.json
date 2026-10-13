@@ -1,0 +1,21 @@
+{
+  "scenario" : "cp06-recovery-token-failure-succeeded-authentication",
+  "observedAt" : "2026-10-13T07:18:21.400079Z",
+  "taskId" : "16a6ffa1-b2f3-4315-8be0-50408923c61a",
+  "runNumber" : 1,
+  "recoveryUsed" : true,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:18:21.297502Z",
+    "method" : "POST",
+    "path" : "/token"
+  }, {
+    "receivedAt" : "2026-10-13T07:18:21.327516Z",
+    "method" : "POST",
+    "path" : "/token"
+  }, {
+    "receivedAt" : "2026-10-13T07:18:21.374660Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

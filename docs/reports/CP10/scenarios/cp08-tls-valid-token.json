@@ -1,0 +1,12 @@
+{
+  "httpRequests" : 1,
+  "sameClientCapacityReusable" : true,
+  "path" : "token",
+  "budgetMillis" : 4000,
+  "elapsedMillis" : 12,
+  "dnsResolutionsIncludingHealthyProbe" : 2,
+  "certificateKind" : "VALID",
+  "certificateAccepted" : true,
+  "originalHostAndSniVerified" : true,
+  "healthyTlsProbeRequests" : 1
+}

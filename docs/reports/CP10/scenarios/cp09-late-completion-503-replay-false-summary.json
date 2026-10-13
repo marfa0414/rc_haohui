@@ -1,0 +1,10 @@
+{
+  "scenario" : "cp09-late-completion-503-replay-false-summary",
+  "observedAt" : "2026-10-13T07:17:05.548942Z",
+  "acceptedCount" : 1,
+  "durableTaskCount" : 1,
+  "httpCalls" : 2,
+  "acceptedTaskIds" : [ "12e92646-2dbe-47df-8328-124a0d1a011d" ],
+  "succeededCount" : 1,
+  "processIds" : [ 60603, 60604 ]
+}

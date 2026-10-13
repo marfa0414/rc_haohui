@@ -1,0 +1,12 @@
+{
+  "httpRequests" : 0,
+  "sameClientCapacityReusable" : true,
+  "path" : "token",
+  "budgetMillis" : 4000,
+  "elapsedMillis" : 4,
+  "dnsResolutionsIncludingHealthyProbe" : 2,
+  "certificateKind" : "WRONG_HOST",
+  "certificateAccepted" : false,
+  "originalHostAndSniVerified" : false,
+  "healthyTlsProbeRequests" : 1
+}

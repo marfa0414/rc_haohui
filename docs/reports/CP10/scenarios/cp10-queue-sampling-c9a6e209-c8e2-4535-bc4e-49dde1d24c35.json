@@ -1,0 +1,21 @@
+{
+  "scenario" : "cp10-queue-sampling",
+  "observedAt" : "2026-10-13T07:13:51.197531Z",
+  "task" : {
+    "id" : "c9a6e209-c8e2-4535-bc4e-49dde1d24c35",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T16:13:51.164482+08:00",
+    "deadline_at" : "2026-10-14T15:13:51.13776+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : null
+  },
+  "attempts" : [ ],
+  "httpCalls" : [ ]
+}

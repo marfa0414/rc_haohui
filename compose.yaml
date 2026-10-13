@@ -1,0 +1,197 @@
+name: rc-haohui
+
+x-app-environment: &app-environment
+  SPRING_CONFIG_ADDITIONAL_LOCATION: file:/app/config/application-compose.yml
+  DATABASE_URL: jdbc:postgresql://postgres:5432/notifications?currentSchema=notifications
+  DATABASE_USERNAME: notification_app
+  DATABASE_PASSWORD: ${DATABASE_APP_PASSWORD:-demo-app-password-not-for-production}
+  APP_ENVIRONMENT: development
+  DEMO_BUSINESS_TOKEN: ${DEMO_BUSINESS_TOKEN:-rc-demo-business-token}
+  DEMO_ADMIN_TOKEN: ${DEMO_ADMIN_TOKEN:-rc-demo-admin-token}
+  DEMO_VENDOR_SECRET: ${DEMO_VENDOR_SECRET:-demo-vendor-secret-not-for-production}
+  DEMO_VENDOR_SECRET_VERSION: ${DEMO_VENDOR_SECRET_VERSION:-demo-v1}
+  WORKER_GLOBAL_CONCURRENCY: ${WORKER_GLOBAL_CONCURRENCY:-10}
+  WORKER_PROVIDER_CONCURRENCY: ${WORKER_PROVIDER_CONCURRENCY:-3}
+  WORKER_POLL_INTERVAL: ${WORKER_POLL_INTERVAL:-100ms}
+  WORKER_BUSINESS_TIMEOUT: ${WORKER_BUSINESS_TIMEOUT:-10s}
+  WORKER_ATTEMPT_TIMEOUT: ${WORKER_ATTEMPT_TIMEOUT:-30s}
+  WORKER_LEASE_DURATION: ${WORKER_LEASE_DURATION:-90s}
+  RETRY_BASE_DELAY: ${RETRY_BASE_DELAY:-30s}
+  RETRY_MAX_DELAY: ${RETRY_MAX_DELAY:-1h}
+  PROTECTION_OPEN_DURATION: ${PROTECTION_OPEN_DURATION:-30s}
+  PROTECTION_RETRY_DELAY: ${PROTECTION_RETRY_DELAY:-1s}
+  PROTECTION_JITTER: ${PROTECTION_JITTER:-1s}
+  DELIVERY_MAX_ATTEMPTS: ${DELIVERY_MAX_ATTEMPTS:-12}
+  DELIVERY_RUN_DURATION: ${DELIVERY_RUN_DURATION:-24h}
+  ADMISSION_REQUESTS_PER_SECOND: ${ADMISSION_REQUESTS_PER_SECOND:-100}
+  ADMISSION_BURST_CAPACITY: ${ADMISSION_BURST_CAPACITY:-200}
+  ADMISSION_MAX_BACKLOG: ${ADMISSION_MAX_BACKLOG:-10000}
+  OBSERVABILITY_SAMPLE_INTERVAL: ${OBSERVABILITY_SAMPLE_INTERVAL:-1s}
+  DB_POOL_SIZE: ${DB_POOL_SIZE:-10}
+
+x-app: &app
+  image: rc-haohui-notification:cp10
+  build:
+    context: .
+    target: app
+  environment: *app-environment
+  networks: [notification]
+  depends_on:
+    postgres:
+      condition: service_healthy
+    migrate:
+      condition: service_completed_successfully
+    mock:
+      condition: service_healthy
+  healthcheck:
+    test: [CMD, curl, --fail, --silent, --max-time, '3', http://127.0.0.1:8080/health/ready]
+    interval: 5s
+    timeout: 4s
+    retries: 6
+    start_period: 30s
+  stop_grace_period: 45s
+  init: true
+  read_only: true
+  tmpfs: ['/tmp:rw,noexec,nosuid,size=64m']
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  mem_limit: 768m
+  cpus: 2
+  pids_limit: 256
+
+services:
+  postgres:
+    image: rc-haohui-postgres:cp10
+    build:
+      context: .
+      target: postgres
+    environment:
+      POSTGRES_DB: notifications
+      POSTGRES_USER: notification_bootstrap
+      POSTGRES_PASSWORD: ${DATABASE_BOOTSTRAP_PASSWORD:-demo-bootstrap-password-not-for-production}
+      DATABASE_MIGRATOR_PASSWORD: ${DATABASE_MIGRATOR_PASSWORD:-demo-migrator-password-not-for-production}
+      DATABASE_APP_PASSWORD: ${DATABASE_APP_PASSWORD:-demo-app-password-not-for-production}
+    command: [postgres, -c, max_connections=100, -c, shared_buffers=128MB, -c, fsync=on, -c, synchronous_commit=on]
+    ports: ['127.0.0.1:55433:5432']
+    volumes:
+      - notification-data:/var/lib/postgresql/data
+    networks: [notification]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 2s
+      timeout: 3s
+      retries: 20
+    stop_grace_period: 45s
+    mem_limit: 768m
+    cpus: 2
+    shm_size: 256m
+
+  migrate:
+    image: rc-haohui-notification:cp10
+    build:
+      context: .
+      target: app
+    command: [--migrate-only]
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/notifications?currentSchema=notifications
+      DATABASE_USERNAME: notification_migrator
+      DATABASE_PASSWORD: ${DATABASE_MIGRATOR_PASSWORD:-demo-migrator-password-not-for-production}
+      DATABASE_SCHEMA: notifications
+      DATABASE_APPLICATION_ROLE: notification_app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [notification]
+    restart: 'no'
+    read_only: true
+    tmpfs: ['/tmp:rw,noexec,nosuid,size=64m']
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m
+    cpus: 1
+
+  mock:
+    image: rc-haohui-mock:cp10
+    build:
+      context: .
+      target: mock
+    environment:
+      DEMO_VENDOR_SECRET: ${DEMO_VENDOR_SECRET:-demo-vendor-secret-not-for-production}
+      PERF_OAUTH_CLIENT_ID: demo-client
+    ports: ['127.0.0.1:19090:9090']
+    networks:
+      notification:
+        ipv4_address: 172.30.86.10
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9090/health/ready',timeout=2).close()"]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+    init: true
+    read_only: true
+    tmpfs: ['/tmp:rw,noexec,nosuid,size=64m']
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 256m
+    cpus: 1
+    pids_limit: 256
+
+  all:
+    <<: *app
+    profiles: [all]
+    environment:
+      <<: *app-environment
+      APP_MODE: all
+    ports: ['127.0.0.1:18080:8080']
+
+  api:
+    <<: *app
+    profiles: [distributed]
+    environment:
+      <<: *app-environment
+      APP_MODE: api
+    ports: ['127.0.0.1:18080:8080']
+
+  worker-1:
+    <<: *app
+    profiles: [distributed]
+    environment:
+      <<: *app-environment
+      APP_MODE: worker
+    ports: ['127.0.0.1:18081:8080']
+
+  worker-2:
+    <<: *app
+    profiles: [distributed]
+    environment:
+      <<: *app-environment
+      APP_MODE: worker
+    ports: ['127.0.0.1:18082:8080']
+
+  test-postgres:
+    profiles: [test]
+    image: postgres:17.11@sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3
+    environment:
+      POSTGRES_DB: rc_test
+      POSTGRES_USER: rc_test
+      POSTGRES_PASSWORD: rc_test_local_only
+    ports: ['127.0.0.1:${TEST_DATABASE_PORT:-55432}:5432']
+    volumes:
+      - test-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD, pg_isready, -U, rc_test, -d, rc_test]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+    mem_limit: 768m
+    cpus: 2
+
+networks:
+  notification:
+    ipam:
+      config:
+        - subnet: 172.30.86.0/24
+
+volumes:
+  notification-data:
+  test-data:

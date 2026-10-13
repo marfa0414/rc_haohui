@@ -1,0 +1,17 @@
+{
+  "scenario" : "cp06-recovery-false-succeeded-authentication",
+  "observedAt" : "2026-10-13T07:18:26.674901Z",
+  "taskId" : "f10aaea0-a35e-4931-9a2b-676912649337",
+  "runNumber" : 1,
+  "recoveryUsed" : true,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:18:26.595213Z",
+    "method" : "POST",
+    "path" : "/token"
+  }, {
+    "receivedAt" : "2026-10-13T07:18:26.647479Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

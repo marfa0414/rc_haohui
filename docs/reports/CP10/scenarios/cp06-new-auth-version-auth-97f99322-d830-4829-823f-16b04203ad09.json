@@ -1,0 +1,17 @@
+{
+  "scenario" : "cp06-new-auth-version-authentication",
+  "observedAt" : "2026-10-13T07:18:16.091854Z",
+  "taskId" : "97f99322-d830-4829-823f-16b04203ad09",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:18:15.999335Z",
+    "method" : "POST",
+    "path" : "/token"
+  }, {
+    "receivedAt" : "2026-10-13T07:18:16.028347Z",
+    "method" : "POST",
+    "path" : "/new-token"
+  } ]
+}

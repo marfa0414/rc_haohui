@@ -72,6 +72,8 @@ public final class RealPostgres implements AutoCloseable {
                 Map.entry("spring.flyway.schemas", schema),
                 Map.entry("spring.flyway.default-schema", schema),
                 Map.entry("spring.flyway.create-schemas", "false"),
+                // Test-only setup: runtime deployments validate and use a separate migration process.
+                Map.entry("app.database.migration-mode", "migrate"),
                 Map.entry("app.mode", mode));
     }
 

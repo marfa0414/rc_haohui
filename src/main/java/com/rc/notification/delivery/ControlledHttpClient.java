@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import com.rc.notification.security.IpLiteral;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
@@ -40,6 +43,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.ssl.ClientTlsStrategyBuilder;
 import org.apache.hc.client5.http.ssl.HostnameVerificationPolicy;
 import org.apache.hc.client5.http.ssl.HttpsSupport;
@@ -61,6 +65,9 @@ public final class ControlledHttpClient implements AutoCloseable {
     private final Semaphore admission;
     private final ThreadPoolExecutor executor;
     private final CloseableHttpClient client;
+    private final PoolingHttpClientConnectionManager connections;
+    private final int capacity;
+    private volatile Map<String, Timer> durations = Map.of();
     private final BiPredicate<URI, InetAddress> allowedTargetAddress;
     private final AtomicBoolean closed = new AtomicBoolean();
 
@@ -95,6 +102,7 @@ public final class ControlledHttpClient implements AutoCloseable {
         if (maxConcurrent < 1) {
             throw new IllegalArgumentException("maxConcurrent must be positive");
         }
+        capacity = maxConcurrent;
         admission = new Semaphore(maxConcurrent);
         AtomicInteger sequence = new AtomicInteger();
         executor = new ThreadPoolExecutor(maxConcurrent, maxConcurrent, 0, TimeUnit.MILLISECONDS,
@@ -104,7 +112,7 @@ public final class ControlledHttpClient implements AutoCloseable {
                     return thread;
                 }, new ThreadPoolExecutor.AbortPolicy());
 
-        var connections = PoolingHttpClientConnectionManagerBuilder.create()
+        connections = PoolingHttpClientConnectionManagerBuilder.create()
                 .setTlsSocketStrategy(ClientTlsStrategyBuilder.create().setSslContext(Objects.requireNonNull(sslContext))
                         .setHostVerificationPolicy(HostnameVerificationPolicy.BOTH)
                         .setHostnameVerifier(HttpsSupport.getDefaultHostnameVerifier()).buildClassic())
@@ -143,6 +151,27 @@ public final class ControlledHttpClient implements AutoCloseable {
                 .build();
     }
 
+    /** Only the two deployment-defined client roles are accepted; destinations never become labels. */
+    public synchronized void bindMetrics(MeterRegistry registry, String purpose) {
+        Objects.requireNonNull(registry);
+        if (!List.of("business", "token").contains(purpose) || !durations.isEmpty()) {
+            throw new IllegalArgumentException("Invalid or duplicate HTTP metric binding");
+        }
+        Gauge.builder("notification.http.connections.leased", this, value -> value.connections.getTotalStats().getLeased()).tag("client", purpose).register(registry);
+        Gauge.builder("notification.http.connections.available", this, value -> value.connections.getTotalStats().getAvailable()).tag("client", purpose).register(registry);
+        Gauge.builder("notification.http.connections.pending", this, value -> value.connections.getTotalStats().getPending()).tag("client", purpose).register(registry);
+        Gauge.builder("notification.http.connections.max", this, value -> value.connections.getTotalStats().getMax()).tag("client", purpose).register(registry);
+        Gauge.builder("notification.http.execution.active", this, value -> value.executor.getActiveCount()).tag("client", purpose).register(registry);
+        Gauge.builder("notification.http.execution.queued", this, value -> value.executor.getQueue().size()).tag("client", purpose).register(registry);
+        Gauge.builder("notification.http.execution.permits_used", this, value -> value.capacity - value.admission.availablePermits()).tag("client", purpose).register(registry);
+        Gauge.builder("notification.http.execution.capacity", this, value -> value.capacity).tag("client", purpose).register(registry);
+        var timers = new LinkedHashMap<String, Timer>();
+        for (String result : List.of("COMPLETED", "TIMEOUT", "CANCELLED", "IO_ERROR", "CAPACITY", "TARGET_REJECTED", "ERROR")) {
+            timers.put(result, Timer.builder("notification.http.duration").tag("client", purpose).tag("result", result).register(registry));
+        }
+        durations = Map.copyOf(timers);
+    }
+
     public Response execute(URI uri, String method, Map<String, String> headers, byte[] body,
                             Duration totalTimeout)
             throws IOException, TimeoutException, InterruptedException {
@@ -173,6 +202,25 @@ public final class ControlledHttpClient implements AutoCloseable {
     }
 
     private <T> T executeHandled(URI uri, String method, Map<String, String> headers, byte[] body,
+                                 Duration totalTimeout, Consumer<Instant> onTransportStart, ResponseHandler<T> handler)
+            throws IOException, TimeoutException, InterruptedException {
+        long started = System.nanoTime();
+        String result = "COMPLETED";
+        try {
+            return executeUnmeasured(uri, method, headers, body, totalTimeout, onTransportStart, handler);
+        } catch (TargetAddressRejectedException rejected) { result = "TARGET_REJECTED"; throw rejected; }
+        catch (TimeoutException timeout) { result = "TIMEOUT"; throw timeout; }
+        catch (InterruptedException cancelled) { result = "CANCELLED"; throw cancelled; }
+        catch (RejectedExecutionException capacity) { result = "CAPACITY"; throw capacity; }
+        catch (IOException failure) { result = "IO_ERROR"; throw failure; }
+        catch (RuntimeException failure) { result = "ERROR"; throw failure; }
+        finally {
+            Timer timer = durations.get(result);
+            if (timer != null) timer.record(Math.max(0, System.nanoTime() - started), TimeUnit.NANOSECONDS);
+        }
+    }
+
+    private <T> T executeUnmeasured(URI uri, String method, Map<String, String> headers, byte[] body,
                                  Duration totalTimeout, Consumer<Instant> onTransportStart, ResponseHandler<T> handler)
             throws IOException, TimeoutException, InterruptedException {
         Objects.requireNonNull(uri, "uri");

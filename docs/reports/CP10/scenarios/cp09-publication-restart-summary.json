@@ -1,0 +1,10 @@
+{
+  "scenario" : "cp09-publication-restart-summary",
+  "observedAt" : "2026-10-13T07:14:39.849142Z",
+  "acceptedCount" : 15,
+  "durableTaskCount" : 15,
+  "httpCalls" : 16,
+  "acceptedTaskIds" : [ "b957baff-a190-499d-aaa1-933734567f53", "5c82633e-a468-4272-9457-4351733e246a", "cc3e2103-6957-4bc6-bf6f-6e2d5eb1f070", "0d566984-1006-4623-8bba-94086e32ad08", "e06fa35f-e2af-4e61-bde4-a755d35a9375", "44984fe2-fdbd-407a-882e-6611f313f028", "e9156db7-3e4b-41b6-a350-370e225af3a6", "8e8fd710-f9da-440d-ba50-f6ced65e0f0b", "8f533911-2abd-40e1-95b5-485df73a3b56", "fb003cf6-1283-47a9-b0f8-0ed9b8085464", "de6dcee2-2baf-49dd-9fd9-5476a1c3d6ae", "1f89fadf-fe9c-48c7-b9cc-a6fd2f1d3eb7", "a5e916de-d434-4da1-b1bf-e7059b99f17b", "f4fe58a9-df16-4e0b-810f-0bfdf9a0fdb4", "ca6323ec-15c6-43f1-a520-2af1e318db3f" ],
+  "succeededCount" : 15,
+  "processIds" : [ 60389, 60402, 60390, 60393, 60394 ]
+}

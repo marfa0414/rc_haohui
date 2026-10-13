@@ -1,0 +1,17 @@
+{
+  "scenario" : "cp06-delayed-old-401-authentication",
+  "observedAt" : "2026-10-13T07:18:21.013767Z",
+  "taskId" : "bd4ef036-b3f1-4e98-9d81-4b0a32e62fde",
+  "runNumber" : 1,
+  "recoveryUsed" : true,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:18:20.878465Z",
+    "method" : "POST",
+    "path" : "/token"
+  }, {
+    "receivedAt" : "2026-10-13T07:18:20.923971Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

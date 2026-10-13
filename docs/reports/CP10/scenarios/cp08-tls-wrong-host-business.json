@@ -1,0 +1,12 @@
+{
+  "httpRequests" : 0,
+  "sameClientCapacityReusable" : true,
+  "path" : "business",
+  "budgetMillis" : 4000,
+  "elapsedMillis" : 5,
+  "dnsResolutionsIncludingHealthyProbe" : 2,
+  "certificateKind" : "WRONG_HOST",
+  "certificateAccepted" : false,
+  "originalHostAndSniVerified" : false,
+  "healthyTlsProbeRequests" : 1
+}

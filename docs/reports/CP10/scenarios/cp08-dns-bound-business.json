@@ -1,0 +1,11 @@
+{
+  "callBudgetMillis" : 350,
+  "dnsResolutions" : 2,
+  "path" : "business",
+  "postDeadlineBusinessRequests" : 0,
+  "excessRejected" : 21,
+  "configuredCapacity" : 2,
+  "peakDnsCalls" : 2,
+  "scenarioElapsedMillis" : 360,
+  "sameClientCapacityReusable" : true
+}

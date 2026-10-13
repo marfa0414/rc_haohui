@@ -55,10 +55,10 @@ def main():
         scenario_index.append({"file": "scenarios/" + path.name,
                                "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
     totals = {key: sum(s[key] for s in suites) for key in ("tests", "failures", "errors", "skipped")}
-    paths = [p for d in ("src", ".mvn", ".github", "scripts", "examples")
+    paths = [p for d in ("src", ".mvn", ".github", "scripts", "examples", "deploy")
              for p in Path(d).rglob("*") if p.is_file() and "__pycache__" not in p.parts]
     paths += [Path(p) for p in ("pom.xml", "mvnw", "mvnw.cmd", ".env.example", ".gitignore",
-                               "Dockerfile", "compose.yaml") if Path(p).is_file()]
+                               "Dockerfile", "compose.yaml", ".dockerignore") if Path(p).is_file()]
     out.mkdir(parents=True, exist_ok=True)
     (out / "results.json").write_text(json.dumps({"checkpoint": args.checkpoint,
         "suiteScope": args.scope, "suites": suites, "totals": totals,

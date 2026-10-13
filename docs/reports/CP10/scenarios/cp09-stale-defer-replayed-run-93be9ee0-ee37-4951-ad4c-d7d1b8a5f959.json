@@ -1,0 +1,35 @@
+{
+  "scenario" : "cp09-stale-defer-replayed-run",
+  "observedAt" : "2026-10-13T07:15:24.507294Z",
+  "task" : {
+    "id" : "93be9ee0-ee37-4951-ad4c-d7d1b8a5f959",
+    "run_number" : 2,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 1,
+    "status" : "processing",
+    "lease_token" : "b8f6eac7-5984-44c1-a8ff-d6a1cf7f6f82",
+    "lease_until" : "2026-10-13T15:15:34.471965+08:00",
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T15:15:24.448121+08:00",
+    "last_outcome" : "UNKNOWN",
+    "last_error_code" : "LEASE_EXPIRED",
+    "last_http_status" : null,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "93be9ee0-ee37-4951-ad4c-d7d1b8a5f959",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "93bd638e-4a6d-4a05-97a2-c793fd949d1c",
+    "phase" : "COMPLETED",
+    "outcome" : "UNKNOWN",
+    "http_status" : null,
+    "error_code" : "LEASE_EXPIRED",
+    "started_at" : "2026-10-13T15:15:23.61701+08:00",
+    "ended_at" : "2026-10-13T15:15:24.429077+08:00",
+    "request_started_at" : null,
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T15:15:24.01701+08:00"
+  } ],
+  "httpCalls" : [ ]
+}

@@ -149,6 +149,9 @@ public class WorkerRuntime implements SmartLifecycle, AutoCloseable {
     public int activeCount() { return active.get(); }
     public int activeCount(String provider) { synchronized (providerSlots) { return providerSlots.getOrDefault(provider, 0); } }
     public int providerEntryCount() { synchronized (providerSlots) { return providerSlots.size(); } }
+    public int maxActiveForAnyProvider() {
+        synchronized (providerSlots) { return providerSlots.values().stream().mapToInt(Integer::intValue).max().orElse(0); }
+    }
     public int queuedCount() { return executor.getQueue().size(); }
     private boolean tryProvider(String provider) {
         synchronized (providerSlots) {

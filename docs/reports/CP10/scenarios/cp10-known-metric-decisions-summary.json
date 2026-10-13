@@ -1,0 +1,12 @@
+{
+  "scenario" : "cp10-known-metric-decisions",
+  "observedAt" : "2026-10-13T07:13:57.726903Z",
+  "observations" : {
+    "leaseRecoveries" : 1,
+    "terminalFailures" : 1,
+    "successes" : 3,
+    "acceptedTaskIds" : [ "0ede1a00-efe8-40dc-9b4e-d93d777dcfe3", "af486c3d-ce0d-4250-87a2-c15e34f8c9c7", "e7ce3c7c-3d50-4505-b0bc-54a30713b111", "a6f24f25-07ef-4914-9879-bf214446e29a" ],
+    "retryDecisions" : 2,
+    "physicalRequests" : 6
+  }
+}

@@ -1,0 +1,277 @@
+{
+  "artifactSha256": {
+    "analysis.json": "23430730b36d399b543fbb63ac0b9f993fa622c261e7e8c0d6479964d5421955",
+    "attempts.jsonl": "c3b6a163ea59601a6777b23480d97053010784f3aba48d43ce15394484c9b688",
+    "backlog-explain.txt": "4b682d331d7789388a83891a609941f9c63ba5264c0a86785b0ba841ec145977",
+    "clock-after.json": "0b8e7be965c75c0333603066572a39db4a80bcb8b4fab94ca2f11d7bd5593036",
+    "clock-before.json": "73148edcc1d4e9fde461516a5c89d465104fb1658fe1fd2ba0b1e390d8792117",
+    "configuration-ids.json": "06b243371fa279aa63eec386cce02a084e96b203874da10d515d78ec146580fe",
+    "docker-resources.jsonl": "63a2ca3c31562ee6a710648935e9d6946c86bb50fc411172d7de8203c62165d5",
+    "journal.jsonl": "a6386e5c56e09662b5fb0b7d084afd707a29f43e485bb2ff09bbc38c4e9334c1",
+    "manifest.json": "1eb112882781418495fa796d99f04c9919dca0d4afb7a92bf8d5e6e10e7d54f0",
+    "metric-inventory.json": "2288d070ea0c9ee1327788fcb070230a9385c0b600d2f75cb53482ce9fb7e075",
+    "mock-final.json": "911e43db8871d5dcf13175e2aa7eda4b1a340d47d2c0236d5c9d6c7a500da963",
+    "mock-start.json": "51bf27cb7106969a4e6ccec8a50d86dbcea94f9f6c04daeac55137e0115c237e",
+    "reconciliation.json": "f31865f6915a330b09d53b3ea44f2c660171d4b93a97c5b6d958c9914b44defd",
+    "requests.jsonl": "5d65510dce97c07a265fc4f81259762680c3a7b1c32ca6e40bb043666dea2515",
+    "resources.jsonl": "ebfa7b748bb60e0d9aba6ecd480e9eebbc2975347528cca7d0ba9c50cb53f0ee",
+    "tasks.jsonl": "5a9417d4f90c9a121c376a12fccd11430420a7f9ddc46aa2779b007ae6eb70d9",
+    "warmup-attempts.jsonl": "9db242c8f6e9ef1e47089d888ae8f09922d6554fc36933b192726670e79fb123",
+    "warmup-journal.jsonl": "01b555c0c1ceffa7ac97e98fc98a5aced71065ba27bcb2a08778d54558dce7c0",
+    "warmup-requests.jsonl": "6627d52f4c39359930ad2af8cb21c5521bcd92127d8bfa28fd6ab609e3842d70",
+    "warmup-tasks.jsonl": "f53b073cd9081b0c1ece517bde6aa2965de601605500d473a5e3024885a36406",
+    "warmup.json": "a03f415a6de6bb95d02e0dec1ec31cfd660eb123435d305216843f635be143f6",
+    "workload.json": "f3567f8df987d734485201fb2697d7f6908efa218bb8adfc2d909e98116ab441"
+  },
+  "auditedAt": "2026-10-13T07:38:28.079315+00:00",
+  "auditor": "independent test agent",
+  "backlogExplainIndexes": [
+    "task_active_backlog_idx"
+  ],
+  "checkpoint": "CP10",
+  "clockCalibration": [
+    {
+      "boundSeconds": 0.061287760734558105,
+      "offsetSeconds": 0.02694988250732422,
+      "phase": "clock-before.json",
+      "source": "postgres",
+      "uncertaintySeconds": 0.03433787822723389
+    },
+    {
+      "boundSeconds": 0.0011261701583862305,
+      "offsetSeconds": -0.0006337165832519531,
+      "phase": "clock-before.json",
+      "source": "mock",
+      "uncertaintySeconds": 0.0004924535751342773
+    },
+    {
+      "boundSeconds": 0.002317070960998535,
+      "offsetSeconds": -0.001230001449584961,
+      "phase": "clock-before.json",
+      "source": "jvm-0",
+      "uncertaintySeconds": 0.0010870695114135742
+    },
+    {
+      "boundSeconds": 0.05505168437957764,
+      "offsetSeconds": 0.024565696716308594,
+      "phase": "clock-after.json",
+      "source": "postgres",
+      "uncertaintySeconds": 0.030485987663269043
+    },
+    {
+      "boundSeconds": 0.0005080699920654297,
+      "offsetSeconds": -6.008148193359375e-05,
+      "phase": "clock-after.json",
+      "source": "mock",
+      "uncertaintySeconds": 0.00044798851013183594
+    },
+    {
+      "boundSeconds": 0.0007108449935913086,
+      "offsetSeconds": -0.00028228759765625,
+      "phase": "clock-after.json",
+      "source": "jvm-0",
+      "uncertaintySeconds": 0.0004285573959350586
+    }
+  ],
+  "counts": {
+    "accepted202": 3605,
+    "attempts": 3605,
+    "backlogRejected503": 3794,
+    "businessCalls": 3605,
+    "duplicates": 0,
+    "independentlyReconstructedWireBodyHashes": 3605,
+    "mainOAuthExchanges": 22,
+    "missingSends": 0,
+    "planned": 9000,
+    "rateLimited429": 1601,
+    "rejectedPersisted": 0,
+    "sideEffects": 3605,
+    "succeededTasks": 3605,
+    "warmupEvents": 100,
+    "warmupOAuthExchanges": 10
+  },
+  "failures": [],
+  "findings": [
+    "20rps and40rps stages accepted all offered events, but40rps accumulated backlog: acceptance is not proof of stable40rps delivery throughput.",
+    "At80rps backlog protection rejects excess; at160rps both rate and backlog protection act.",
+    "The shared provider3 slots at100ms configured latency is the intentional service bottleneck; use recorded physical arrivals and resource curves rather than extrapolating a production capacity.",
+    "Approximate admission backlog checking is not claimed as a globally exact distributed cap."
+  ],
+  "passed": true,
+  "privacy": {
+    "encodings": [
+      "raw",
+      "JSON",
+      "form",
+      "Base64",
+      "OAuth Basic"
+    ],
+    "forbiddenFieldMatches": 0,
+    "sensitiveSentinelMatches": 0,
+    "tokenBodyOrHashStored": false
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "resourceEvidence": {
+    "applicationErrors": 0,
+    "applicationSamples": 143,
+    "dockerErrors": 0,
+    "dockerSampledPeaks": {
+      "rc-haohui-cp10-all-1": {
+        "cpuPercent": 26.59,
+        "imageId": "sha256:9f5c22b8351d182d1e8389d3fb8e6f8761ecff88be34553be3db2612e85c45e4",
+        "memoryLimitBytes": 805306368,
+        "memoryPercent": 32.86,
+        "pids": 77,
+        "pidsLimit": 256
+      },
+      "rc-haohui-cp10-mock-1": {
+        "cpuPercent": 15.88,
+        "imageId": "sha256:4cf9c53939d5480f3193cc446a96e8f09fc6d8bf50d0d0543edb8e1800b6147c",
+        "memoryLimitBytes": 268435456,
+        "memoryPercent": 19.29,
+        "pids": 6,
+        "pidsLimit": 256
+      },
+      "rc-haohui-cp10-postgres-1": {
+        "cpuPercent": 22.05,
+        "imageId": "sha256:f5b4994b83ffb19ae39e02206b97d6b7dd565c8af3e743f697436008d53593bc",
+        "memoryLimitBytes": 805306368,
+        "memoryPercent": 13.16,
+        "pids": 14,
+        "pidsLimit": null
+      }
+    },
+    "dockerSamples": 21,
+    "noOom": true,
+    "peakInterpretation": "sampled maxima, not atomically collected continuous maxima",
+    "resourcesReleasedAfterDrain": true,
+    "sampledBacklogPeak": 500,
+    "sampledMetricPeaks": {
+      "hikaricp.connections.active": 3.0,
+      "hikaricp.connections.max": 10.0,
+      "hikaricp.connections.pending": 0.0,
+      "jvm.memory.max": 389283840.0,
+      "jvm.memory.used": 64410808.0,
+      "jvm.threads.live": 68.0,
+      "notification.http.connections.available|client:business": 0.0,
+      "notification.http.connections.available|client:token": 0.0,
+      "notification.http.connections.leased|client:business": 3.0,
+      "notification.http.connections.leased|client:token": 0.0,
+      "notification.http.connections.max|client:business": 10.0,
+      "notification.http.connections.max|client:token": 10.0,
+      "notification.http.connections.pending|client:business": 0.0,
+      "notification.http.connections.pending|client:token": 0.0,
+      "notification.http.execution.active|client:business": 3.0,
+      "notification.http.execution.active|client:token": 1.0,
+      "notification.http.execution.capacity|client:business": 10.0,
+      "notification.http.execution.capacity|client:token": 10.0,
+      "notification.http.execution.permits_used|client:business": 3.0,
+      "notification.http.execution.permits_used|client:token": 1.0,
+      "notification.http.execution.queued|client:business": 0.0,
+      "notification.http.execution.queued|client:token": 0.0,
+      "notification.oauth.cache.entries": 10.0,
+      "notification.oauth.inflight": 0.0,
+      "notification.oauth.leaders.active": 0.0,
+      "notification.oauth.leaders.capacity": 10.0,
+      "notification.queue.oldest_due.seconds": 18.066922,
+      "notification.queue.sample.age.seconds": 1.002655709,
+      "notification.queue.sample.success": 1.0,
+      "notification.tasks|status:failed": 0.0,
+      "notification.tasks|status:pending": 497.0,
+      "notification.tasks|status:processing": 3.0,
+      "notification.tasks|status:succeeded": 15815.0,
+      "notification.worker.active": 3.0,
+      "notification.worker.capacity": 10.0,
+      "notification.worker.provider.active.max": 3.0,
+      "notification.worker.provider.capacity": 3.0,
+      "notification.worker.provider.entries": 1.0,
+      "notification.worker.queued": 0.0,
+      "process.cpu.usage": 0.25555555555555554,
+      "system.cpu.usage": 0.2546483333333333
+    }
+  },
+  "runId": "pressure-001",
+  "scope": "OPS-04 pressure only; final CP10 requires other runs and deployment evidence",
+  "sourceHashesMatch": {
+    "scripts/perf/README.md": true,
+    "scripts/perf/analyze.py": true,
+    "scripts/perf/claim_audit.sql": true,
+    "scripts/perf/common.py": true,
+    "scripts/perf/mock_server.py": true,
+    "scripts/perf/run.py": true
+  },
+  "stages": [
+    {
+      "actualArrivalSpanSeconds": 29.94939112663269,
+      "actualBusinessArrivalsInWindow": 600,
+      "actualStarted": 600,
+      "businessArrivalsPerSecondInWindow": 20.0,
+      "lastSampledBacklogBeforeStageEnd": 3,
+      "planned": 600,
+      "responses": {
+        "202": 600
+      },
+      "rps": 20,
+      "sampledBacklogPeak": 5,
+      "scheduleLagP95Ms": 5.227082991041243,
+      "seconds": 30
+    },
+    {
+      "actualArrivalSpanSeconds": 29.973976850509644,
+      "actualBusinessArrivalsInWindow": 831,
+      "actualStarted": 1200,
+      "businessArrivalsPerSecondInWindow": 27.7,
+      "lastSampledBacklogBeforeStageEnd": 364,
+      "planned": 1200,
+      "responses": {
+        "202": 1200
+      },
+      "rps": 40,
+      "sampledBacklogPeak": 364,
+      "scheduleLagP95Ms": 5.1905830623582006,
+      "seconds": 30
+    },
+    {
+      "actualArrivalSpanSeconds": 29.984875202178955,
+      "actualBusinessArrivalsInWindow": 836,
+      "actualStarted": 2400,
+      "businessArrivalsPerSecondInWindow": 27.866666666666667,
+      "lastSampledBacklogBeforeStageEnd": 500,
+      "planned": 2400,
+      "responses": {
+        "202": 965,
+        "503": 1435
+      },
+      "rps": 80,
+      "sampledBacklogPeak": 500,
+      "scheduleLagP95Ms": 3.106500022113323,
+      "seconds": 30
+    },
+    {
+      "actualArrivalSpanSeconds": 29.992443084716797,
+      "actualBusinessArrivalsInWindow": 841,
+      "actualStarted": 4800,
+      "businessArrivalsPerSecondInWindow": 28.033333333333335,
+      "lastSampledBacklogBeforeStageEnd": 500,
+      "planned": 4800,
+      "responses": {
+        "202": 840,
+        "429": 1601,
+        "503": 2359
+      },
+      "rps": 160,
+      "sampledBacklogPeak": 500,
+      "scheduleLagP95Ms": 1.5769579913467169,
+      "seconds": 30
+    }
+  ],
+  "timing": {
+    "acceptedToFirstActualBusinessSendP95Seconds": 17.964835166931152,
+    "acceptedToReservationP95Seconds": 17.962639808654785,
+    "apiAcceptP95Ms": 4.720792057923973,
+    "drainAfterInputEndSeconds": 18.430155038833618,
+    "latencyInterpretation": "17.965s overload delivery wait is reported as measured; the baseline3s SLO is not asserted for input deliberately exceeding downstream capacity.",
+    "scheduleLagMaxMs": 14.574082917533815,
+    "scheduleLagP95Ms": 5.125582916662097
+  }
+}

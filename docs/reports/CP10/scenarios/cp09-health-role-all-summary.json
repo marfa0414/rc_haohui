@@ -1,0 +1,13 @@
+{
+  "livenessStayedUp" : true,
+  "pid" : 60711,
+  "invalidMigrationReadyStatus" : 503,
+  "supplierFailureReadyStatus" : 200,
+  "outageSubmissionStatus" : 503,
+  "missingTableReadyStatus" : 503,
+  "databaseDisconnectedAt" : "2026-10-13T07:18:54.599746Z",
+  "databaseRestoredAt" : "2026-10-13T07:18:54.706217Z",
+  "databaseFailureReadyStatus" : 503,
+  "role" : "all",
+  "acceptedTaskIds" : [ "f39a3e93-b00e-457b-b060-465b53736079", "f9373e3d-9ab2-4427-b934-327da41d975f" ]
+}

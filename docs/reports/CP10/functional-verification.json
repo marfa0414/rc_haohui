@@ -1,0 +1,22 @@
+{
+  "command": "CP04_TEST_SECRET and CP06 fixture environment; ./mvnw --batch-mode --no-transfer-progress clean verify; real PostgreSQL 127.0.0.1:55432/rc_test; local dependency cache",
+  "startedAt": "2026-10-13T15:13:16+08:00",
+  "finishedAt": "2026-10-13T15:19:39+08:00",
+  "exitCode": 0,
+  "suites": 51,
+  "totals": {
+    "tests": 531,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "mavenLogSha256": "81ed672b4587cb112cb891eae8f8e32c6a25e94e78779ea955c18bf6f68dee8b",
+  "verifiedScenarioCount": 330,
+  "javaAndTestInputsUnchangedDuringBuild": true,
+  "deploymentChangesDuringBuild": [
+    ".dockerignore",
+    "Dockerfile",
+    "compose.yaml",
+    "deploy/README.md"
+  ]
+}

@@ -1,0 +1,631 @@
+{
+  "scenario" : "cp09-dual-normal",
+  "observedAt" : "2026-10-13T07:14:31.643031Z",
+  "task" : {
+    "id" : "af76f4e9-a4f9-4c66-88c8-74d1804f9217",
+    "status" : "succeeded",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-13T15:16:30.972143+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null,
+    "auth_recovery_used" : false,
+    "auth_recovery_required" : false,
+    "auth_profile_id" : "2f0175b9-e21a-45f3-9291-24a6ec6182e8"
+  },
+  "attempts" : [ {
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "f8c5a0a3-ccbf-42ba-8701-60fb0c22e4d4",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "credential_version" : "fixture-v1",
+    "started_at" : "2026-10-13T15:14:30.995081+08:00",
+    "request_started_at" : "2026-10-13T15:14:31.00625+08:00",
+    "http_send_started_at" : "2026-10-13T15:14:31.012596+08:00",
+    "ended_at" : "2026-10-13T15:14:31.203048+08:00"
+  } ],
+  "processes" : [ {
+    "pid" : 60382,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 60382,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T07:14:25.563897Z"
+    }, {
+      "pid" : 60382,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T07:14:26.841013Z"
+    } ]
+  }, {
+    "pid" : 60386,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 60386,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T07:14:26.919923Z"
+    }, {
+      "pid" : 60386,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T07:14:28.048829Z"
+    } ]
+  }, {
+    "pid" : 60387,
+    "alive" : true,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 60387,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "0cafebda-891f-47b5-9881-ccda661d01d0",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "ee6d298c-2c86-4f5e-be7a-cfa7292197ee",
+      "observedAt" : "2026-10-13T07:14:30.991665Z",
+      "blocked" : false
+    }, {
+      "sequence" : 2,
+      "pid" : 60387,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "76b9ab25-228c-4bc0-b47a-aec38dc618f9",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "0d1706ec-f350-4b8a-9208-341b2d9d34ad",
+      "observedAt" : "2026-10-13T07:14:30.998792Z",
+      "blocked" : false
+    }, {
+      "sequence" : 3,
+      "pid" : 60387,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "0cafebda-891f-47b5-9881-ccda661d01d0",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "ee6d298c-2c86-4f5e-be7a-cfa7292197ee",
+      "observedAt" : "2026-10-13T07:14:31.009583Z",
+      "blocked" : false
+    }, {
+      "sequence" : 4,
+      "pid" : 60387,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "76b9ab25-228c-4bc0-b47a-aec38dc618f9",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "0d1706ec-f350-4b8a-9208-341b2d9d34ad",
+      "observedAt" : "2026-10-13T07:14:31.011268Z",
+      "blocked" : false
+    }, {
+      "sequence" : 5,
+      "pid" : 60387,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "0cafebda-891f-47b5-9881-ccda661d01d0",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "ee6d298c-2c86-4f5e-be7a-cfa7292197ee",
+      "observedAt" : "2026-10-13T07:14:31.017773Z",
+      "blocked" : false
+    }, {
+      "sequence" : 6,
+      "pid" : 60387,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "76b9ab25-228c-4bc0-b47a-aec38dc618f9",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "0d1706ec-f350-4b8a-9208-341b2d9d34ad",
+      "observedAt" : "2026-10-13T07:14:31.018693Z",
+      "blocked" : false
+    }, {
+      "sequence" : 7,
+      "pid" : 60387,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "76b9ab25-228c-4bc0-b47a-aec38dc618f9",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "0d1706ec-f350-4b8a-9208-341b2d9d34ad",
+      "observedAt" : "2026-10-13T07:14:31.200882Z",
+      "blocked" : false
+    }, {
+      "sequence" : 8,
+      "pid" : 60387,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "0cafebda-891f-47b5-9881-ccda661d01d0",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "ee6d298c-2c86-4f5e-be7a-cfa7292197ee",
+      "observedAt" : "2026-10-13T07:14:31.201318Z",
+      "blocked" : false
+    }, {
+      "sequence" : 9,
+      "pid" : 60387,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "a0262802-3409-4ac8-af13-c18a18116777",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "ffb2d0c8-17d6-4257-b4ab-d86d3f38bf78",
+      "observedAt" : "2026-10-13T07:14:31.215725Z",
+      "blocked" : false
+    }, {
+      "sequence" : 10,
+      "pid" : 60387,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "a7b64dee-1cbd-4e2a-812c-a663faac8237",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "8b829050-6ae4-4b27-986a-0ee03d2b02d4",
+      "observedAt" : "2026-10-13T07:14:31.218674Z",
+      "blocked" : false
+    }, {
+      "sequence" : 11,
+      "pid" : 60387,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "a0262802-3409-4ac8-af13-c18a18116777",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "ffb2d0c8-17d6-4257-b4ab-d86d3f38bf78",
+      "observedAt" : "2026-10-13T07:14:31.221596Z",
+      "blocked" : false
+    }, {
+      "sequence" : 12,
+      "pid" : 60387,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "a7b64dee-1cbd-4e2a-812c-a663faac8237",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "8b829050-6ae4-4b27-986a-0ee03d2b02d4",
+      "observedAt" : "2026-10-13T07:14:31.227063Z",
+      "blocked" : false
+    }, {
+      "sequence" : 13,
+      "pid" : 60387,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "a0262802-3409-4ac8-af13-c18a18116777",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "ffb2d0c8-17d6-4257-b4ab-d86d3f38bf78",
+      "observedAt" : "2026-10-13T07:14:31.227787Z",
+      "blocked" : false
+    }, {
+      "sequence" : 14,
+      "pid" : 60387,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "a0262802-3409-4ac8-af13-c18a18116777",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "ffb2d0c8-17d6-4257-b4ab-d86d3f38bf78",
+      "observedAt" : "2026-10-13T07:14:31.230289Z",
+      "blocked" : false
+    }, {
+      "sequence" : 15,
+      "pid" : 60387,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "a7b64dee-1cbd-4e2a-812c-a663faac8237",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "8b829050-6ae4-4b27-986a-0ee03d2b02d4",
+      "observedAt" : "2026-10-13T07:14:31.232673Z",
+      "blocked" : false
+    }, {
+      "sequence" : 16,
+      "pid" : 60387,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "a7b64dee-1cbd-4e2a-812c-a663faac8237",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "8b829050-6ae4-4b27-986a-0ee03d2b02d4",
+      "observedAt" : "2026-10-13T07:14:31.239739Z",
+      "blocked" : false
+    }, {
+      "sequence" : 17,
+      "pid" : 60387,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "6cdefea2-880d-4932-8194-c90349b7890b",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "cf696eeb-8a6b-41d7-8a70-9d3aabccadd3",
+      "observedAt" : "2026-10-13T07:14:31.249778Z",
+      "blocked" : false
+    }, {
+      "sequence" : 18,
+      "pid" : 60387,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "6cdefea2-880d-4932-8194-c90349b7890b",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "cf696eeb-8a6b-41d7-8a70-9d3aabccadd3",
+      "observedAt" : "2026-10-13T07:14:31.255693Z",
+      "blocked" : false
+    }, {
+      "sequence" : 19,
+      "pid" : 60387,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "4cb6f808-9937-4585-9955-d1c620237a36",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "863cf46f-3bde-4b88-b01b-05b07d6f120d",
+      "observedAt" : "2026-10-13T07:14:31.257763Z",
+      "blocked" : false
+    }, {
+      "sequence" : 20,
+      "pid" : 60387,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "6cdefea2-880d-4932-8194-c90349b7890b",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "cf696eeb-8a6b-41d7-8a70-9d3aabccadd3",
+      "observedAt" : "2026-10-13T07:14:31.260110Z",
+      "blocked" : false
+    }, {
+      "sequence" : 21,
+      "pid" : 60387,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "6cdefea2-880d-4932-8194-c90349b7890b",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "cf696eeb-8a6b-41d7-8a70-9d3aabccadd3",
+      "observedAt" : "2026-10-13T07:14:31.261883Z",
+      "blocked" : false
+    }, {
+      "sequence" : 22,
+      "pid" : 60387,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "4cb6f808-9937-4585-9955-d1c620237a36",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "863cf46f-3bde-4b88-b01b-05b07d6f120d",
+      "observedAt" : "2026-10-13T07:14:31.264994Z",
+      "blocked" : false
+    }, {
+      "sequence" : 23,
+      "pid" : 60387,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "4cb6f808-9937-4585-9955-d1c620237a36",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "863cf46f-3bde-4b88-b01b-05b07d6f120d",
+      "observedAt" : "2026-10-13T07:14:31.270539Z",
+      "blocked" : false
+    }, {
+      "sequence" : 24,
+      "pid" : 60387,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "4cb6f808-9937-4585-9955-d1c620237a36",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "863cf46f-3bde-4b88-b01b-05b07d6f120d",
+      "observedAt" : "2026-10-13T07:14:31.272424Z",
+      "blocked" : false
+    } ],
+    "lifecycle" : [ {
+      "pid" : 60387,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T07:14:28.051917Z"
+    }, {
+      "pid" : 60387,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T07:14:29.417780Z"
+    } ]
+  }, {
+    "pid" : 60388,
+    "alive" : true,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 60388,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "5b1dafe1-9f26-4535-807f-47797b67eec0",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "fb6c3b53-9769-474e-830f-e78b542d59c0",
+      "observedAt" : "2026-10-13T07:14:30.912446Z",
+      "blocked" : false
+    }, {
+      "sequence" : 2,
+      "pid" : 60388,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "5b1dafe1-9f26-4535-807f-47797b67eec0",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "fb6c3b53-9769-474e-830f-e78b542d59c0",
+      "observedAt" : "2026-10-13T07:14:30.926530Z",
+      "blocked" : false
+    }, {
+      "sequence" : 3,
+      "pid" : 60388,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "5b1dafe1-9f26-4535-807f-47797b67eec0",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "fb6c3b53-9769-474e-830f-e78b542d59c0",
+      "observedAt" : "2026-10-13T07:14:30.938892Z",
+      "blocked" : false
+    }, {
+      "sequence" : 4,
+      "pid" : 60388,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "af76f4e9-a4f9-4c66-88c8-74d1804f9217",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "f8c5a0a3-ccbf-42ba-8701-60fb0c22e4d4",
+      "observedAt" : "2026-10-13T07:14:30.989152Z",
+      "blocked" : false
+    }, {
+      "sequence" : 5,
+      "pid" : 60388,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "af76f4e9-a4f9-4c66-88c8-74d1804f9217",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "f8c5a0a3-ccbf-42ba-8701-60fb0c22e4d4",
+      "observedAt" : "2026-10-13T07:14:31.002826Z",
+      "blocked" : false
+    }, {
+      "sequence" : 6,
+      "pid" : 60388,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "af76f4e9-a4f9-4c66-88c8-74d1804f9217",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "f8c5a0a3-ccbf-42ba-8701-60fb0c22e4d4",
+      "observedAt" : "2026-10-13T07:14:31.011001Z",
+      "blocked" : false
+    }, {
+      "sequence" : 7,
+      "pid" : 60388,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "af76f4e9-a4f9-4c66-88c8-74d1804f9217",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "f8c5a0a3-ccbf-42ba-8701-60fb0c22e4d4",
+      "observedAt" : "2026-10-13T07:14:31.201325Z",
+      "blocked" : false
+    }, {
+      "sequence" : 8,
+      "pid" : 60388,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "5b1dafe1-9f26-4535-807f-47797b67eec0",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "fb6c3b53-9769-474e-830f-e78b542d59c0",
+      "observedAt" : "2026-10-13T07:14:31.201883Z",
+      "blocked" : false
+    }, {
+      "sequence" : 9,
+      "pid" : 60388,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "14891155-789f-408e-be75-f10c5948459b",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "3486f6da-e264-48ed-b5ee-18c8715aaac6",
+      "observedAt" : "2026-10-13T07:14:31.217027Z",
+      "blocked" : false
+    }, {
+      "sequence" : 10,
+      "pid" : 60388,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "56c6614e-656e-49a6-987c-c0332c1f0f22",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "d1ce2d6f-8bc2-40f3-a3e4-4e8eeea215d8",
+      "observedAt" : "2026-10-13T07:14:31.220294Z",
+      "blocked" : false
+    }, {
+      "sequence" : 11,
+      "pid" : 60388,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "14891155-789f-408e-be75-f10c5948459b",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "3486f6da-e264-48ed-b5ee-18c8715aaac6",
+      "observedAt" : "2026-10-13T07:14:31.224341Z",
+      "blocked" : false
+    }, {
+      "sequence" : 12,
+      "pid" : 60388,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "56c6614e-656e-49a6-987c-c0332c1f0f22",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "d1ce2d6f-8bc2-40f3-a3e4-4e8eeea215d8",
+      "observedAt" : "2026-10-13T07:14:31.228648Z",
+      "blocked" : false
+    }, {
+      "sequence" : 13,
+      "pid" : 60388,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "14891155-789f-408e-be75-f10c5948459b",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "3486f6da-e264-48ed-b5ee-18c8715aaac6",
+      "observedAt" : "2026-10-13T07:14:31.231796Z",
+      "blocked" : false
+    }, {
+      "sequence" : 14,
+      "pid" : 60388,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "14891155-789f-408e-be75-f10c5948459b",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "3486f6da-e264-48ed-b5ee-18c8715aaac6",
+      "observedAt" : "2026-10-13T07:14:31.235884Z",
+      "blocked" : false
+    }, {
+      "sequence" : 15,
+      "pid" : 60388,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "56c6614e-656e-49a6-987c-c0332c1f0f22",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "d1ce2d6f-8bc2-40f3-a3e4-4e8eeea215d8",
+      "observedAt" : "2026-10-13T07:14:31.237888Z",
+      "blocked" : false
+    }, {
+      "sequence" : 16,
+      "pid" : 60388,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "56c6614e-656e-49a6-987c-c0332c1f0f22",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "d1ce2d6f-8bc2-40f3-a3e4-4e8eeea215d8",
+      "observedAt" : "2026-10-13T07:14:31.240733Z",
+      "blocked" : false
+    }, {
+      "sequence" : 17,
+      "pid" : 60388,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "0d0a6d7b-838f-4da9-bce7-3bfcdc741c70",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "5ef9a8a9-9370-4264-b081-a188bd32764c",
+      "observedAt" : "2026-10-13T07:14:31.253267Z",
+      "blocked" : false
+    }, {
+      "sequence" : 18,
+      "pid" : 60388,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "cd28a25d-6dfc-41ed-8744-7c45673fcb90",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "f496e44c-4b07-4e1c-903b-f77f8f97d8a6",
+      "observedAt" : "2026-10-13T07:14:31.256421Z",
+      "blocked" : false
+    }, {
+      "sequence" : 19,
+      "pid" : 60388,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "0d0a6d7b-838f-4da9-bce7-3bfcdc741c70",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "5ef9a8a9-9370-4264-b081-a188bd32764c",
+      "observedAt" : "2026-10-13T07:14:31.259631Z",
+      "blocked" : false
+    }, {
+      "sequence" : 20,
+      "pid" : 60388,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "cd28a25d-6dfc-41ed-8744-7c45673fcb90",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "f496e44c-4b07-4e1c-903b-f77f8f97d8a6",
+      "observedAt" : "2026-10-13T07:14:31.265372Z",
+      "blocked" : false
+    }, {
+      "sequence" : 21,
+      "pid" : 60388,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "0d0a6d7b-838f-4da9-bce7-3bfcdc741c70",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "5ef9a8a9-9370-4264-b081-a188bd32764c",
+      "observedAt" : "2026-10-13T07:14:31.266406Z",
+      "blocked" : false
+    }, {
+      "sequence" : 22,
+      "pid" : 60388,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "0d0a6d7b-838f-4da9-bce7-3bfcdc741c70",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "5ef9a8a9-9370-4264-b081-a188bd32764c",
+      "observedAt" : "2026-10-13T07:14:31.267836Z",
+      "blocked" : false
+    }, {
+      "sequence" : 23,
+      "pid" : 60388,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "cd28a25d-6dfc-41ed-8744-7c45673fcb90",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "f496e44c-4b07-4e1c-903b-f77f8f97d8a6",
+      "observedAt" : "2026-10-13T07:14:31.270760Z",
+      "blocked" : false
+    }, {
+      "sequence" : 24,
+      "pid" : 60388,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "cd28a25d-6dfc-41ed-8744-7c45673fcb90",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "f496e44c-4b07-4e1c-903b-f77f8f97d8a6",
+      "observedAt" : "2026-10-13T07:14:31.272435Z",
+      "blocked" : false
+    } ],
+    "lifecycle" : [ {
+      "pid" : 60388,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T07:14:29.420530Z"
+    }, {
+      "pid" : 60388,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T07:14:30.660911Z"
+    } ]
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T07:14:30.955189Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "802f30a3f738b581b180b445c050384836ea1f1c8faf4034db7995673637cdbb"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.015124Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "75ad76728d889c57a21b416a655855e1641908ac0ef5f3d8d9299943ae0057e1"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.031728Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "e7a74b253698062421010552889bcf412f92dc5ed7954aac3ee7c491a8bd461c"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.031901Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "0f9b3ec941832182434eb85941bc875f312670bc9069887c2f2055739808bcfb"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.229532Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "8dd166051fd69f0cc9f46ce29f2c8b4948630c53650010b835e7ce81bb457ea0"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.235030Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "1337b08adbcd00296df1cc9c5a67e177166af7ca0dfda68684b33fca114fa1aa"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.239374Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "56c46f25cc19400056af807de29b082a919167ae39111d3202ea7c359f0d9b7d"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.240142Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "da21bacc9c01257f83f71b383091376c3c79cb4d9797eb94d277a73453b0e0a6"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.261312Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "1a57fc7597cb8e7755ece2f95b9758fda69e6aa4c499571a75bca6f09760c181"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.267479Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "a9256c081cd4aac24017c660a317468c7afce9fad17715049ca67dd6e143129b"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.271964Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "d7b798d259cdad8e66af3a13abb3ed093e390408dcbfe08faf5332cb27cdae01"
+  }, {
+    "receivedAt" : "2026-10-13T07:14:31.272003Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "7e9ee9c853189c891cf912e8ad6a1853f551c0310777b99ef6f9aa13b1ea4eef"
+  } ],
+  "sideEffects" : 12
+}

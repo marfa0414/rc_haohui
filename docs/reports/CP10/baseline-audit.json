@@ -1,0 +1,218 @@
+{
+  "artifactSha256": {
+    "analysis.json": "1d2818e9a3f14a89b734c69b7c08264376a3a7838a8175d017a9f97dc257cb84",
+    "attempts.jsonl": "19958fedeae4889c04d8002b6b88114676547d7f160dbf6a863f50c54b8eac4d",
+    "backlog-explain.txt": "e6a9d3184fc571357bf2d0d7c1246fa722782d44aa984e001b1b4ef28437e978",
+    "clock-after.json": "03be11b966fc7eef892982a0ee4b11c55d26ce50f6df5f2df31760718c3fa96b",
+    "clock-before.json": "eec7e080166a4ccb7e6a8da6fb2476aa25dae48d9b542339ab80348bfabebf32",
+    "configuration-ids.json": "57ffd3fd450b0c77170004ce5dd1e9c89380e4683a3cf74c3e07be436b9e4c99",
+    "docker-resources.jsonl": "8d4aeb9944f8d9aaaa9ebdc86961668b951d9457e3101e2a5683d2c6e77c3263",
+    "journal.jsonl": "ae9ad72865b07b36189e696009b78d6510bc2b7812728ee4a82627f8a2c03cb3",
+    "manifest.json": "1f64d84def0974b4e2134f028362c1f853bc43486d6bd8a36ffc5bfd9848a1b3",
+    "metric-inventory.json": "2288d070ea0c9ee1327788fcb070230a9385c0b600d2f75cb53482ce9fb7e075",
+    "mock-final.json": "2ab8b7ee4649fd97c3e0991285d4ac094202d1001d18d3e933d2a6c4b1b1bc40",
+    "mock-start.json": "ffe9a50d5c7ea6a51b08b7593adda114951497d2f334dedeca92eca481871fdd",
+    "reconciliation.json": "7446890814531d74ac770e0e795423de535e6bb679a9b8acd6b78079c79c24a8",
+    "requests.jsonl": "8953fbfd4e592f5d6bd5bbfc7807c2105216b7c006f098f1ad7102bce3851d05",
+    "resources.jsonl": "751e1d1248f23fb2ac919a6a5eb273efed9a6be6d9a2dee478601b259855a137",
+    "tasks.jsonl": "a8a93be65808712f1287be02237d70107928522452450be065e684d8761e6346",
+    "warmup-attempts.jsonl": "c7b5c54ab0b21d76ac9b671e1e1c775488f932ffb6510dfb458eb53e721e03f8",
+    "warmup-journal.jsonl": "8b78e0a5d89fa3fff0e7afcc82f7d777dc0c0a3c74b420aaae56598f7dc76839",
+    "warmup-requests.jsonl": "fb56e842edea86019fa9656b906b2a0f6fa8784ed208a3530c6753539abca40e",
+    "warmup-tasks.jsonl": "dd0a5ec8eb1f8a110cd8226638fd1f4d17554043a7166d8ba151b068ec11637a",
+    "warmup.json": "4b01d2a35608582195f6ca7f7d57ac1cd15e138b9af0aae69be981096348eb5c",
+    "workload.json": "9490d898869820eac943d0a589ce4d55a703f65a99b4db4004cd8aa8652d7bf4"
+  },
+  "auditedAt": "2026-10-13T07:35:44.523326+00:00",
+  "auditor": "independent test agent",
+  "backlogExplainIndexes": [
+    "task_active_backlog_idx"
+  ],
+  "checkpoint": "CP10",
+  "clockCalibration": [
+    {
+      "absoluteBoundSeconds": 0.0541689395904541,
+      "offsetSeconds": 0.023474931716918945,
+      "phase": "clock-before.json",
+      "source": "postgres",
+      "uncertaintySeconds": 0.030694007873535156
+    },
+    {
+      "absoluteBoundSeconds": 0.001537919044494629,
+      "offsetSeconds": -0.0010514259338378906,
+      "phase": "clock-before.json",
+      "source": "mock",
+      "uncertaintySeconds": 0.0004864931106567383
+    },
+    {
+      "absoluteBoundSeconds": 0.0026379823684692383,
+      "offsetSeconds": -0.0018079280853271484,
+      "phase": "clock-before.json",
+      "source": "jvm-0",
+      "uncertaintySeconds": 0.0008300542831420898
+    },
+    {
+      "absoluteBoundSeconds": 0.055274128913879395,
+      "offsetSeconds": 0.024344205856323242,
+      "phase": "clock-after.json",
+      "source": "postgres",
+      "uncertaintySeconds": 0.030929923057556152
+    },
+    {
+      "absoluteBoundSeconds": 0.0007082223892211914,
+      "offsetSeconds": -0.00022530555725097656,
+      "phase": "clock-after.json",
+      "source": "mock",
+      "uncertaintySeconds": 0.00048291683197021484
+    },
+    {
+      "absoluteBoundSeconds": 0.0012753009796142578,
+      "offsetSeconds": -0.0008642673492431641,
+      "phase": "clock-after.json",
+      "source": "jvm-0",
+      "uncertaintySeconds": 0.00041103363037109375
+    }
+  ],
+  "counts": {
+    "accepted202": 12000,
+    "attempts": 12000,
+    "businessCalls": 12000,
+    "databaseTasks": 12000,
+    "independentlyReconstructedWirePayloadHashes": 12000,
+    "mainOAuthExchanges": 120,
+    "planned": 12000,
+    "sideEffects": 12000,
+    "succeeded": 12000,
+    "warmup": 100,
+    "warmupOAuthExchanges": 10
+  },
+  "executionCompatibility": {
+    "analyzerPython": "3.12.14 (parent-reported successful analysis; independent audit also uses3.12.14)",
+    "auditorPython": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+    "collectorPython": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+    "knownCompatibilityFinding": "Python3.9 datetime.fromisoformat rejects PostgreSQL timestamps with five fractional digits. Collection data remain valid. Require Python3.11+ in final docs before final delivery; source remains frozen during this audit."
+  },
+  "failures": [],
+  "limitations": [
+    "No production capacity extrapolation from one host/one Worker baseline.",
+    "Real Token wait is included in actual business-send timestamps; reservation delay is reported separately.",
+    "Warmup and all missing/failed observations are not silently excluded.",
+    "This audit does not sign unfinished pressure, burst, or distributed recovery acceptance."
+  ],
+  "passed": true,
+  "privacy": {
+    "credentialSentinelMatches": 0,
+    "encodings": [
+      "raw",
+      "JSON escaped",
+      "form percent encoding",
+      "Base64",
+      "OAuth Basic form-encoded Base64"
+    ],
+    "forbiddenFieldMatches": 0,
+    "tokenEvidence": "time/path/status/sequence only, without token request body hash"
+  },
+  "resourceEvidence": {
+    "applicationErrors": 0,
+    "applicationSamples": 602,
+    "dockerErrors": 0,
+    "dockerSampledPeaks": {
+      "rc-haohui-cp10-all-1": {
+        "cpuPercent": 36.15,
+        "imageId": "sha256:9f5c22b8351d182d1e8389d3fb8e6f8761ecff88be34553be3db2612e85c45e4",
+        "memoryLimitBytes": 805306368,
+        "memoryPercent": 32.96,
+        "pids": 76,
+        "pidsLimit": 256
+      },
+      "rc-haohui-cp10-mock-1": {
+        "cpuPercent": 17.34,
+        "imageId": "sha256:4cf9c53939d5480f3193cc446a96e8f09fc6d8bf50d0d0543edb8e1800b6147c",
+        "memoryLimitBytes": 268435456,
+        "memoryPercent": 19.81,
+        "pids": 6,
+        "pidsLimit": 256
+      },
+      "rc-haohui-cp10-postgres-1": {
+        "cpuPercent": 16.51,
+        "imageId": "sha256:f5b4994b83ffb19ae39e02206b97d6b7dd565c8af3e743f697436008d53593bc",
+        "memoryLimitBytes": 805306368,
+        "memoryPercent": 10.9,
+        "pids": 13,
+        "pidsLimit": null
+      }
+    },
+    "dockerSamples": 87,
+    "peakInterpretation": "sampled maxima; metrics are individually queried, not atomic continuous maxima",
+    "releasedAfterDrain": true,
+    "sampledBacklogPeak": 5,
+    "sampledPeaks": {
+      "hikaricp.connections.active": 2.0,
+      "hikaricp.connections.max": 10.0,
+      "hikaricp.connections.pending": 0.0,
+      "jvm.memory.max": 389283840.0,
+      "jvm.memory.used": 64498368.0,
+      "jvm.threads.live": 68.0,
+      "notification.http.connections.available|client:business": 0.0,
+      "notification.http.connections.available|client:token": 0.0,
+      "notification.http.connections.leased|client:business": 3.0,
+      "notification.http.connections.leased|client:token": 2.0,
+      "notification.http.connections.max|client:business": 10.0,
+      "notification.http.connections.max|client:token": 10.0,
+      "notification.http.connections.pending|client:business": 0.0,
+      "notification.http.connections.pending|client:token": 0.0,
+      "notification.http.execution.active|client:business": 3.0,
+      "notification.http.execution.active|client:token": 2.0,
+      "notification.http.execution.capacity|client:business": 10.0,
+      "notification.http.execution.capacity|client:token": 10.0,
+      "notification.http.execution.permits_used|client:business": 3.0,
+      "notification.http.execution.permits_used|client:token": 2.0,
+      "notification.http.execution.queued|client:business": 0.0,
+      "notification.http.execution.queued|client:token": 0.0,
+      "notification.oauth.cache.entries": 20.0,
+      "notification.oauth.inflight": 2.0,
+      "notification.oauth.leaders.active": 2.0,
+      "notification.oauth.leaders.capacity": 10.0,
+      "notification.queue.oldest_due.seconds": 0.109068,
+      "notification.queue.sample.age.seconds": 1.004875125,
+      "notification.queue.sample.success": 1.0,
+      "notification.tasks|status:failed": 0.0,
+      "notification.tasks|status:pending": 3.0,
+      "notification.tasks|status:processing": 3.0,
+      "notification.tasks|status:succeeded": 12110.0,
+      "notification.worker.active": 3.0,
+      "notification.worker.capacity": 10.0,
+      "notification.worker.provider.active.max": 3.0,
+      "notification.worker.provider.capacity": 3.0,
+      "notification.worker.provider.entries": 1.0,
+      "notification.worker.queued": 0.0,
+      "process.cpu.usage": 0.19,
+      "system.cpu.usage": 0.190106
+    }
+  },
+  "runId": "baseline-001",
+  "scope": "OPS-03 baseline only; pressure/burst/recovery and final CP10 signature remain separate",
+  "sourceFilesMatched": {
+    "scripts/perf/README.md": true,
+    "scripts/perf/analyze.py": true,
+    "scripts/perf/claim_audit.sql": true,
+    "scripts/perf/common.py": true,
+    "scripts/perf/mock_server.py": true,
+    "scripts/perf/run.py": true
+  },
+  "timing": {
+    "actualArrivalSpanSeconds": 599.9486470222473,
+    "apiP95Ms": 6.606542000000104,
+    "drainAfterInputEndSeconds": 0.11642789840698242,
+    "firstActualBusinessSendP95Seconds": 0.0975799560546875,
+    "firstAttemptReservationP95Seconds": 0.0944681167602539,
+    "missingSends": 0,
+    "mockArrivalToDatabaseCompletionMinimumSeconds": 0.10014152526855469,
+    "negativeDelays": 0,
+    "plannedArrivalToResponseP95Ms": 12.321949005126953,
+    "plannedRps": 20,
+    "plannedSeconds": 600,
+    "scheduleLagMaxMs": 31.51241599999821,
+    "scheduleLagP95Ms": 9.564832999956252
+  }
+}

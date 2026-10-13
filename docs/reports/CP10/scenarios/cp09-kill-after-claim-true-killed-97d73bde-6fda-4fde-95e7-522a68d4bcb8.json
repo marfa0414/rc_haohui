@@ -1,0 +1,84 @@
+{
+  "scenario" : "cp09-kill-after-claim-true-killed",
+  "observedAt" : "2026-10-13T07:16:12.509021Z",
+  "task" : {
+    "id" : "97d73bde-6fda-4fde-95e7-522a68d4bcb8",
+    "status" : "processing",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "lease_token" : "1b253d6f-1b7d-417a-a512-60502a28d6a9",
+    "lease_until" : "2026-10-13T15:16:16.441028+08:00",
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-13T15:18:12.396042+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : null,
+    "auth_recovery_used" : false,
+    "auth_recovery_required" : false,
+    "auth_profile_id" : "19ea0c4b-4ebe-4865-a604-dee5ea5ab973"
+  },
+  "attempts" : [ ],
+  "processes" : [ {
+    "pid" : 60491,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 60491,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T07:16:08.420866Z"
+    }, {
+      "pid" : 60491,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T07:16:09.759194Z"
+    } ]
+  }, {
+    "pid" : 60494,
+    "alive" : false,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 60494,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "97d73bde-6fda-4fde-95e7-522a68d4bcb8",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "1b253d6f-1b7d-417a-a512-60502a28d6a9",
+      "observedAt" : "2026-10-13T07:16:12.446207Z",
+      "blocked" : true
+    } ],
+    "lifecycle" : [ {
+      "pid" : 60494,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T07:16:09.851556Z"
+    }, {
+      "pid" : 60494,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T07:16:11.133283Z"
+    }, {
+      "pid" : 60494,
+      "action" : "FORCE_KILL_SENT",
+      "observedAt" : "2026-10-13T07:16:12.504155Z"
+    }, {
+      "pid" : 60494,
+      "action" : "EXITED",
+      "observedAt" : "2026-10-13T07:16:12.508947Z",
+      "exitCode" : 137
+    } ]
+  }, {
+    "pid" : 60495,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 60495,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T07:16:11.137329Z"
+    }, {
+      "pid" : 60495,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T07:16:12.380150Z"
+    } ]
+  } ],
+  "httpCalls" : [ ],
+  "sideEffects" : 0
+}

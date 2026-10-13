@@ -1,0 +1,7 @@
+{
+  "rejectedRequests" : 60,
+  "auditBefore" : 7,
+  "auditAfter" : 7,
+  "scenario" : "cp08-management-role-matrix",
+  "observedAt" : "2026-10-13T07:13:40.449847Z"
+}

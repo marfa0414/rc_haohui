@@ -1,0 +1,59 @@
+{
+  "scenario" : "cp05-old-worker-new-round",
+  "observedAt" : "2026-10-13T07:18:06.680072Z",
+  "task" : {
+    "id" : "5cc19d7b-4d74-456a-afb3-184c6967df5c",
+    "run_number" : 2,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 2,
+    "status" : "succeeded",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T15:18:06.608163+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "5cc19d7b-4d74-456a-afb3-184c6967df5c",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "12e1a0a5-3bae-4cdb-88eb-4ae44b5bdb03",
+    "phase" : "COMPLETED",
+    "outcome" : "UNKNOWN",
+    "http_status" : null,
+    "error_code" : "LEASE_EXPIRED",
+    "started_at" : "2026-10-13T15:18:03.584503+08:00",
+    "ended_at" : "2026-10-13T15:18:06.593955+08:00",
+    "request_started_at" : "2026-10-13T15:18:03.587149+08:00",
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T15:18:05.584503+08:00"
+  }, {
+    "task_id" : "5cc19d7b-4d74-456a-afb3-184c6967df5c",
+    "run_number" : 2,
+    "attempt_no" : 1,
+    "lease_token" : "9202bcca-c510-4125-8609-13668ec1279f",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "started_at" : "2026-10-13T15:18:06.632551+08:00",
+    "ended_at" : "2026-10-13T15:18:06.63713+08:00",
+    "request_started_at" : "2026-10-13T15:18:06.634914+08:00",
+    "http_send_started_at" : "2026-10-13T15:18:06.63627+08:00",
+    "execution_deadline" : "2026-10-13T15:18:08.632551+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T07:18:03.588900Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "4ceedfdfd2e8530ba0de1521b170a63d8b82dbe18152e88935d32740b89af866"
+  }, {
+    "receivedAt" : "2026-10-13T07:18:06.636607Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "4ceedfdfd2e8530ba0de1521b170a63d8b82dbe18152e88935d32740b89af866"
+  } ]
+}

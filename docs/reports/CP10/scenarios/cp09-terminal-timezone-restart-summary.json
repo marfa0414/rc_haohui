@@ -1,0 +1,13 @@
+{
+  "physicalBusinessRequests" : 2,
+  "oldWorkerPid" : 60725,
+  "apiTimestampsUtc" : true,
+  "preservedTerminalTasks" : 2,
+  "oldJvmTimezone" : "Asia/Tokyo",
+  "newJvmTimezone" : "Pacific/Honolulu",
+  "newApiPid" : 60726,
+  "oldApiPid" : 60723,
+  "observedJdbcSessionTimezones" : [ "America/New_York", "America/New_York" ],
+  "newWorkerPid" : 60737,
+  "acceptedTaskIds" : [ "8816c140-9133-42de-b714-bf358ed6c998", "d2ed41fb-ef6c-46e5-a817-edc6a9072021" ]
+}

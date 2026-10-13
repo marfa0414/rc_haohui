@@ -1,0 +1,9 @@
+{
+  "automaticResponseDecompression" : false,
+  "expandedBytesAtPeer" : 131072,
+  "wireBytes" : 179,
+  "scenarioElapsedMillis" : 5,
+  "requests" : 1,
+  "callBudgetMillis" : 2000,
+  "path" : "token"
+}

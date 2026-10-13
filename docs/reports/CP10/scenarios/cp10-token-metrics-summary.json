@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp10-token-metrics",
+  "observedAt" : "2026-10-13T07:13:56.645716Z",
+  "observations" : {
+    "exchanges" : 2,
+    "exchangeFailures" : 1,
+    "physicalBusinessRequests" : 2,
+    "cacheHits" : 1,
+    "acceptedTaskIds" : [ "9e34a901-dbcf-4ab6-8cd2-5c389d1e80c1", "bda0eee2-049b-4427-9759-7cf8e1ae548c" ]
+  }
+}

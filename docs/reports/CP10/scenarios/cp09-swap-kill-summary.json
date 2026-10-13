@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp09-swap-kill-summary",
+  "observedAt" : "2026-10-13T07:18:01.831742Z",
+  "acceptedCount" : 14,
+  "durableTaskCount" : 14,
+  "httpCalls" : 20,
+  "acceptedTaskIds" : [ "e0f9729c-a29d-4e08-a364-8ab8c2425726", "0368757a-5711-4e01-bcb1-cde658b1ecaa", "2184df95-86f6-4c38-a66e-dc7ee62df5ca", "9e95be8a-a2f4-45f9-9a3e-2e0d0e0979e8", "f2c194d7-9cd1-46e5-acdf-e26ae8acc0bc", "76265e74-227d-4fc3-93f8-c8f112e67bd0", "33853a68-343f-4afd-8d62-b4b02f5acc42", "e1db813f-bd1f-42f1-8107-60d79a9f7735", "4d216909-b85a-43ae-bb75-b04331ef4c9e", "12051732-74a8-4755-9107-699b79071178", "dfe48a74-378d-4988-a6c1-204c7a7a9985", "a66fe7c2-600d-4caf-a2bc-9c16aef90f32", "0fa359cd-11c1-4b23-a455-27e860453f48", "94c302e5-c820-4ff4-91e3-a954296d635a" ],
+  "succeededCount" : 14,
+  "processIds" : [ 60658, 60661, 60662, 60666 ],
+  "sideEffects" : 14
+}

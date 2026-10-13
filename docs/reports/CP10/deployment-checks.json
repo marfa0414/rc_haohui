@@ -1,0 +1,114 @@
+{
+  "project": "rc-haohui-cp10",
+  "topologyAll": {
+    "composeUpWaitExitCode": 0,
+    "postgresHealthy": true,
+    "mockHealthy": true,
+    "applicationHealthy": true,
+    "migrateExitCode": 0
+  },
+  "repeatMigration": {
+    "command": "docker compose -p rc-haohui-cp10 run --rm --no-deps migrate",
+    "observedAt": "2026-10-13T07:21:04Z",
+    "exitCode": 0,
+    "schemaVersion": "6",
+    "result": "No migration necessary; MIGRATION_COMPLETED"
+  },
+  "roles": [
+    {
+      "role": "notification_migrator",
+      "superuser": false,
+      "createDb": false,
+      "createRole": false,
+      "replication": false
+    },
+    {
+      "role": "notification_app",
+      "superuser": false,
+      "createDb": false,
+      "createRole": false,
+      "replication": false
+    }
+  ],
+  "durability": {
+    "fsync": "on",
+    "synchronous_commit": "on",
+    "max_connections": 100
+  },
+  "smoke": {
+    "tenants": 10,
+    "accepted": 10,
+    "succeeded": 10,
+    "businessHttpCalls": 10,
+    "tokenHttpCalls": 10,
+    "evidenceDirectory": "smoke-001"
+  },
+  "distributedRoles": {
+    "api": {
+      "readyHttpStatus": 200,
+      "workerExecutorPresent": false,
+      "jarSha256": "d33b04553163b6d34ce64e37d25f1c4782f4ffa7fa07d6d71022191ab100dcdb"
+    },
+    "worker-1": {
+      "readyHttpStatus": 200,
+      "workerExecutorPresent": true,
+      "businessSubmissionHttpStatus": 404,
+      "jarSha256": "d33b04553163b6d34ce64e37d25f1c4782f4ffa7fa07d6d71022191ab100dcdb"
+    },
+    "worker-2": {
+      "readyHttpStatus": 200,
+      "workerExecutorPresent": true,
+      "businessSubmissionHttpStatus": 404,
+      "jarSha256": "d33b04553163b6d34ce64e37d25f1c4782f4ffa7fa07d6d71022191ab100dcdb"
+    }
+  },
+  "gracefulAllStop": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 143,
+    "Error": "",
+    "StartedAt": "2026-10-13T07:40:00.477586346Z",
+    "FinishedAt": "2026-10-13T07:42:43.548593047Z",
+    "Health": {
+      "Status": "unhealthy",
+      "FailingStreak": 0,
+      "Log": [
+        {
+          "Start": "2026-10-13T07:42:21.627932467Z",
+          "End": "2026-10-13T07:42:21.668090676Z",
+          "ExitCode": 0,
+          "Output": "{\"status\":\"UP\"}"
+        },
+        {
+          "Start": "2026-10-13T07:42:26.678357886Z",
+          "End": "2026-10-13T07:42:26.719434428Z",
+          "ExitCode": 0,
+          "Output": "{\"status\":\"UP\"}"
+        },
+        {
+          "Start": "2026-10-13T07:42:31.72566118Z",
+          "End": "2026-10-13T07:42:31.774490347Z",
+          "ExitCode": 0,
+          "Output": "{\"status\":\"UP\"}"
+        },
+        {
+          "Start": "2026-10-13T07:42:36.77509471Z",
+          "End": "2026-10-13T07:42:36.811511335Z",
+          "ExitCode": 0,
+          "Output": "{\"status\":\"UP\"}"
+        },
+        {
+          "Start": "2026-10-13T07:42:41.821576171Z",
+          "End": "2026-10-13T07:42:41.856622754Z",
+          "ExitCode": 0,
+          "Output": "{\"status\":\"UP\"}"
+        }
+      ]
+    }
+  }
+}

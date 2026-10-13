@@ -1,5 +1,7 @@
 app:
   mode: ${APP_MODE:all}
+  database:
+    migration-mode: ${DATABASE_MIGRATION_MODE:validate}
 
 server:
   port: ${SERVER_PORT:8080}
@@ -48,7 +50,7 @@ management:
   endpoints:
     web:
       exposure:
-        exclude: '*'
+        include: metrics
 
 logging:
   level:

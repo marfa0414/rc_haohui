@@ -1,0 +1,54 @@
+{
+  "java": {
+    "officialIndexSha256": "43f4431cc895d37ceb115e2e1f160545ec45caee9c1cb4246fc6bb879d58aeda",
+    "arm64ManifestSha256": "dfcfafa8207eb07cefd1e67e831d763cf2a5c8994ff64594c6dd95809fa52263",
+    "configSha256": "sha256:b47e391a25ce0ae941364216e273c7171bcb401c579c873bf18f7d4109fa4940",
+    "versionObserved": "Temurin 17.0.20.1+1",
+    "origin": "docker.io/library/eclipse-temurin:17-jdk-jammy",
+    "download": "mirror.gcr.io/library/eclipse-temurin",
+    "localBuildAlias": "rc-haohui-temurin:17.0.20.1-verified",
+    "localBuildAliasReason": "Registry timeout; mirror bytes match the fixed official index platform digest; base content unchanged",
+    "layers": [
+      {
+        "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+        "digest": "sha256:2ea2e315627a543238a7a365eba783401b8379861d62da1bf8d1506f5b14f136",
+        "size": 27684136
+      },
+      {
+        "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+        "digest": "sha256:7e5d715a0f93f705e98bdcad40d335d348c77f7c2a00f12be9c8a71567d5ef5b",
+        "size": 22084493
+      },
+      {
+        "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+        "digest": "sha256:9f7bb81cfba469c863dda0ad37169f4cac67610cb425c453a7c902a5cca1a173",
+        "size": 144656610
+      },
+      {
+        "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+        "digest": "sha256:5513c0a8ac4c4c8c75b3d76aeca0b4b3e79dd05409312400bb8bf7e1621afdb3",
+        "size": 160
+      },
+      {
+        "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+        "digest": "sha256:307a1ac57ddb20b86aa8a2e97c3ec86d299d0ad5224edc95ea43e3f0a48df9a2",
+        "size": 2465
+      }
+    ]
+  },
+  "python": {
+    "imageDigest": "sha256:6f7ffcbabc08539252eacc4b5f5982dc83f71ce53dff009c29f91ab4f8dd0ecf",
+    "version": "3.11.16",
+    "localBuildAlias": "rc-haohui-python:3.11.16-verified"
+  },
+  "manifestFiles": {
+    "temurin-index.json": "43f4431cc895d37ceb115e2e1f160545ec45caee9c1cb4246fc6bb879d58aeda",
+    "temurin-arm64.json": "dfcfafa8207eb07cefd1e67e831d763cf2a5c8994ff64594c6dd95809fa52263",
+    "temurin-config.json": "b47e391a25ce0ae941364216e273c7171bcb401c579c873bf18f7d4109fa4940"
+  },
+  "postgres": {
+    "imageDigest": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+    "versionObserved": "PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2), aarch64",
+    "localBuildAlias": "rc-haohui-pg-base:17.11-verified"
+  }
+}

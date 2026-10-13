@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp10-queue-sampling",
+  "observedAt" : "2026-10-13T07:13:51.220620Z",
+  "observations" : {
+    "oldestDueSecondsWithFutureExcluded" : 5.001254,
+    "onlyFutureDueSeconds" : 0,
+    "processing" : 1,
+    "acceptedTaskIds" : [ "81ed6986-11e9-4783-8076-6c430e5bd82e", "c9a6e209-c8e2-4535-bc4e-49dde1d24c35", "0d33bbf9-34df-44c2-bee6-6ef8129251e1" ],
+    "pending" : 2,
+    "sampleFailures" : 1,
+    "staleValuesRetained" : true
+  }
+}

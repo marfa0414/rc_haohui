@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp10-metrics-authorization",
+  "observedAt" : "2026-10-13T07:13:50.872523Z",
+  "observations" : {
+    "scannedMetricResponses" : 38,
+    "otherRolesDenied" : true,
+    "sensitiveMatches" : 0,
+    "adminAllowed" : true,
+    "acceptedTaskIds" : [ "8c4f490c-5673-4370-b05f-f4e27b05ae10" ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp10-live-resource-metrics",
+  "observedAt" : "2026-10-13T07:13:56.188503Z",
+  "observations" : {
+    "businessLeasedAtBarrier" : 1,
+    "remainingLeasesAndPermits" : 0,
+    "perClientMaximum" : 1,
+    "tokenLeasedAtBarrier" : 1,
+    "acceptedTaskIds" : [ "d985fd7b-e1a6-4b69-8d18-7c18f5d690cb" ]
+  }
+}

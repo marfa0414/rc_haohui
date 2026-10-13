@@ -1,0 +1,9 @@
+{
+  "scenario" : "cp07-half-open-cancel-after-reserve-authentication",
+  "observedAt" : "2026-10-13T07:14:44.232208Z",
+  "taskId" : "b78d2059-21a6-4001-896f-334d710a5e11",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ ]
+}

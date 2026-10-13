@@ -1,0 +1,17 @@
+{
+  "scenario" : "cp10-token-metrics-authentication",
+  "observedAt" : "2026-10-13T07:13:56.639976Z",
+  "taskId" : "bda0eee2-049b-4427-9759-7cf8e1ae548c",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:13:56.498512Z",
+    "method" : "POST",
+    "path" : "/token"
+  }, {
+    "receivedAt" : "2026-10-13T07:13:56.560268Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

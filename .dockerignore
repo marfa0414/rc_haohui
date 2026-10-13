@@ -1,0 +1,14 @@
+**
+!Dockerfile
+!target/
+target/**
+!target/notification-service-0.1.0-SNAPSHOT.jar
+!scripts/
+!scripts/perf/
+!scripts/perf/**
+scripts/perf/**/__pycache__/
+scripts/perf/**/*.pyc
+!deploy/
+!deploy/application-compose.yml
+!deploy/postgres/
+!deploy/postgres/init-roles.sh

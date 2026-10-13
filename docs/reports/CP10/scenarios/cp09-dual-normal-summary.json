@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp09-dual-normal-summary",
+  "observedAt" : "2026-10-13T07:14:31.826664Z",
+  "acceptedCount" : 12,
+  "durableTaskCount" : 12,
+  "httpCalls" : 12,
+  "acceptedTaskIds" : [ "5b1dafe1-9f26-4535-807f-47797b67eec0", "0cafebda-891f-47b5-9881-ccda661d01d0", "af76f4e9-a4f9-4c66-88c8-74d1804f9217", "76b9ab25-228c-4bc0-b47a-aec38dc618f9", "a0262802-3409-4ac8-af13-c18a18116777", "14891155-789f-408e-be75-f10c5948459b", "a7b64dee-1cbd-4e2a-812c-a663faac8237", "56c6614e-656e-49a6-987c-c0332c1f0f22", "6cdefea2-880d-4932-8194-c90349b7890b", "0d0a6d7b-838f-4da9-bce7-3bfcdc741c70", "cd28a25d-6dfc-41ed-8744-7c45673fcb90", "4cb6f808-9937-4585-9955-d1c620237a36" ],
+  "succeededCount" : 12,
+  "processIds" : [ 60382, 60386, 60387, 60388 ],
+  "sideEffects" : 12
+}

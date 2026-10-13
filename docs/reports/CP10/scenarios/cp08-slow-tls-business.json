@@ -1,0 +1,9 @@
+{
+  "elapsedMillis" : 305,
+  "sameClientCapacityReusable" : true,
+  "connections" : 1,
+  "physicalConnectionClosed" : true,
+  "budgetMillis" : 300,
+  "stage" : "tls",
+  "path" : "business"
+}

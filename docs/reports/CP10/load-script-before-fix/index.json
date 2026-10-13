@@ -1,0 +1,10 @@
+{
+  "run.py": {
+    "file": "run.py.txt",
+    "sha256": "1f6cd0ebfb9d613fc80a0e5429de0dfa4aafc252d9f6dd45582eca1165455a87"
+  },
+  "README.md": {
+    "file": "README.md.txt",
+    "sha256": "111dc5d7d749f474e675eeb5c04b04de4e17457a9940ca5c09ba9b6918bd5b5f"
+  }
+}

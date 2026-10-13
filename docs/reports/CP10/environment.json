@@ -1,0 +1,25 @@
+{
+  "collectedAt": "2026-10-13T07:26:27.443873+00:00",
+  "host": {
+    "cpu": "Apple M5",
+    "cpus": 10,
+    "memoryBytes": 17179869184,
+    "os": "26.3.1"
+  },
+  "docker": {
+    "ServerVersion": "29.7.2",
+    "Architecture": "aarch64",
+    "NCPU": 10,
+    "MemTotal": 8319504384,
+    "OperatingSystem": "Docker Desktop",
+    "OSType": "linux"
+  },
+  "compose": "5.4.0",
+  "images": {
+    "rc-haohui-notification:cp10": "sha256:9f5c22b8351d182d1e8389d3fb8e6f8761ecff88be34553be3db2612e85c45e4",
+    "rc-haohui-postgres:cp10": "sha256:f5b4994b83ffb19ae39e02206b97d6b7dd565c8af3e743f697436008d53593bc",
+    "rc-haohui-mock:cp10": "sha256:4cf9c53939d5480f3193cc446a96e8f09fc6d8bf50d0d0543edb8e1800b6147c"
+  },
+  "containerJavaVersion": "Temurin 17.0.20.1+1 (actual java -version)",
+  "hostJavaVersion": "Homebrew OpenJDK 17.0.20 (cumulative verification)"
+}

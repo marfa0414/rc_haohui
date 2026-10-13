@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-auth-cooldown-first-authentication",
+  "observedAt" : "2026-10-13T07:18:14.623389Z",
+  "taskId" : "9551cc24-7017-4ce8-901f-c9a7ae2ee393",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:18:14.557386Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

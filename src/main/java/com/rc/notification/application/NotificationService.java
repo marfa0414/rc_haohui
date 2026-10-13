@@ -6,6 +6,7 @@ import com.rc.notification.security.CallerPrincipal;
 import com.rc.notification.storage.NotificationRepository;
 import com.rc.notification.storage.DeliveryRepository;
 import com.rc.notification.worker.AttemptView;
+import com.rc.notification.observability.NotificationMetrics;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Objects;
@@ -23,12 +24,15 @@ public class NotificationService {
     private final DeliveryRepository deliveries;
     private final TransactionTemplate transaction;
     private final AdmissionGate admission;
+    private final NotificationMetrics metrics;
     public NotificationService(NotificationRepository repository, RequestSnapshotFactory snapshots,
-                               PlatformTransactionManager manager, DeliveryRepository deliveries, AdmissionGate admission) {
+                               PlatformTransactionManager manager, DeliveryRepository deliveries, AdmissionGate admission,
+                               NotificationMetrics metrics) {
         this.repository = repository;
         this.snapshots = snapshots;
         this.deliveries = deliveries;
         this.admission = admission;
+        this.metrics = metrics;
         transaction = new TransactionTemplate(manager);
         transaction.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
         transaction.setTimeout(10);
@@ -53,7 +57,7 @@ public class NotificationService {
         caller.requireSubmission(submission.tenantId(), submission.operation());
         admission.requireRateCapacity();
         // TransactionTemplate only returns after commit; a commit failure cannot produce HTTP 202.
-        return Objects.requireNonNull(transaction.execute(ignored -> {
+        Accepted accepted = Objects.requireNonNull(transaction.execute(ignored -> {
             var existing = repository.findEvent(submission);
             if (existing.isPresent()) return duplicate(existing.get(), submission);
             long backlog = repository.backlogCount(admission.backlogLimit());
@@ -71,6 +75,8 @@ public class NotificationService {
             return duplicate(repository.findEvent(submission).orElseThrow(() ->
                     new IllegalStateException("The concurrent accepted task is missing")), submission);
         }));
+        metrics.committed(accepted.deduplicated());
+        return accepted;
     }
 
     private Accepted duplicate(NotificationRepository.Existing existing, Submission submission) {

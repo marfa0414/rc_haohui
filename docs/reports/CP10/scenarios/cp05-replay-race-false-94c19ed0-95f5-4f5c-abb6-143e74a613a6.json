@@ -1,0 +1,40 @@
+{
+  "scenario" : "cp05-replay-race-false",
+  "observedAt" : "2026-10-13T07:18:11.563164Z",
+  "task" : {
+    "id" : "94c19ed0-95f5-4f5c-abb6-143e74a613a6",
+    "run_number" : 2,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 1,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T15:18:11.509387+08:00",
+    "deadline_at" : "2026-10-14T15:18:11.509387+08:00",
+    "last_outcome" : "HTTP_REJECTED",
+    "last_error_code" : "HTTP_REJECTED",
+    "last_http_status" : 400,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "94c19ed0-95f5-4f5c-abb6-143e74a613a6",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "44b234ac-9d60-4f40-81d6-d85d3dc22b36",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 400,
+    "error_code" : "HTTP_REJECTED",
+    "started_at" : "2026-10-13T15:18:09.595478+08:00",
+    "ended_at" : "2026-10-13T15:18:09.600495+08:00",
+    "request_started_at" : "2026-10-13T15:18:09.598183+08:00",
+    "http_send_started_at" : "2026-10-13T15:18:09.59959+08:00",
+    "execution_deadline" : "2026-10-13T15:18:11.595478+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T07:18:09.599975Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "fb8898972aadaeeb77fc9a4107ab6c1ff0c2faee4e2630e3ce75ec9fd0a5b42c"
+  } ]
+}

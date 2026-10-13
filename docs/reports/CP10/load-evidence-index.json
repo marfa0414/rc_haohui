@@ -1,0 +1,38 @@
+[
+  {
+    "runId": "smoke-001",
+    "archive": "smoke-001.tar.gz",
+    "bytes": 4570,
+    "sha256": "057d37bced9d79c26387f555cac694e6879817a001b8a4e3a761d6a792732d2e"
+  },
+  {
+    "runId": "baseline-001",
+    "archive": "baseline-001.tar.gz",
+    "bytes": 3758754,
+    "sha256": "eb8a0f908961ff800282d04b0f7907766a0ae26dfed4c5174d4b9980a27aff6e"
+  },
+  {
+    "runId": "pressure-001",
+    "archive": "pressure-001.tar.gz",
+    "bytes": 1384912,
+    "sha256": "601afb407b875cbbc45e7dda503c3c9a801b4f7eb1c9daf3e9a4a71c298e6b1e"
+  },
+  {
+    "runId": "burst-001",
+    "archive": "burst-001.tar.gz",
+    "bytes": 136369,
+    "sha256": "3a280b426cd81b86592d3ceafc5b8420a776ed22d336b99329e57b1b8c8f9531"
+  },
+  {
+    "runId": "burst-002",
+    "archive": "burst-002.tar.gz",
+    "bytes": 140216,
+    "sha256": "9bbbadec83a6b71171ddb01b7bc374859ce617465dad514af7a222d04f1f502b"
+  },
+  {
+    "runId": "recovery-001",
+    "archive": "recovery-001.tar.gz",
+    "bytes": 135052,
+    "sha256": "60c1728dc76d80d853260f516bdd4884c7e6a005c85bbcb13ef1ca45756f6d8a"
+  }
+]

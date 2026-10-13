@@ -1,0 +1,60 @@
+{
+  "scenario" : "cp05-unknown-false-recovered",
+  "observedAt" : "2026-10-13T07:15:01.752158Z",
+  "task" : {
+    "id" : "e59fad19-28be-45aa-b8b2-d79d3a906d40",
+    "run_number" : 1,
+    "run_attempt_count" : 2,
+    "total_attempt_count" : 2,
+    "status" : "succeeded",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T15:15:01.679452+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "e59fad19-28be-45aa-b8b2-d79d3a906d40",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "76fb04bc-7843-41bb-a8b3-bddf5b755cad",
+    "phase" : "COMPLETED",
+    "outcome" : "UNKNOWN",
+    "http_status" : null,
+    "error_code" : "HTTP_NETWORK",
+    "started_at" : "2026-10-13T15:15:01.692171+08:00",
+    "ended_at" : "2026-10-13T15:15:01.696769+08:00",
+    "request_started_at" : "2026-10-13T15:15:01.694611+08:00",
+    "http_send_started_at" : "2026-10-13T15:15:01.69585+08:00",
+    "execution_deadline" : "2026-10-13T15:15:03.692171+08:00"
+  }, {
+    "task_id" : "e59fad19-28be-45aa-b8b2-d79d3a906d40",
+    "run_number" : 1,
+    "attempt_no" : 2,
+    "lease_token" : "5c66bf23-ba1a-4f6c-a3e3-e17099e395ae",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "started_at" : "2026-10-13T15:15:01.731027+08:00",
+    "ended_at" : "2026-10-13T15:15:01.735145+08:00",
+    "request_started_at" : "2026-10-13T15:15:01.733067+08:00",
+    "http_send_started_at" : "2026-10-13T15:15:01.734385+08:00",
+    "execution_deadline" : "2026-10-13T15:15:03.731027+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T07:15:01.696232Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "254981ec50effa7aaa441e50969d99c115ba0f05de229620928aee1f36864680"
+  }, {
+    "receivedAt" : "2026-10-13T07:15:01.734785Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "254981ec50effa7aaa441e50969d99c115ba0f05de229620928aee1f36864680"
+  } ],
+  "sideEffects" : 2
+}
