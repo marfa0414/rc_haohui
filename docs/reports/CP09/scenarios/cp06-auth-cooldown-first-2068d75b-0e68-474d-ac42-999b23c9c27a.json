@@ -1,0 +1,35 @@
+{
+  "scenario" : "cp06-auth-cooldown-first",
+  "observedAt" : "2026-10-13T06:46:33.660648Z",
+  "task" : {
+    "id" : "2068d75b-0e68-474d-ac42-999b23c9c27a",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T14:46:34.610164+08:00",
+    "deadline_at" : "2026-10-14T14:46:33.593697+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : "TOKEN_SERVER_ERROR",
+    "last_http_status" : null,
+    "defer_reason" : "RETRY_BACKOFF"
+  },
+  "attempts" : [ {
+    "task_id" : "2068d75b-0e68-474d-ac42-999b23c9c27a",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "6a72f175-7739-47ae-bbf2-a498ee89bb48",
+    "phase" : "COMPLETED",
+    "outcome" : "NOT_SENT",
+    "http_status" : null,
+    "error_code" : "TOKEN_SERVER_ERROR",
+    "started_at" : "2026-10-13T14:46:33.606402+08:00",
+    "ended_at" : "2026-10-13T14:46:33.609698+08:00",
+    "request_started_at" : null,
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T14:46:35.606402+08:00"
+  } ],
+  "httpCalls" : [ ]
+}

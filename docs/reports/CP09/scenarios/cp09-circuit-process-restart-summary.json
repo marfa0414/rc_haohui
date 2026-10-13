@@ -1,0 +1,10 @@
+{
+  "acceptedTasks" : 12,
+  "deferredTasksPreserved" : 1,
+  "oldPid" : 58000,
+  "freshProcessCanSend" : true,
+  "businessRequests" : 11,
+  "newPid" : 58003,
+  "killedAt" : "2026-10-13T06:46:48.241126Z",
+  "acceptedTaskIds" : [ "111dccf7-2a23-4288-9397-fd36a4fd9310", "453f2d9b-7348-4b0e-ab98-deac2866a179", "f052da67-179a-4faa-a5bc-3b6a7de7f07c", "4d16bfbf-d8c7-409f-8f27-90eb7a951ca6", "65d25b88-d7b0-4405-a0dd-f7be69e94945", "a1aaeb2b-6ecf-417b-bcbb-c8f4bec0275a", "70f91d1e-b10b-448f-9e32-62144aa17603", "658c77c8-88ae-42d1-a17e-d0a6c69620f9", "c2f211e3-5978-42aa-ab48-8ef6b6431e77", "9c6abc61-d26c-4c41-b85e-d66b448a655d", "77da42e3-95da-46ca-beeb-8fcc1995072b", "2e1cddb0-49b8-463c-bba6-04916f25cbed" ]
+}

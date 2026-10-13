@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-auth-recovery-commit-window-authentication",
+  "observedAt" : "2026-10-13T06:46:39.236379Z",
+  "taskId" : "9f59e3f4-3bce-4be5-93c4-c7f6eb589698",
+  "runNumber" : 1,
+  "recoveryUsed" : true,
+  "recoveryRequired" : true,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T06:46:39.209785Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

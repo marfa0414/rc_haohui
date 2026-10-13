@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-token-expired-before-send-authentication",
+  "observedAt" : "2026-10-13T06:46:36.731348Z",
+  "taskId" : "1f4221da-1f23-466a-b843-8d7d7ee3ba9e",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T06:46:35.392575Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

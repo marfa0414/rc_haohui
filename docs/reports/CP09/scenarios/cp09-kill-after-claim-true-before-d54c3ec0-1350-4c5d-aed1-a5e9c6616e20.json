@@ -1,0 +1,75 @@
+{
+  "scenario" : "cp09-kill-after-claim-true-before",
+  "observedAt" : "2026-10-13T06:44:32.454167Z",
+  "task" : {
+    "id" : "d54c3ec0-1350-4c5d-aed1-a5e9c6616e20",
+    "status" : "processing",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "lease_token" : "15da12b6-45b7-4b5a-b327-86f9642f1eb5",
+    "lease_until" : "2026-10-13T14:44:36.404444+08:00",
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-13T14:46:32.356666+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : null,
+    "auth_recovery_used" : false,
+    "auth_recovery_required" : false,
+    "auth_profile_id" : "78f1714c-e8cd-4627-bd8a-c93809da302c"
+  },
+  "attempts" : [ ],
+  "processes" : [ {
+    "pid" : 57878,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 57878,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T06:44:28.443549Z"
+    }, {
+      "pid" : 57878,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T06:44:29.811994Z"
+    } ]
+  }, {
+    "pid" : 57879,
+    "alive" : true,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 57879,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "d54c3ec0-1350-4c5d-aed1-a5e9c6616e20",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "15da12b6-45b7-4b5a-b327-86f9642f1eb5",
+      "observedAt" : "2026-10-13T06:44:32.410497Z",
+      "blocked" : true
+    } ],
+    "lifecycle" : [ {
+      "pid" : 57879,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T06:44:29.905437Z"
+    }, {
+      "pid" : 57879,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T06:44:31.148937Z"
+    } ]
+  }, {
+    "pid" : 57880,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 57880,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T06:44:31.154090Z"
+    }, {
+      "pid" : 57880,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T06:44:32.343523Z"
+    } ]
+  } ],
+  "httpCalls" : [ ],
+  "sideEffects" : 0
+}

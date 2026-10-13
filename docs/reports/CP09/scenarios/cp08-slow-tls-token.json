@@ -1,0 +1,9 @@
+{
+  "budgetMillis" : 300,
+  "stage" : "tls",
+  "path" : "token",
+  "elapsedMillis" : 305,
+  "sameClientCapacityReusable" : true,
+  "connections" : 1,
+  "physicalConnectionClosed" : true
+}

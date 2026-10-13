@@ -1,0 +1,9 @@
+{
+  "budgetMillis" : 300,
+  "stage" : "headers",
+  "path" : "token",
+  "elapsedMillis" : 303,
+  "sameClientCapacityReusable" : true,
+  "connections" : 1,
+  "physicalConnectionClosed" : true
+}

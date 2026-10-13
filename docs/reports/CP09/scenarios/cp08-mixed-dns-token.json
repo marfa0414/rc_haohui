@@ -1,0 +1,8 @@
+{
+  "scenario" : "cp08-mixed-dns-token",
+  "observedAt" : "2026-10-13T06:42:08.812472Z",
+  "targetRole" : "token",
+  "observedCalls" : 0,
+  "observedConnections" : 0,
+  "dnsObservations" : [ "allowed-and-forbidden-A", "allowed-A-and-forbidden-AAAA", "forbidden-A-first" ]
+}

@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp09-kill-after-reserve-true-summary",
+  "observedAt" : "2026-10-13T06:44:44.594846Z",
+  "acceptedCount" : 1,
+  "durableTaskCount" : 1,
+  "httpCalls" : 1,
+  "acceptedTaskIds" : [ "25426ea8-baa0-4915-846d-c40e28ace3a9" ],
+  "succeededCount" : 1,
+  "processIds" : [ 57883, 57884 ],
+  "sideEffects" : 1
+}

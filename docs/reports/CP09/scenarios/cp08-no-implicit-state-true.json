@@ -1,0 +1,8 @@
+{
+  "scenario" : "cp08-no-implicit-state-true",
+  "observedAt" : "2026-10-13T06:42:08.807445Z",
+  "targetRole" : "token",
+  "observedCalls" : 2,
+  "observedConnections" : 0,
+  "dnsObservations" : [ ]
+}

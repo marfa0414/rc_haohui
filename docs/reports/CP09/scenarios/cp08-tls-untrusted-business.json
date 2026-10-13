@@ -1,0 +1,12 @@
+{
+  "originalHostAndSniVerified" : false,
+  "healthyTlsProbeRequests" : 1,
+  "httpRequests" : 0,
+  "sameClientCapacityReusable" : true,
+  "path" : "business",
+  "budgetMillis" : 4000,
+  "elapsedMillis" : 8,
+  "dnsResolutionsIncludingHealthyProbe" : 2,
+  "certificateKind" : "UNTRUSTED",
+  "certificateAccepted" : false
+}

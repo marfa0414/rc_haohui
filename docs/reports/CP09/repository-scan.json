@@ -1,0 +1,12 @@
+{
+  "scope": "source, scripts, examples and build configuration; common credential patterns only",
+  "filesScanned": 180,
+  "patterns": [
+    "private_key",
+    "github_token",
+    "slack_token",
+    "aws_key"
+  ],
+  "matches": [],
+  "limitations": "Pattern scan is not proof that every possible credential format is absent."
+}

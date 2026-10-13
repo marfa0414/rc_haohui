@@ -1,0 +1,52 @@
+{
+  "scenario" : "cp09-tenant-oauth-isolation",
+  "observedAt" : "2026-10-13T06:46:31.628050Z",
+  "task" : {
+    "id" : "6545a675-fde6-4298-bddf-6ecdf69436b8",
+    "tenant_id" : "tenant-a",
+    "auth_profile_id" : "d26b99fa-a5db-4527-bf90-88ae39520bb2",
+    "status" : "succeeded",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1
+  },
+  "attempts" : [ {
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "credential_version" : "fixture-oauth-v1",
+    "started_at" : "2026-10-13T14:46:31.556068+08:00",
+    "ended_at" : "2026-10-13T14:46:31.562344+08:00"
+  } ],
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T06:46:31.559010Z",
+    "method" : "POST",
+    "path" : "/token"
+  }, {
+    "receivedAt" : "2026-10-13T06:46:31.559515Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T06:46:31.561945Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "c2d7df4f4a6a089b471ab3311d6fcbd4136b4b6c51c550acb3c775f4ab424501"
+  }, {
+    "receivedAt" : "2026-10-13T06:46:31.574125Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "37e7b9dab08bbea46edd56f7800fe8dcfd131cefe71e27e3756063b901e39093"
+  }, {
+    "receivedAt" : "2026-10-13T06:46:31.590214Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "d247cb21c5a6f3ed8ecbd5bd777ac5336d45255554201268595eb3d587dd7d50"
+  }, {
+    "receivedAt" : "2026-10-13T06:46:31.591530Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "5e2d5d2a50b48426dadcc41c4aa7d3b1736acb59384e9b1cf1e1dc49c178e843"
+  } ]
+}

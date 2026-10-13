@@ -1,0 +1,10 @@
+{
+  "budgetMillis" : 2000,
+  "sameClientCapacityReusable" : true,
+  "bodyMode" : "endless",
+  "elapsedMillis" : 0,
+  "serverWrittenBytesBeforeClose" : 23713,
+  "status" : 200,
+  "physicalConnectionClosed" : true,
+  "declaredBodyBytes" : -1
+}

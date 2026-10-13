@@ -1,0 +1,7 @@
+{
+  "scenario" : "cp08-dns-used-once",
+  "observedAt" : "2026-10-13T06:42:08.809370Z",
+  "targetRole" : "business",
+  "observedCalls" : 1,
+  "dnsObservations" : [ "supplier.invalid=127.0.0.1", "supplier.invalid=127.0.0.2" ]
+}

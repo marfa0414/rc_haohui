@@ -1,0 +1,8 @@
+{
+  "scenario" : "cp08-rebound-private-token",
+  "observedAt" : "2026-10-13T06:42:08.780943Z",
+  "targetRole" : "token",
+  "observedCalls" : 0,
+  "observedConnections" : 0,
+  "dnsObservations" : [ "supplier.invalid=127.0.0.1" ]
+}
