@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-auth-cooldown-unreserved-authentication",
+  "observedAt" : "2026-10-13T08:02:29.079089Z",
+  "taskId" : "a160c866-8ada-499c-9b6b-7f62feceb2d8",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T08:02:28.996644Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

@@ -1,0 +1,78 @@
+{
+  "mode": "distributed",
+  "project": "rc-haohui-fresh",
+  "observedAt": "2026-10-13T08:08:16.605735+00:00",
+  "containers": [
+    {
+      "service": "api",
+      "id": "39e8e896b2e0ad927af63682022ba019163b754b65aead10a38b0245bc6902b7",
+      "image": "sha256:3cf2db4442fe1013e302998fc520550ad03e1f5ca69a037e0dff1b100c1e9a32",
+      "pid": 39879,
+      "healthy": true,
+      "health": {
+        "status": "UP"
+      },
+      "jarSha256": "b6ddb7de9174ccae56c17e9d1a36b0898dd386e733504a965498a1d25bb7a3f9",
+      "workerMetricsPresent": false,
+      "memoryLimitBytes": 805306368,
+      "pidsLimit": 256,
+      "readOnly": true
+    },
+    {
+      "service": "worker-1",
+      "id": "a987d51330c40428eca3ba7076c03641644fc23ab0cb068192b02dd42002b9f5",
+      "image": "sha256:3cf2db4442fe1013e302998fc520550ad03e1f5ca69a037e0dff1b100c1e9a32",
+      "pid": 39886,
+      "healthy": true,
+      "health": {
+        "status": "UP"
+      },
+      "jarSha256": "b6ddb7de9174ccae56c17e9d1a36b0898dd386e733504a965498a1d25bb7a3f9",
+      "workerMetricsPresent": true,
+      "memoryLimitBytes": 805306368,
+      "pidsLimit": 256,
+      "readOnly": true
+    },
+    {
+      "service": "worker-2",
+      "id": "32a33d001c43ecb97e6db95373479183ffd3864efbde61ff3a4103b4df8abc18",
+      "image": "sha256:3cf2db4442fe1013e302998fc520550ad03e1f5ca69a037e0dff1b100c1e9a32",
+      "pid": 39885,
+      "healthy": true,
+      "health": {
+        "status": "UP"
+      },
+      "jarSha256": "b6ddb7de9174ccae56c17e9d1a36b0898dd386e733504a965498a1d25bb7a3f9",
+      "workerMetricsPresent": true,
+      "memoryLimitBytes": 805306368,
+      "pidsLimit": 256,
+      "readOnly": true
+    }
+  ],
+  "roles": [
+    {
+      "rolname": "notification_migrator",
+      "rolsuper": false,
+      "rolcreatedb": false,
+      "rolcreaterole": false,
+      "rolreplication": false
+    },
+    {
+      "rolname": "notification_app",
+      "rolsuper": false,
+      "rolcreatedb": false,
+      "rolcreaterole": false,
+      "rolreplication": false
+    },
+    {
+      "app_schema_create": false,
+      "app_task_dml": true,
+      "app_task_delete": false,
+      "app_task_truncate": false
+    },
+    {
+      "migrations": 6
+    }
+  ],
+  "passed": true
+}

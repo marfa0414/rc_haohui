@@ -1,0 +1,21 @@
+{
+  "scenario" : "cp09-stale-defer-expired-unrecovered",
+  "observedAt" : "2026-10-13T07:59:32.342087Z",
+  "task" : {
+    "id" : "fb1c523b-1c9b-4981-8cdc-a9f3ba24c508",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "status" : "processing",
+    "lease_token" : "e8a1af6b-3759-48af-8e76-57666c2288a7",
+    "lease_until" : "2026-10-13T15:59:32.285146+08:00",
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T15:59:31.48336+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : null
+  },
+  "attempts" : [ ],
+  "httpCalls" : [ ]
+}

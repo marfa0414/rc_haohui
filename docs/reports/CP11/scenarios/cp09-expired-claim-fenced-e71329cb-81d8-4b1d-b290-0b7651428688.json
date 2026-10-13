@@ -1,0 +1,132 @@
+{
+  "scenario" : "cp09-expired-claim-fenced",
+  "observedAt" : "2026-10-13T08:01:59.853302Z",
+  "task" : {
+    "id" : "e71329cb-81d8-4b1d-b290-0b7651428688",
+    "status" : "succeeded",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-13T16:03:55.625699+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null,
+    "auth_recovery_used" : false,
+    "auth_recovery_required" : false,
+    "auth_profile_id" : "156df63b-d57f-4005-9f23-0e8e193a25e6"
+  },
+  "attempts" : [ {
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "c72018a2-c189-4324-b1a2-f195edddeaa5",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "credential_version" : "fixture-v1",
+    "started_at" : "2026-10-13T16:01:59.724633+08:00",
+    "request_started_at" : "2026-10-13T16:01:59.730637+08:00",
+    "http_send_started_at" : "2026-10-13T16:01:59.734835+08:00",
+    "ended_at" : "2026-10-13T16:01:59.752927+08:00"
+  } ],
+  "processes" : [ {
+    "pid" : 68176,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 68176,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:01:51.645935Z"
+    }, {
+      "pid" : 68176,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:01:52.956155Z"
+    } ]
+  }, {
+    "pid" : 68178,
+    "alive" : true,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 68178,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "e71329cb-81d8-4b1d-b290-0b7651428688",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "821c6238-0527-41fa-9347-a6cd16e3d7d5",
+      "observedAt" : "2026-10-13T08:01:55.666754Z",
+      "blocked" : true
+    } ],
+    "lifecycle" : [ {
+      "pid" : 68178,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:01:53.049138Z"
+    }, {
+      "pid" : 68178,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:01:54.311031Z"
+    } ]
+  }, {
+    "pid" : 68179,
+    "alive" : true,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 68179,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "e71329cb-81d8-4b1d-b290-0b7651428688",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "c72018a2-c189-4324-b1a2-f195edddeaa5",
+      "observedAt" : "2026-10-13T08:01:59.718091Z",
+      "blocked" : false
+    }, {
+      "sequence" : 2,
+      "pid" : 68179,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "e71329cb-81d8-4b1d-b290-0b7651428688",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "c72018a2-c189-4324-b1a2-f195edddeaa5",
+      "observedAt" : "2026-10-13T08:01:59.728208Z",
+      "blocked" : false
+    }, {
+      "sequence" : 3,
+      "pid" : 68179,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "e71329cb-81d8-4b1d-b290-0b7651428688",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "c72018a2-c189-4324-b1a2-f195edddeaa5",
+      "observedAt" : "2026-10-13T08:01:59.732685Z",
+      "blocked" : false
+    }, {
+      "sequence" : 4,
+      "pid" : 68179,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "e71329cb-81d8-4b1d-b290-0b7651428688",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "c72018a2-c189-4324-b1a2-f195edddeaa5",
+      "observedAt" : "2026-10-13T08:01:59.751119Z",
+      "blocked" : false
+    } ],
+    "lifecycle" : [ {
+      "pid" : 68179,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:01:54.313901Z"
+    }, {
+      "pid" : 68179,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:01:55.607648Z"
+    } ]
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T08:01:59.747974Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "9f101dbfcdcb50120b144d57ea424ff541614b4c471fce2fd1f8ccdc3c595727"
+  } ]
+}

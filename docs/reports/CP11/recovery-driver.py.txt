@@ -1,0 +1,53 @@
+import sys,json,time,pathlib,subprocess,os
+sys.path.insert(0,'scripts/perf')
+from common import request
+project='rc-haohui-fresh'
+root=pathlib.Path('.cache/perf/cp11-recovery-001')
+admin=os.environ['PERF_ADMIN_TOKEN']
+
+def docker(*args):
+ return subprocess.run(['docker',*args],check=True,capture_output=True,text=True,timeout=40).stdout.strip()
+
+def inspect(name):
+ fields='{{json .Id}} {{json .State.Pid}} {{json .State.Running}} {{json .Config.Image}} {{json .Config.Labels}}'
+ raw=docker('inspect',name,'--format','{{json .}}')
+ data=json.loads(raw)
+ labels=data['Config']['Labels']
+ assert labels.get('com.docker.compose.project')==project
+ assert data['Config']['Image']=='rc-haohui-notification:cp10'
+ return {'containerId':data['Id'],'pid':data['State']['Pid'],'running':data['State']['Running'],'exitCode':data['State']['ExitCode'],'startedAt':data['State']['StartedAt'],'finishedAt':data['State']['FinishedAt'],'service':labels['com.docker.compose.service'],'project':project}
+
+def record(value):
+ with (root/'lifecycle.jsonl').open('a') as f:
+  f.write(json.dumps(value,separators=(',',':'))+'\n');f.flush()
+
+until=time.monotonic()+90
+while not (root/'requests.jsonl').exists() or (root/'requests.jsonl').stat().st_size==0:
+ if time.monotonic()>until: raise RuntimeError('MAIN_INPUT_NOT_STARTED')
+ time.sleep(.1)
+for service,port in [('worker-1',18081),('worker-2',18082)]:
+ deadline=time.monotonic()+40
+ while True:
+  status,data=request('http://127.0.0.1:'+str(port),'GET','/actuator/metrics/notification.worker.active',token=admin,timeout=2)
+  active=next((m['value'] for m in data.get('measurements',[]) if m['statistic']=='VALUE'),0)
+  if status==200 and active>0: break
+  if time.monotonic()>deadline: raise RuntimeError('NO_IN_FLIGHT_'+service)
+  time.sleep(.05)
+ before=inspect(project+'-'+service+'-1')
+ assert before['running'] and before['pid']>0 and before['service']==service
+ at=time.time(); result=docker('kill','--signal','KILL',before['containerId'])
+ assert result==before['containerId']
+ after=inspect(project+'-'+service+'-1');assert not after['running']
+ record(dict(before,action='kill',observedAt=at,completedAt=time.time(),activeBefore=active,signal='SIGKILL',runningAfter=after['running'],exitCodeAfter=after['exitCode']))
+ at=time.time();docker('start',before['containerId'])
+ deadline=time.monotonic()+40
+ while True:
+  try:
+   status,_=request('http://127.0.0.1:'+str(port),'GET','/health/ready',timeout=2)
+   if status==200: break
+  except (ConnectionError,OSError): pass
+  if time.monotonic()>deadline: raise RuntimeError('RESTART_NOT_READY_'+service)
+  time.sleep(.2)
+ after=inspect(project+'-'+service+'-1'); assert after['running'] and after['pid']!=before['pid']
+ record(dict(after,action='restart',observedAt=at,healthyAt=time.time(),previousPid=before['pid']))
+ print(json.dumps({'service':service,'killActiveBefore':active,'oldPid':before['pid'],'newPid':after['pid'],'ready':True}),flush=True)

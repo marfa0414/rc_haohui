@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp10-live-resource-metrics-authentication",
+  "observedAt" : "2026-10-13T07:58:06.513354Z",
+  "taskId" : "af84fd1a-4caf-48dc-b0ec-e5e362e45745",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:58:06.477156Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

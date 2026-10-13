@@ -1,0 +1,10 @@
+{
+  "scenario" : "cp09-sigterm-timezones-summary",
+  "observedAt" : "2026-10-13T08:01:51.549760Z",
+  "acceptedCount" : 2,
+  "durableTaskCount" : 2,
+  "httpCalls" : 3,
+  "acceptedTaskIds" : [ "77a9b86c-598c-4b13-b93e-ce5ba33a88b2", "b679a30d-e182-4a7b-bfbd-f3e8ecf15e6a" ],
+  "succeededCount" : 2,
+  "processIds" : [ 68157, 68158 ]
+}

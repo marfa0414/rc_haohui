@@ -1,0 +1,8 @@
+{
+  "scenario" : "cp08-numeric-connector",
+  "observedAt" : "2026-10-13T07:57:49.401085Z",
+  "targetRole" : "transport",
+  "observedCalls" : 0,
+  "observedConnections" : 0,
+  "dnsObservations" : [ ]
+}

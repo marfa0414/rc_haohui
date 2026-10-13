@@ -1,0 +1,14 @@
+{
+  "scenario" : "cp09-business-method-put",
+  "observedAt" : "2026-10-13T07:58:50.305765Z",
+  "snapshotMethod" : "PUT",
+  "actualMethod" : "PUT",
+  "bodyBytes" : 120,
+  "snapshotBytesMatched" : true,
+  "supplierCredentialMatched" : true,
+  "internalBearerForwarded" : false,
+  "physicalRequests" : 1,
+  "attempts" : 1,
+  "status" : "succeeded",
+  "acceptedTaskIds" : [ "c0367699-afe0-475c-a6c9-02548e5a55af" ]
+}

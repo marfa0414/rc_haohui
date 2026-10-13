@@ -1,0 +1,11 @@
+{
+  "sameClientCapacityReusable" : true,
+  "callBudgetMillis" : 350,
+  "dnsResolutions" : 2,
+  "path" : "token",
+  "postDeadlineBusinessRequests" : 0,
+  "excessRejected" : 21,
+  "configuredCapacity" : 2,
+  "peakDnsCalls" : 2,
+  "scenarioElapsedMillis" : 357
+}

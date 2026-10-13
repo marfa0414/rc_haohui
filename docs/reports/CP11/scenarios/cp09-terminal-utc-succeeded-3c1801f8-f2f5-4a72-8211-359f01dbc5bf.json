@@ -1,0 +1,198 @@
+{
+  "scenario" : "cp09-terminal-utc-succeeded",
+  "observedAt" : "2026-10-13T08:03:28.324716Z",
+  "task" : {
+    "id" : "3c1801f8-f2f5-4a72-8211-359f01dbc5bf",
+    "status" : "succeeded",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-13T16:05:25.455162+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null,
+    "auth_recovery_used" : false,
+    "auth_recovery_required" : false,
+    "auth_profile_id" : "3cfed345-a55c-4d2c-88e0-d583900be0b1"
+  },
+  "attempts" : [ {
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "55e3bd3c-483a-415e-9689-e379141d7ba2",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "credential_version" : "fixture-v1",
+    "started_at" : "2026-10-13T16:03:25.484354+08:00",
+    "request_started_at" : "2026-10-13T16:03:25.489954+08:00",
+    "http_send_started_at" : "2026-10-13T16:03:25.495105+08:00",
+    "ended_at" : "2026-10-13T16:03:25.505395+08:00"
+  } ],
+  "processes" : [ {
+    "pid" : 68293,
+    "alive" : false,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 68293,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:03:22.711442Z"
+    }, {
+      "pid" : 68293,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:03:24.032250Z"
+    }, {
+      "pid" : 68293,
+      "action" : "FORCE_KILL_SENT",
+      "observedAt" : "2026-10-13T08:03:25.589373Z"
+    }, {
+      "pid" : 68293,
+      "action" : "EXITED",
+      "observedAt" : "2026-10-13T08:03:25.595144Z",
+      "exitCode" : 137
+    } ]
+  }, {
+    "pid" : 68300,
+    "alive" : false,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 68300,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "3c1801f8-f2f5-4a72-8211-359f01dbc5bf",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "55e3bd3c-483a-415e-9689-e379141d7ba2",
+      "observedAt" : "2026-10-13T08:03:25.480239Z",
+      "blocked" : false
+    }, {
+      "sequence" : 2,
+      "pid" : 68300,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "9d63755c-4341-4d5b-b07a-f5f94ab33bb1",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "e9807616-c427-4d07-be5e-39e4371f94ea",
+      "observedAt" : "2026-10-13T08:03:25.482060Z",
+      "blocked" : false
+    }, {
+      "sequence" : 3,
+      "pid" : 68300,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "3c1801f8-f2f5-4a72-8211-359f01dbc5bf",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "55e3bd3c-483a-415e-9689-e379141d7ba2",
+      "observedAt" : "2026-10-13T08:03:25.488694Z",
+      "blocked" : false
+    }, {
+      "sequence" : 4,
+      "pid" : 68300,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "9d63755c-4341-4d5b-b07a-f5f94ab33bb1",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "e9807616-c427-4d07-be5e-39e4371f94ea",
+      "observedAt" : "2026-10-13T08:03:25.489072Z",
+      "blocked" : false
+    }, {
+      "sequence" : 5,
+      "pid" : 68300,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "3c1801f8-f2f5-4a72-8211-359f01dbc5bf",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "55e3bd3c-483a-415e-9689-e379141d7ba2",
+      "observedAt" : "2026-10-13T08:03:25.493144Z",
+      "blocked" : false
+    }, {
+      "sequence" : 6,
+      "pid" : 68300,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "9d63755c-4341-4d5b-b07a-f5f94ab33bb1",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "e9807616-c427-4d07-be5e-39e4371f94ea",
+      "observedAt" : "2026-10-13T08:03:25.493531Z",
+      "blocked" : false
+    }, {
+      "sequence" : 7,
+      "pid" : 68300,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "3c1801f8-f2f5-4a72-8211-359f01dbc5bf",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "55e3bd3c-483a-415e-9689-e379141d7ba2",
+      "observedAt" : "2026-10-13T08:03:25.504874Z",
+      "blocked" : false
+    }, {
+      "sequence" : 8,
+      "pid" : 68300,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "9d63755c-4341-4d5b-b07a-f5f94ab33bb1",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "e9807616-c427-4d07-be5e-39e4371f94ea",
+      "observedAt" : "2026-10-13T08:03:25.505229Z",
+      "blocked" : false
+    } ],
+    "lifecycle" : [ {
+      "pid" : 68300,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:03:24.125312Z"
+    }, {
+      "pid" : 68300,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:03:25.407389Z"
+    }, {
+      "pid" : 68300,
+      "action" : "FORCE_KILL_SENT",
+      "observedAt" : "2026-10-13T08:03:25.583780Z"
+    }, {
+      "pid" : 68300,
+      "action" : "EXITED",
+      "observedAt" : "2026-10-13T08:03:25.589367Z",
+      "exitCode" : 137
+    } ]
+  }, {
+    "pid" : 68301,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 68301,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:03:25.598051Z"
+    }, {
+      "pid" : 68301,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:03:26.782535Z"
+    } ]
+  }, {
+    "pid" : 68303,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 68303,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:03:26.785080Z"
+    }, {
+      "pid" : 68303,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:03:28.105619Z"
+    } ]
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T08:03:25.502637Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "38289ccd8d89d82c4d891147af29d7bf18db70789f37fa104d649fbdd186430d"
+  }, {
+    "receivedAt" : "2026-10-13T08:03:25.502681Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "76de8cbfe4f3cab87a595f87715277349b946882a87a63fef58312d9c8845176"
+  } ]
+}

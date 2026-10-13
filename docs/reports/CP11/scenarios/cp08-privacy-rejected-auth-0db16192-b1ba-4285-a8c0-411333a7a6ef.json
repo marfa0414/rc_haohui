@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp08-privacy-rejected-authentication",
+  "observedAt" : "2026-10-13T07:57:48.915371Z",
+  "taskId" : "0db16192-b1ba-4285-a8c0-411333a7a6ef",
+  "runNumber" : 2,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:57:48.767444Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

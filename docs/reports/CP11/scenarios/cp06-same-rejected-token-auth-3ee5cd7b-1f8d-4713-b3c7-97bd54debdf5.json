@@ -1,0 +1,17 @@
+{
+  "scenario" : "cp06-same-rejected-token-authentication",
+  "observedAt" : "2026-10-13T08:02:37.695956Z",
+  "taskId" : "3ee5cd7b-1f8d-4713-b3c7-97bd54debdf5",
+  "runNumber" : 1,
+  "recoveryUsed" : true,
+  "recoveryRequired" : true,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T08:02:37.635920Z",
+    "method" : "POST",
+    "path" : "/token"
+  }, {
+    "receivedAt" : "2026-10-13T08:02:37.663671Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

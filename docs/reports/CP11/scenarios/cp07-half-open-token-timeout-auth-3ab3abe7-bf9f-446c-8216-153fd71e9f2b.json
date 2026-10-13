@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp07-half-open-token-timeout-authentication",
+  "observedAt" : "2026-10-13T07:58:53.631206Z",
+  "taskId" : "3ab3abe7-bf9f-446c-8216-153fd71e9f2b",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T07:58:53.461781Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

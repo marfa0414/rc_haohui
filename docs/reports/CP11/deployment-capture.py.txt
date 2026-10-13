@@ -1,0 +1,46 @@
+import datetime, hashlib, json, pathlib, subprocess, sys, urllib.request
+
+ROOT = pathlib.Path('/Users/Admin/Desktop/rc_haohui')
+FRESH = ROOT / '.cache/cp11-fresh-source'
+PROJECT = 'rc-haohui-fresh'
+mode = sys.argv[1]
+assert mode in ('all', 'distributed')
+
+def docker(*args):
+    return subprocess.run(['docker', *args], check=True, capture_output=True, text=True, timeout=45).stdout.strip()
+
+def get(port, path, auth=False):
+    headers = {'Authorization': 'Bearer rc-demo-admin-token'} if auth else {}
+    with urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:' + str(port) + path, headers=headers), timeout=5) as response:
+        assert response.status == 200
+        return json.loads(response.read(1048576))
+
+services = {'all':18080} if mode == 'all' else {'api':18080, 'worker-1':18081, 'worker-2':18082}
+result = {'mode':mode, 'project':PROJECT, 'observedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'containers':[], 'roles':[]}
+for service, port in services.items():
+    name = PROJECT + '-' + service + '-1'
+    data = json.loads(docker('inspect', name))[0]
+    assert data['Config']['Labels']['com.docker.compose.project'] == PROJECT
+    assert data['State']['Running'] and data['State']['Health']['Status'] == 'healthy'
+    health = get(port, '/health/ready')
+    inventory = get(port, '/actuator/metrics', True)['names']
+    worker = 'notification.worker.active' in inventory
+    assert worker == (service != 'api')
+    jar = docker('exec', name, 'sha256sum', '/app/notification-service.jar').split()[0]
+    expected = hashlib.sha256((FRESH/'target/notification-service-0.1.0-SNAPSHOT.jar').read_bytes()).hexdigest()
+    assert jar == expected
+    result['containers'].append({'service':service, 'id':data['Id'], 'image':data['Image'], 'pid':data['State']['Pid'], 'healthy':True, 'health':health, 'jarSha256':jar, 'workerMetricsPresent':worker, 'memoryLimitBytes':data['HostConfig']['Memory'], 'pidsLimit':data['HostConfig']['PidsLimit'], 'readOnly':data['HostConfig']['ReadonlyRootfs']})
+query = "SELECT row_to_json(x) FROM (SELECT rolname,rolsuper,rolcreatedb,rolcreaterole,rolreplication FROM pg_roles WHERE rolname IN ('notification_app','notification_migrator')) x; SELECT row_to_json(x) FROM (SELECT has_schema_privilege('notification_app','notifications','CREATE') AS app_schema_create,has_table_privilege('notification_app','notifications.notification_task','SELECT,INSERT,UPDATE') AS app_task_dml,has_table_privilege('notification_app','notifications.notification_task','DELETE') AS app_task_delete,has_table_privilege('notification_app','notifications.notification_task','TRUNCATE') AS app_task_truncate) x; SELECT row_to_json(x) FROM (SELECT count(*) AS migrations FROM notifications.flyway_schema_history WHERE success) x;"
+raw = docker('exec', PROJECT+'-postgres-1', 'psql','-U','notification_bootstrap','-d','notifications','-At','-v','ON_ERROR_STOP=1','-c',query)
+rows = [json.loads(x) for x in raw.splitlines() if x.startswith('{')]
+assert len(rows) == 4
+for row in rows[:2]:
+    assert not any(row[k] for k in ('rolsuper','rolcreatedb','rolcreaterole','rolreplication'))
+assert rows[2] == {'app_schema_create':False,'app_task_dml':True,'app_task_delete':False,'app_task_truncate':False}
+assert rows[3]['migrations'] == 6
+result['roles'] = rows
+result['passed'] = True
+path = ROOT/'docs/reports/CP11'/('deployment-'+mode+'.json')
+assert not path.exists()
+path.write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps({'mode':mode,'passed':True,'services':list(services),'output':str(path)}))

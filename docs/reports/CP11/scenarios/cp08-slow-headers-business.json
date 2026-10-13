@@ -1,0 +1,9 @@
+{
+  "path" : "business",
+  "elapsedMillis" : 304,
+  "sameClientCapacityReusable" : true,
+  "connections" : 1,
+  "physicalConnectionClosed" : true,
+  "budgetMillis" : 300,
+  "stage" : "headers"
+}

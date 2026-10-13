@@ -1,0 +1,12 @@
+{
+  "killedAt" : "2026-10-13T08:02:49.125492Z",
+  "newPid" : 68233,
+  "usedDifferentTokenAfterRestart" : true,
+  "tokenCalls" : 2,
+  "terminalStatus" : "succeeded",
+  "oldPid" : 68229,
+  "businessCalls" : 2,
+  "rejectedAgain" : false,
+  "committedPhase" : "AFTER_COMPLETION",
+  "acceptedTaskIds" : [ "57c1afef-9f28-4cab-b0a7-53f1dfb36785" ]
+}

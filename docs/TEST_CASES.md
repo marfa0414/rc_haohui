@@ -6,8 +6,8 @@
 | 依据 | [PRD v1.0](PRD.md) |
 | 配套文档 | [技术方案](TECHNICAL_DESIGN.md)、[开发检查点](CHECKPOINTS.md) |
 | 更新日期 | 2026-10-13 |
-| 当前阶段 | CP01–CP10 已完成，准备 CP11 |
-| 用例状态 | CP10 累计 531 次执行通过；部署、基线、压力、突发与恢复均已实测，95 个逻辑用例的最终矩阵留 CP11 核对 |
+| 当前阶段 | CP01–CP11 已完成 |
+| 用例状态 | 全新环境 531 次执行通过；95/95 逻辑用例、28/28 AT 独立验收 PASS，无失败、阻塞、未执行或隐藏跳过；逐项证据见 CP11 矩阵 |
 
 本文规定可观察结果、故障注入位置和验收证据，作为逐 checkpoint 开发与回归的依据。测试设计不等于测试结果；测试报告须在实际执行后单独生成。用户已确认方案并批准开发，实际结果见各阶段报告。
 
@@ -19,7 +19,7 @@
 
 类型缩写：U 为纯逻辑单元测试；I 为真实 PostgreSQL 集成测试；E 为 HTTP 端到端测试；F 为独立进程／网络故障测试；S 为安全测试；P 为性能或资源测试；R 为人工审阅。一个用例可有多个层次，不能用 U 替代其要求的 I/E/F 证据。
 
-以下表格是冻结的用例目录，不把执行实例数当作用例覆盖数。已执行子场景见 [CP01](reports/CP01/REPORT.md)、[CP02](reports/CP02/REPORT.md)、[CP03](reports/CP03/REPORT.md)、[CP04](reports/CP04/REPORT.md)、[CP05](reports/CP05/REPORT.md)、[CP06](reports/CP06/REPORT.md)、[CP07](reports/CP07/REPORT.md)、[CP08](reports/CP08/REPORT.md)、[CP09](reports/CP09/REPORT.md)；跨阶段用例必须补齐剩余证据才能最终标为 PASS。每个用例给出前置条件、操作和可判定断言；公共夹具见第 2 节。CP 编号与后端开发检查点一致。
+以下表格是冻结的用例目录，不把执行实例数当作用例覆盖数。已执行子场景见 [CP01](reports/CP01/REPORT.md)、[CP02](reports/CP02/REPORT.md)、[CP03](reports/CP03/REPORT.md)、[CP04](reports/CP04/REPORT.md)、[CP05](reports/CP05/REPORT.md)、[CP06](reports/CP06/REPORT.md)、[CP07](reports/CP07/REPORT.md)、[CP08](reports/CP08/REPORT.md)、[CP09](reports/CP09/REPORT.md)、[CP10](reports/CP10/REPORT.md)；跨阶段用例必须补齐剩余证据才能最终标为 PASS。每个用例给出前置条件、操作和可判定断言；公共夹具见第 2 节。CP 编号与后端开发检查点一致。
 
 95 项中，90 项计划仅依赖自动化证据，5 项同时需要人工审阅；其中 8 项涉及性能／资源验证，16 项涉及独立进程或网络故障。类型可交叉，后两项数量不与前两项相加。审阅项不是替代自动化的豁免。
 
@@ -48,19 +48,19 @@
 | 敏感标记 | 独特的假 Secret、Token、内部凭证、Body 敏感字符串，用于检查日志、API、预览、报告和快照泄露 |
 | 供应商幂等 | Mock 同时维护原始请求次数和按稳定事件标识去重后的业务副作用次数 |
 
-### 2.3 Mock 供应商控制协议（待实现的测试契约）
+### 2.3 Mock 供应商与控制设施
 
-下列接口只属于测试设施，命名可在 CP01 细化；不得暴露为生产管理功能。普通测试不依赖人工点击或真实第三方账户。
+控制能力已通过 Java 测试设施和独立负载 Mock 实现，不暴露为生产管理功能。Java 测试直接配置 handler 和屏障，独立 JVM 使用私有文件 IPC；未创建原设计草案中的 `/__control/scenarios` 等通用 HTTP 管理接口。普通测试不依赖人工点击或真实第三方账户。
 
-| 能力／建议控制接口 | 输入与输出 | 用途 |
+| 实际入口或设施 | 输入与输出 | 用途 |
 | --- | --- | --- |
-| `POST /__control/scenarios` | 按 scenarioId 配置业务／Token 响应序列、延迟、Headers、Body、默认剩余响应 | 500→200、429、401、Token 错误 |
-| `GET /__control/scenarios/{id}/journal` | 请求到达时刻、原始 Body 字节、允许记录的测试 Headers、连接计数、发送顺序、当前／最大在途数 | 字节比对、次数、并发隔离、是否提前重试 |
-| `POST /__control/barriers/{id}/release` | 释放「已收到请求」「已产生副作用」「发送响应前」等命名屏障 | 确定性控制竞态，避免猜测 sleep 时间 |
-| `GET /__control/scenarios/{id}/effects` | 原始请求次数与去重副作用次数 | 证明允许重复与供应商幂等的差异 |
-| `POST /__control/scenarios/{id}/reset` | 清除指定场景，不清理其他并行用例 | 隔离测试 |
-| Token 序列 | token-1/token-2、expires_in、合法或畸形错误、按上下文发行计数 | 获取合并、有效期、旧 401 竞态 |
-| 网络行为 | 收到并处理后断连、延迟响应、慢速响应、超大响应；必要时配合网络代理 | 结果未知、总超时与响应上限 |
+| `HttpMock.route` 与 `journal` | 配置业务/Token 序列；内存保留到达时刻、假值 Header 和原始 Body，归档仅输出允许字段和业务字节摘要 | 500→200、429、401、编码比对与调用次数 |
+| Java latch 与 `ProcessHarness.arm/release` | 真实请求、副作用和 Worker 命名阶段屏障；独立进程保留 PID 与阶段事件 | 确定性控制竞态、强杀窗口与恢复 |
+| 场景去重 ledger | 原始请求次数与按事件去重的副作用次数分别计数 | 证明允许重复与供应商幂等的差异 |
+| 每例独立 fixture/schema | 关闭并清理本例资源，不清理其他并行用例 | 数据与故障隔离 |
+| `OAuthFixture` / `OAuthTokenProtocolTest` | Token 序列、expires_in、合法/畸形错误、真实 Basic/Post、按上下文发行计数 | 获取合并、有效期、旧 401 竞态 |
+| `RawHttpPeer` / TLS fixture / `TcpFaultProxy` | 真实 socket/TLS/DB 网络上的断连、慢流、无限流、超大响应与连接关闭 | 结果未知、总超时、TLS 与资源上界 |
+| 负载 Mock `/control/reset`、`/control/start`、`/control/stats`、`/control/journal` | 配置有界场景、共同故障起点、资源/副作用计数及分页脱敏日志 | CP10 固定开放环负载；仅部署在隔离测试环境 |
 
 测试日志中只使用假凭据；出现在测试工件的 Mock journal 也应默认脱敏。需要原始假 Token 作断言的内存内容不输出到最终报告。
 
@@ -68,7 +68,7 @@
 
 纯逻辑测试使用可注入时钟和可复现随机源，验证退避范围、安全窗口与截止边界。SQL 租约和调度必须使用数据库时间；集成测试通过测试专用短时配置、屏障或受控设置测试任务到期时间推进场景，不能只修改 JVM 时钟就假定数据库时间也改变。
 
-故障配置必须满足 `Token 超时 < attempt 总上限 < 租约`，并为慢 CI 留出观测余量。例如快速故障测试可使用 1 秒 Token 超时、2 秒业务超时、4 秒 attempt、12 秒租约；具体数值在 CP01 校准并记录，不改变生产默认规则。基线压测使用记录在报告中的正常配置，不套用极短测试参数。
+故障配置必须满足 `Token 超时 < attempt 总上限 < 租约`，并为慢 CI 留出观测余量。例如快速故障测试可使用 1 秒 Token 超时、2 秒业务超时、4 秒 attempt、12 秒租约；具体覆盖值由各测试夹具和场景证据记录，不改变生产默认规则。基线压测使用记录在报告中的正常配置，不套用极短测试参数。
 
 需要以下仅测试可用的屏障：`afterTaskCommitBeforeResponse`、`afterClaimBeforeReserve`、`afterReserveBeforeSend`、`afterProviderResponseBeforeWriteback`、`beforeConditionalWriteback`。注入逻辑必须默认关闭，生产构建／配置无法被请求参数开启。进程崩溃测试在屏障到达后终止独立 Worker，并验证另一个 Worker 或重启进程恢复。
 
@@ -80,7 +80,7 @@
 
 | 场景 | 固定输入与配置 | 明确判据 |
 | --- | --- | --- |
-| Token 50 等待者（AUTH-03/11） | U 层使用独立 `TokenProvider` 的 50 个并发调用线程与屏障；E 层若要求50个同时执行attempt，显式将全局和该供应商槽位覆盖为50，HTTP/DB资源配置保持有界 | 不把默认10/3下排队的50个任务称为50个同时等待Token的线程；健康获取一次；失败等待有界，冷却窗内不逐个击穿 |
+| Token 50 等待者（AUTH-03/11） | 缓存层使用真实 `TokenCache` / `OAuthTokenClient` 的 50 个并发调用线程与 HTTP 屏障；E 层若要求50个同时执行attempt，显式将全局和该供应商槽位覆盖为50，HTTP/DB资源配置保持有界 | 不把默认10/3下排队的50个任务称为50个同时等待Token的线程；健康获取一次；失败等待有界，冷却窗内不逐个击穿 |
 | 供应商隔离（GUARD-05） | 单Worker，全局10、每组3、扫描100ms、业务超时2s；一次提交A组30条和B组10条，停止继续输入；A持续超时，B固定100ms返回200；观察20s | A在途≤3、总在途≤10；B首次HTTP开始均在5s内、10条B在10s内成功；进程待执行队列不超过显式配置上限；PG积压不要求自动为0，初始40条可按预算进入终态 |
 | 突发和恢复（OPS-05） | 单Worker，全局10、每组3；一次提交A/B各100条后停止输入；A前15s持续超时后切200/100ms，B始终200/100ms；扫描100ms、业务超时2s、退避基数100ms/上限1s、熔断冷却1s、最多12attempt、总期限120s；观察至60s | B全部在10s内成功；A恢复后到60s全部成功；全局/供应商在途不超10/3，进程队列和连接不超配置上限；实际发送不早于nextAttemptAt，所有已202任务可对账；报告积压峰值和排空时间 |
 
@@ -331,25 +331,23 @@
 
 ## 6 执行与报告契约
 
-当前 `./mvnw clean verify` 已实际运行并覆盖截至当前阶段的累计测试，报告位于 `docs/reports/CPxx/`。下列其余 make 命令仍为计划接口，不能当成已有脚本；最终 README、CI 与报告须使用实际可运行的命令，依赖缺失或断言失败必须返回非零。
+CP10 的 `clean verify` 已实际执行 51 个套件、531 个实例，失败、错误与跳过均为 0；原始 XML、场景和来源摘要归档在 `docs/reports/CP10/`。仓库使用下列实际入口，不提供未实现的 make 目标。先按[部署说明](../deploy/README.md)准备隔离的真实 PG、测试环境变量及本地假值，负载场景另按[负载说明](../scripts/perf/README.md)配置拓扑与预算。
 
 ```sh
-./mvnw verify
-make test-integration
-make test-e2e
-make test-fault
-make test-security
-make test-load-baseline
-make test-pressure
-make verify-all
+./scripts/verify.sh
+
+# Python 3.11+；run-id 必须唯一，不能覆盖旧证据。
+# 下列 nodes 对应单 all 基线；压力、突发与恢复分别按负载说明调整。
+python3 scripts/perf/run.py baseline --run-id baseline-review --nodes http://127.0.0.1:18080
+python3 scripts/perf/analyze.py .cache/perf/baseline-review
 ```
 
-- `verify` 应运行本地逻辑与约定的集成测试，若容器运行时不可用则明确失败／阻塞，不自动跳过PG测试。
-- `test-fault` 应自动启动独立进程，执行命名屏障、终止和恢复，输出AT12～AT16等窗口证据，不把人工模拟替代成一组mock函数调用。
-- `test-load-baseline` 必须按固定到达率产生流量，记录计划到达率、实际到达率、HTTP结果、超时、丢弃的负载迭代和排空结果。生成器容量不足导致低于20rps不能算达标。
-- `verify-all` 汇总测试清单，逐项检查95个用例与参数变体是否有执行证据，性能与人工审阅不因独立命令而遗忘。所有报告绑定同一候选提交和环境参数。
+- `scripts/verify.sh` 执行完整 `clean verify`，提供明确的测试假凭据并校验 JUnit 报告；真实 PG 缺失或断言失败返回非零，不自动跳过。`src/test` 中的独立进程套件启动真实 JVM，以屏障定位强杀/恢复窗口，归档 PID、数据库及 Mock 证据；故障控制面不进入生产 JAR。
+- `run.py` 固定开放环输入并记录每个计划事件、实际输入、返回、超时、注入器容量拒绝和排空。`analyze.py` 独立分析并以非零状态报告不达标；只完成采集不等于通过。压力、突发与双 Worker 恢复使用各自运行目录和参数，不能代替 20 rps/600 秒基线。
+- 正式突发发流器上限为 200，其余场景和预热仍为 128；修改前 `burst-001` 的 8 条本地容量拒绝及失败判定完整保留。应用资源上限、固定输入窗口和验收阈值未因此放宽。
+- CP11 在[验收矩阵](reports/CP11/ACCEPTANCE_MATRIX.md)与[机器可读映射](reports/CP11/acceptance-matrix.json)中，将 95 个逻辑用例、列明参数变体与 28 个 AT 逐项关联实际测试身份、负载和人工审阅。累计 531 个自动化实例不等于这份最终矩阵已经签署；所有证据必须说明源码版本、环境与适用范围。
 
-报告建议写入运行专用目录，例如 `reports/{runId}/`（待实现），至少包含：
+实际自动化输出为 `target/surefire-reports/` 与 `target/evidence/`，阶段归档在 `docs/reports/CPxx/`；负载原始数据在 `.cache/perf/{runId}/`，提交版保留压缩包、逐文件摘要和独立审计。报告至少包含：
 
 | 工件 | 必须记录 |
 | --- | --- |

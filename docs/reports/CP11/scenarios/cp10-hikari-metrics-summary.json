@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp10-hikari-metrics",
+  "observedAt" : "2026-10-13T07:58:05.801687Z",
+  "observations" : {
+    "cachedMetricsAvailableDuringExhaustion" : true,
+    "timeouts" : 1,
+    "observedPending" : 1,
+    "configuredMaximum" : 2,
+    "pendingAfterRelease" : 0
+  }
+}

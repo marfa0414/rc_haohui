@@ -1,0 +1,9 @@
+{
+  "baseCommit": "41d08c62b3b4aa59751ff2d42d89235d49aaed1c",
+  "directory": "/Users/Admin/Desktop/rc_haohui/.cache/cp11-fresh-source",
+  "archiveSha256": "2e7e438e3842be480993594ea2acb9dd5e0bee67df49efc739ab1ffa18eeed8f",
+  "preexistingDirectory": false,
+  "preexistingBuildOutput": false,
+  "dataVolumes": "New rc-haohui-fresh volumes; checked absent before creation",
+  "cachePolicy": "Existing Maven dependencies and digest-verified base images may be reused; no existing build output/database data reused"
+}

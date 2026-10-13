@@ -1,0 +1,18 @@
+{
+  "addedAfterBuildStarted": {
+    "README.md": "a6660a27fbccf32cd6c929fccc3c306ee029aae4490dc18fd70ccff7913afea5",
+    "docs/DEMO.md": "2a865f015ad26cf86cb5f6dac2d1123a00d5f0d2aa79109fe52423e6be6632a5",
+    "scripts/demo.py": "4285fdb7e2130dd82679a0517e51525fa154fd81d20f3f7c1e3c4b2e44a9ce4f",
+    ".gitignore": "0c1d60ebf6e52c2fcd521456965009624e9ab5b01bceb49e9a777e4384d8e38a",
+    "docs/PRD.md": "519665d097ba0127f2f4732ccb6a8bce911260b0eba015a6566f4a005b080ecc",
+    "docs/TECHNICAL_DESIGN.md": "f0dbf1c2a7765b474520e613715f374ccada74e03cd07f3a486844123b74ef11",
+    "docs/TEST_CASES.md": "3ed97fbfc886fd878e07af8a9a4ed47160071b4c8af567ed75a08a5167d27f64",
+    "AI_USAGE.md": "9e23e598f6ad833283a24da01d7f137af5e7dc148913cf8875eebcf1fdc6c6a8"
+  },
+  "reason": "Documentation and standalone demo only; Maven inputs src/pom/.mvn unchanged",
+  "finalDemoInputs": {
+    "README.md": "71e07ffd5c13bda6069b28d7ffa85a75c3e8e27915b2a01339a6b1f62c528b66",
+    "docs/DEMO.md": "0f53b101dfafe691b8828e64072dbcd8bc9d9a75abc00855794dda673fc1c96d",
+    "scripts/demo.py": "b3866c9916d906fa01e0ebb5160e6851838681753853462f25b104196268c0c2"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "scenario" : "cp09-expired-claim-fenced-summary",
+  "observedAt" : "2026-10-13T08:01:59.893216Z",
+  "acceptedCount" : 1,
+  "durableTaskCount" : 1,
+  "httpCalls" : 1,
+  "acceptedTaskIds" : [ "e71329cb-81d8-4b1d-b290-0b7651428688" ],
+  "succeededCount" : 1,
+  "processIds" : [ 68178, 68179 ]
+}

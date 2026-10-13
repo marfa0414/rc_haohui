@@ -1,0 +1,11 @@
+{
+  "capturedLogEvents" : 4,
+  "scannedPublicResponses" : 8,
+  "scannedTasks" : 1,
+  "sensitiveValueMatches" : 0,
+  "tokenCalls" : 1,
+  "businessCalls" : 0,
+  "replayAuditRows" : 1,
+  "scenario" : "cp08-redaction-true",
+  "observedAt" : "2026-10-13T07:57:49.359701Z"
+}

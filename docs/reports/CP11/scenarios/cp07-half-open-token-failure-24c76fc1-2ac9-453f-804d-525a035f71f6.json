@@ -1,0 +1,35 @@
+{
+  "scenario" : "cp07-half-open-token-failure",
+  "observedAt" : "2026-10-13T07:58:52.442160Z",
+  "task" : {
+    "id" : "24c76fc1-2ac9-453f-804d-525a035f71f6",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "failed",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T15:58:52.252132+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : "TOKEN_SERVER_ERROR",
+    "last_http_status" : null,
+    "defer_reason" : "ATTEMPTS_EXHAUSTED"
+  },
+  "attempts" : [ {
+    "task_id" : "24c76fc1-2ac9-453f-804d-525a035f71f6",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "a6d192f2-34bb-4159-b37d-83bb8c1d0098",
+    "phase" : "COMPLETED",
+    "outcome" : "NOT_SENT",
+    "http_status" : null,
+    "error_code" : "TOKEN_SERVER_ERROR",
+    "started_at" : "2026-10-13T15:58:52.407851+08:00",
+    "ended_at" : "2026-10-13T15:58:52.412179+08:00",
+    "request_started_at" : null,
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T15:58:54.407851+08:00"
+  } ],
+  "httpCalls" : [ ]
+}

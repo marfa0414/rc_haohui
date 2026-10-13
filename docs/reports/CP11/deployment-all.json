@@ -1,0 +1,48 @@
+{
+  "mode": "all",
+  "project": "rc-haohui-fresh",
+  "observedAt": "2026-10-13T08:07:26.191537+00:00",
+  "containers": [
+    {
+      "service": "all",
+      "id": "0a441af5bbe42a7b66406c14603c71b458217eb4aedda2d70ec24558cd9cd1c6",
+      "image": "sha256:3cf2db4442fe1013e302998fc520550ad03e1f5ca69a037e0dff1b100c1e9a32",
+      "pid": 34526,
+      "healthy": true,
+      "health": {
+        "status": "UP"
+      },
+      "jarSha256": "b6ddb7de9174ccae56c17e9d1a36b0898dd386e733504a965498a1d25bb7a3f9",
+      "workerMetricsPresent": true,
+      "memoryLimitBytes": 805306368,
+      "pidsLimit": 256,
+      "readOnly": true
+    }
+  ],
+  "roles": [
+    {
+      "rolname": "notification_migrator",
+      "rolsuper": false,
+      "rolcreatedb": false,
+      "rolcreaterole": false,
+      "rolreplication": false
+    },
+    {
+      "rolname": "notification_app",
+      "rolsuper": false,
+      "rolcreatedb": false,
+      "rolcreaterole": false,
+      "rolreplication": false
+    },
+    {
+      "app_schema_create": false,
+      "app_task_dml": true,
+      "app_task_delete": false,
+      "app_task_truncate": false
+    },
+    {
+      "migrations": 6
+    }
+  ],
+  "passed": true
+}

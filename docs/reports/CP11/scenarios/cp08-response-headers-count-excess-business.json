@@ -1,0 +1,11 @@
+{
+  "sameClientCapacityReusable" : true,
+  "budgetMillis" : 2000,
+  "path" : "business",
+  "physicalConnectionClosed" : true,
+  "elapsedMillis" : 1,
+  "shape" : "count-excess",
+  "accepted" : false,
+  "fieldCount" : 101,
+  "headerFieldBytes" : 912
+}

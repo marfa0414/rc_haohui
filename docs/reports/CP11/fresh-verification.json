@@ -1,0 +1,23 @@
+{
+  "exitCode": 0,
+  "totals": {
+    "tests": 531,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": 51,
+  "scenarios": 330,
+  "buildLogSha256": "2048b8a3794205c1493c65054a591c8039f30e4a84356b628411728fcd469a13",
+  "buildLogSummary": [
+    "[INFO] Tests run: 531, Failures: 0, Errors: 0, Skipped: 0",
+    "[INFO] BUILD SUCCESS",
+    "[INFO] Total time:  06:35 min",
+    "[INFO] Finished at: 2026-10-13T16:03:57+08:00"
+  ],
+  "unchangedJavaAndMavenInputs": true,
+  "otherBuildInputChanges": [
+    ".gitignore"
+  ],
+  "jarSha256": "b6ddb7de9174ccae56c17e9d1a36b0898dd386e733504a965498a1d25bb7a3f9"
+}

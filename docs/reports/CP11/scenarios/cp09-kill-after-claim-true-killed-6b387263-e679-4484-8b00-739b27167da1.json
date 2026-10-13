@@ -1,0 +1,84 @@
+{
+  "scenario" : "cp09-kill-after-claim-true-killed",
+  "observedAt" : "2026-10-13T08:00:23.446682Z",
+  "task" : {
+    "id" : "6b387263-e679-4484-8b00-739b27167da1",
+    "status" : "processing",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "lease_token" : "a74e2605-fd0d-422f-8a9e-e0937e9b7cd1",
+    "lease_until" : "2026-10-13T16:00:27.352785+08:00",
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-13T16:02:23.297646+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : null,
+    "auth_recovery_used" : false,
+    "auth_recovery_required" : false,
+    "auth_profile_id" : "3bc81ccd-66d8-4616-8304-5fe702ece132"
+  },
+  "attempts" : [ ],
+  "processes" : [ {
+    "pid" : 68071,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 68071,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:00:18.636288Z"
+    }, {
+      "pid" : 68071,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:00:19.899569Z"
+    } ]
+  }, {
+    "pid" : 68072,
+    "alive" : false,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 68072,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "6b387263-e679-4484-8b00-739b27167da1",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "a74e2605-fd0d-422f-8a9e-e0937e9b7cd1",
+      "observedAt" : "2026-10-13T08:00:23.361865Z",
+      "blocked" : true
+    } ],
+    "lifecycle" : [ {
+      "pid" : 68072,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:00:19.989911Z"
+    }, {
+      "pid" : 68072,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:00:21.467681Z"
+    }, {
+      "pid" : 68072,
+      "action" : "FORCE_KILL_SENT",
+      "observedAt" : "2026-10-13T08:00:23.438843Z"
+    }, {
+      "pid" : 68072,
+      "action" : "EXITED",
+      "observedAt" : "2026-10-13T08:00:23.446535Z",
+      "exitCode" : 137
+    } ]
+  }, {
+    "pid" : 68073,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 68073,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:00:21.473411Z"
+    }, {
+      "pid" : 68073,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:00:23.224037Z"
+    } ]
+  } ],
+  "httpCalls" : [ ],
+  "sideEffects" : 0
+}

@@ -1,0 +1,16 @@
+{
+  "workerPostProbes": [
+    {
+      "port": 18081,
+      "status": 404,
+      "eventId": "cp11-role-probe-18081"
+    },
+    {
+      "port": 18082,
+      "status": 404,
+      "eventId": "cp11-role-probe-18082"
+    }
+  ],
+  "databaseTasksCreated": 0,
+  "passed": true
+}

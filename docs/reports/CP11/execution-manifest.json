@@ -1,0 +1,35 @@
+{
+  "logs": [
+    {
+      "file": "CP11-fresh-build-1.log",
+      "sha256": "e6b167b4526de7d4c150d5e90c6dbf5a98f3b6cb6698b2500c0a71da8e9aa62b"
+    },
+    {
+      "file": "CP11-fresh-up-all-1.log",
+      "sha256": "1070d29017f2bf3b770fc1655f556a84317eed7edd66b57b7a3179561d7c8eed"
+    },
+    {
+      "file": "CP11-fresh-up-distributed-1.log",
+      "sha256": "d42d27c9f89c47adfc145fa0ad50ccb9f3a2ecac9ba290f369875367f7542083"
+    },
+    {
+      "file": "CP11-repeat-migrate.log",
+      "sha256": "2e4d31fe899249823ff6ba604960c2cd1095daa4f3faf9840509a07ecc4a2e47"
+    },
+    {
+      "file": "CP11-demo-all-1.log",
+      "sha256": "57ea60ef1e045f434ff0941133141de85cb11ed5306f6610e71e820cf099c9bd"
+    },
+    {
+      "file": "CP11-demo-distributed-1.log",
+      "sha256": "cf03d5069aece68a01623ce9cb4e85268332b675a30ee3adba6dafd9dba201ee"
+    }
+  ],
+  "migration": {
+    "exitCode": 0,
+    "schemaVersion": 6,
+    "repeatWasNoOp": true
+  },
+  "sourceFiles": 209,
+  "captureDiagnostic": "Initial read-only capture used /app/app.jar incorrectly; corrected to Dockerfile /app/notification-service.jar. No production change; both final captures passed."
+}

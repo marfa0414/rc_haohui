@@ -4,7 +4,7 @@
 
 ## 环境与执行约束
 
-主机为 Apple M5（10 CPU）、16 GiB 内存，macOS 26.3.1 / ARM64。Docker Engine 29.7.2，Docker VM 分配 10 CPU、8319504384 字节内存。本机回归使用 Homebrew OpenJDK 17.0.20、Maven 3.9.16；部署 Java 基础镜像固定官方摘要，对应 Temurin 17.0.20.1。PostgreSQL 固定 17.11，Mock Python 为 3.11.16。具体镜像和资源限制将在实际运行后记录。
+主机为 Apple M5（10 CPU）、16 GiB 内存，macOS 26.3.1 / ARM64。Docker Engine 29.7.2，Docker VM 分配 10 CPU、8319504384 字节内存。本机回归使用 Homebrew OpenJDK 17.0.20、Maven 3.9.16；部署 Java 基础镜像固定官方摘要，对应 Temurin 17.0.20.1。PostgreSQL 固定 17.11，Mock Python 为 3.11.16。具体镜像和资源限制记录于下文及环境证据。
 
 本机演示的外部 HTTP Mock 使用开发环境明确授权的名称、端口及固定地址，生产环境仍禁止开发例外。基线不代表公网 HTTPS、供应商限额或生产多机高可用的性能。连接复用仍关闭，不通过改变既定安全/传输边界提高测试结果。
 

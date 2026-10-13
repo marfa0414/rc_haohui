@@ -1,0 +1,40 @@
+{
+  "scenario" : "cp07-quota-after-reservation",
+  "observedAt" : "2026-10-13T07:58:56.096004Z",
+  "task" : {
+    "id" : "ef5f185b-328b-443c-a969-3d65d2512a56",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T15:58:58.054522+08:00",
+    "deadline_at" : "2026-10-14T15:58:56.033111+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : "QUOTA_COOLDOWN",
+    "last_http_status" : null,
+    "defer_reason" : "RETRY_BACKOFF"
+  },
+  "attempts" : [ {
+    "task_id" : "ef5f185b-328b-443c-a969-3d65d2512a56",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "1e346132-ed98-499b-b21e-387e66117adc",
+    "phase" : "COMPLETED",
+    "outcome" : "NOT_SENT",
+    "http_status" : null,
+    "error_code" : "QUOTA_COOLDOWN",
+    "started_at" : "2026-10-13T15:58:56.039112+08:00",
+    "ended_at" : "2026-10-13T15:58:56.073956+08:00",
+    "request_started_at" : "2026-10-13T15:58:56.041798+08:00",
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T15:58:58.039112+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T07:58:56.053225Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "ea64e480868cd960fcffea2c10336d8c0d2c647ec627464514d224519be06860"
+  } ]
+}

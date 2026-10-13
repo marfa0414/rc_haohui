@@ -1,0 +1,14 @@
+{
+  "scenario" : "cp09-business-method-patch",
+  "observedAt" : "2026-10-13T07:58:50.641897Z",
+  "snapshotMethod" : "PATCH",
+  "actualMethod" : "PATCH",
+  "bodyBytes" : 122,
+  "snapshotBytesMatched" : true,
+  "supplierCredentialMatched" : true,
+  "internalBearerForwarded" : false,
+  "physicalRequests" : 1,
+  "attempts" : 1,
+  "status" : "succeeded",
+  "acceptedTaskIds" : [ "e2deab2a-0f4d-4e1d-98c2-e6bda616e88f" ]
+}

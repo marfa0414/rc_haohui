@@ -1,0 +1,13 @@
+{
+  "role" : "worker",
+  "livenessStayedUp" : true,
+  "pid" : 68261,
+  "invalidMigrationReadyStatus" : 503,
+  "supplierFailureReadyStatus" : 200,
+  "outageSubmissionStatus" : 404,
+  "missingTableReadyStatus" : 503,
+  "databaseDisconnectedAt" : "2026-10-13T08:03:07.646400Z",
+  "databaseRestoredAt" : "2026-10-13T08:03:07.784978Z",
+  "databaseFailureReadyStatus" : 503,
+  "acceptedTaskIds" : [ "f45002bd-8210-484e-9c7f-59ecae9c2cbd" ]
+}

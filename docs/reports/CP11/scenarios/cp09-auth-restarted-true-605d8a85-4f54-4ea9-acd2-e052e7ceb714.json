@@ -1,0 +1,199 @@
+{
+  "scenario" : "cp09-auth-restarted-true",
+  "observedAt" : "2026-10-13T08:02:55.049943Z",
+  "task" : {
+    "id" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+    "status" : "failed",
+    "run_number" : 1,
+    "run_attempt_count" : 2,
+    "total_attempt_count" : 2,
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-13T16:04:52.119084+08:00",
+    "last_outcome" : "HTTP_REJECTED",
+    "last_error_code" : "AUTH_INVALID_TOKEN",
+    "last_http_status" : 401,
+    "defer_reason" : "AUTH_RECOVERY_EXHAUSTED",
+    "auth_recovery_used" : true,
+    "auth_recovery_required" : false,
+    "auth_profile_id" : "df230fa4-ba30-4438-bdb9-54b36f7e18ab"
+  },
+  "attempts" : [ {
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "edaea412-5c77-4e0f-ad39-f56e0625db5d",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 401,
+    "error_code" : "AUTH_INVALID_TOKEN",
+    "credential_version" : "cp09-version-1",
+    "started_at" : "2026-10-13T16:02:53.527173+08:00",
+    "request_started_at" : "2026-10-13T16:02:53.548495+08:00",
+    "http_send_started_at" : "2026-10-13T16:02:53.553117+08:00",
+    "ended_at" : "2026-10-13T16:02:53.555831+08:00"
+  }, {
+    "run_number" : 1,
+    "attempt_no" : 2,
+    "lease_token" : "bb5a020d-6a25-44a3-8dcc-6a3ad0087a2c",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 401,
+    "error_code" : "AUTH_INVALID_TOKEN",
+    "credential_version" : "cp09-version-1",
+    "started_at" : "2026-10-13T16:02:54.886874+08:00",
+    "request_started_at" : "2026-10-13T16:02:54.911416+08:00",
+    "http_send_started_at" : "2026-10-13T16:02:54.915393+08:00",
+    "ended_at" : "2026-10-13T16:02:54.917372+08:00"
+  } ],
+  "processes" : [ {
+    "pid" : 68237,
+    "alive" : true,
+    "phases" : [ ],
+    "lifecycle" : [ {
+      "pid" : 68237,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:02:50.709895Z"
+    }, {
+      "pid" : 68237,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:02:51.982622Z"
+    } ]
+  }, {
+    "pid" : 68239,
+    "alive" : false,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 68239,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "edaea412-5c77-4e0f-ad39-f56e0625db5d",
+      "observedAt" : "2026-10-13T08:02:53.521937Z",
+      "blocked" : false
+    }, {
+      "sequence" : 2,
+      "pid" : 68239,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "edaea412-5c77-4e0f-ad39-f56e0625db5d",
+      "observedAt" : "2026-10-13T08:02:53.532060Z",
+      "blocked" : false
+    }, {
+      "sequence" : 3,
+      "pid" : 68239,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "edaea412-5c77-4e0f-ad39-f56e0625db5d",
+      "observedAt" : "2026-10-13T08:02:53.552268Z",
+      "blocked" : false
+    }, {
+      "sequence" : 4,
+      "pid" : 68239,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "edaea412-5c77-4e0f-ad39-f56e0625db5d",
+      "observedAt" : "2026-10-13T08:02:53.554577Z",
+      "blocked" : false
+    }, {
+      "sequence" : 5,
+      "pid" : 68239,
+      "phase" : "AFTER_COMPLETION",
+      "taskId" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+      "runNumber" : 1,
+      "attemptNo" : 1,
+      "leaseToken" : "edaea412-5c77-4e0f-ad39-f56e0625db5d",
+      "observedAt" : "2026-10-13T08:02:53.561595Z",
+      "blocked" : true
+    } ],
+    "lifecycle" : [ {
+      "pid" : 68239,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:02:52.127797Z"
+    }, {
+      "pid" : 68239,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:02:53.468412Z"
+    }, {
+      "pid" : 68239,
+      "action" : "FORCE_KILL_SENT",
+      "observedAt" : "2026-10-13T08:02:53.621532Z"
+    }, {
+      "pid" : 68239,
+      "action" : "EXITED",
+      "observedAt" : "2026-10-13T08:02:53.626995Z",
+      "exitCode" : 137
+    } ]
+  }, {
+    "pid" : 68242,
+    "alive" : true,
+    "phases" : [ {
+      "sequence" : 1,
+      "pid" : 68242,
+      "phase" : "AFTER_CLAIM",
+      "taskId" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+      "runNumber" : 1,
+      "attemptNo" : 0,
+      "leaseToken" : "bb5a020d-6a25-44a3-8dcc-6a3ad0087a2c",
+      "observedAt" : "2026-10-13T08:02:54.882629Z",
+      "blocked" : false
+    }, {
+      "sequence" : 2,
+      "pid" : 68242,
+      "phase" : "AFTER_RESERVE",
+      "taskId" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+      "runNumber" : 1,
+      "attemptNo" : 2,
+      "leaseToken" : "bb5a020d-6a25-44a3-8dcc-6a3ad0087a2c",
+      "observedAt" : "2026-10-13T08:02:54.890576Z",
+      "blocked" : false
+    }, {
+      "sequence" : 3,
+      "pid" : 68242,
+      "phase" : "AFTER_REQUEST_STARTED",
+      "taskId" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+      "runNumber" : 1,
+      "attemptNo" : 2,
+      "leaseToken" : "bb5a020d-6a25-44a3-8dcc-6a3ad0087a2c",
+      "observedAt" : "2026-10-13T08:02:54.914494Z",
+      "blocked" : false
+    }, {
+      "sequence" : 4,
+      "pid" : 68242,
+      "phase" : "AFTER_HTTP",
+      "taskId" : "605d8a85-4f54-4ea9-acd2-e052e7ceb714",
+      "runNumber" : 1,
+      "attemptNo" : 2,
+      "leaseToken" : "bb5a020d-6a25-44a3-8dcc-6a3ad0087a2c",
+      "observedAt" : "2026-10-13T08:02:54.916731Z",
+      "blocked" : false
+    } ],
+    "lifecycle" : [ {
+      "pid" : 68242,
+      "action" : "STARTED",
+      "observedAt" : "2026-10-13T08:02:53.629556Z"
+    }, {
+      "pid" : 68242,
+      "action" : "READY",
+      "observedAt" : "2026-10-13T08:02:54.869039Z"
+    } ]
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T08:02:53.553633Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "d710db0491386aa53876959f17b707904329347832c59945948fb59a163f592c"
+  }, {
+    "receivedAt" : "2026-10-13T08:02:54.915896Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "d710db0491386aa53876959f17b707904329347832c59945948fb59a163f592c"
+  } ]
+}

@@ -3,7 +3,7 @@
 | 项目 | 内容 |
 | --- | --- |
 | 依据 | [PRD](PRD.md) 1.0，2026-10-12 |
-| 文档状态 | 用户已批准，按 checkpoint 实施；功能完成状态见 Checkpoints 与测试报告 |
+| 文档状态 | CP01–CP11 已完成；实现、文档与全新环境验收证据见 CP11 报告 |
 | 实施范围 | 按本文与 PRD 开发 MVP，并执行独立测试验证 |
 | 实施计划 | [Checkpoints](CHECKPOINTS.md)；详细用例见 [测试设计](TEST_CASES.md) |
 
@@ -11,9 +11,9 @@
 
 ## 1 已确认的技术判定
 
-以下实现规则已随方案获准进入开发；具体功能是否完成以 checkpoint 报告为准。
+以下规则已落实到实现；CP10 累计 531 个自动化实例通过，部署与负载另有真实运行证据。最终逻辑用例签核仍以 CP11 追踪矩阵为准。
 
-| 判定 | 建议规则 |
+| 判定 | 实现规则 |
 | --- | --- |
 | 可靠性语义 | `202` 仅在事务提交后返回；有界、可恢复且允许重复，不承诺最终成功或 exactly-once |
 | 计次时点 | 领取租约不计次；独立事务预留 attempt 才计次，认证失败和预留后宕机也计次 |
@@ -35,18 +35,18 @@
 
 ## 2 技术栈与版本依据
 
-| 组件 | 拟采用 | 依据与锁定方式 |
+| 组件 | 已采用 | 依据与锁定方式 |
 | --- | --- | --- |
-| Java | Java 17 语言/API 基线；部署使用受维护的 JDK 17 构建 | 本机只读检查为 OpenJDK `17.0.20`。容器发行版、补丁与镜像摘要在 CP01 实际构建时固定，不绑定本机 Homebrew 路径 |
-| Spring Boot | `3.5.16` | 官方该版本要求 Java 17 及以上；用于复用 Spring MVC、JDBC、Security、Actuator。它不是当前最新主线；选择已有成熟生态，CP01 核验维护/安全状态，不把存在版本文档等同于生产支持承诺。[系统要求](https://docs.spring.io/spring-boot/3.5/system-requirements.html) |
-| Maven | Wrapper 固定 `3.9.16` | 官方版本已发布；本机 `mvn` 不存在，后续使用仓库 Wrapper 或容器，不要求用户预装全局 Maven。[发布说明](https://maven.apache.org/docs/3.9.16/release-notes.html) |
-| PostgreSQL | `17.11` | 官方发布说明可核验；CP01 固定可取得的镜像摘要并执行真实 PG 迁移测试。[发布说明](https://www.postgresql.org/docs/17/release-17-11.html) |
+| Java | Java 17 语言/API 基线；部署为 Temurin `17.0.20.1` | 本机 OpenJDK `17.0.20` 完成累计回归；容器版本和官方镜像摘要由 CP10 实跑核验，见[镜像记录](reports/CP10/base-images.json)。不绑定本机 Homebrew 路径 |
+| Spring Boot | `3.5.16` | 复用 Spring MVC、JDBC、Security、Actuator，由 pom 固定；实际组合通过累计构建。版本文档和测试通过均不替代部署时的漏洞与维护状态检查。[系统要求](https://docs.spring.io/spring-boot/3.5/system-requirements.html) |
+| Maven | Wrapper 固定 `3.9.16` | 仓库固定分发 URL 和 SHA-256，已用于实际构建，不要求预装全局 Maven。[发布说明](https://maven.apache.org/docs/3.9.16/release-notes.html) |
+| PostgreSQL | `17.11` | 镜像摘要固定；迁移、事务、权限及故障恢复均在真实 PG 执行。[发布说明](https://www.postgresql.org/docs/17/release-17-11.html) |
 | 数据访问/迁移 | Spring JDBC、HikariCP、Flyway、PostgreSQL JDBC | 由固定 Boot BOM 管理受管依赖；使用显式 SQL，避免 ORM 隐式锁与 flush 行为；Flyway 加入 PostgreSQL 数据库模块 |
-| 出站 HTTP | Apache HttpClient 5 | 需要可控 DNS、连接地址、取消请求、大小与时间限制；版本优先由 Boot BOM 固定，CP01 验证所需 API，必要的版本覆盖需附依据。[连接管理 API](https://hc.apache.org/httpcomponents-client-5.6.x/current/httpclient5/apidocs/org/apache/hc/client5/http/impl/io/PoolingHttpClientConnectionManagerBuilder.html) |
+| 出站 HTTP | Apache HttpClient 5，版本由 Boot BOM 固定 | 实现受控 DNS、连接地址、取消请求、大小与总时间限制；CP01 验证基础控制点，CP08 验证真实 TLS 与资源边界。[连接管理 API](https://hc.apache.org/httpcomponents-client-5.6.x/current/httpclient5/apidocs/org/apache/hc/client5/http/impl/io/PoolingHttpClientConnectionManagerBuilder.html) |
 | 熔断 | `resilience4j-circuitbreaker:2.4.0` 核心库 | CP07 从原计划 2.3.0 更新为已发布的 2.4.0，仍只引入核心库，不使用注解/AOP 自动包裹重试。核验该 tag 的 Java 17 构建配置，实际下载的 circuitbreaker/core 基础 class 版本均为 61；运行兼容性另由 CP07 完整门禁验证。[官方发布](https://github.com/resilience4j/resilience4j/releases/tag/v2.4.0)、[该版本构建配置](https://github.com/resilience4j/resilience4j/blob/v2.4.0/build.gradle) |
-| 测试 | JUnit、Spring Boot Test、真实 PG、可编程 HTTP Mock | 受管版本随 BOM；容器/Mock 工具在 CP01 固定准确版本，保留依赖树和校验记录；不在方案阶段伪称兼容验证通过 |
+| 测试 | JUnit、Spring Boot Test、真实 PG、可编程 HTTP Mock | 受管依赖随 BOM；Java 测试使用真实 HTTP/TLS、隔离 schema 和独立 JVM；CP10 Compose 使用独立 Python Mock，镜像及运行记录归档 |
 
-2026-10-12 的只读环境检查还发现 Docker CLI `29.7.2`。这只说明命令存在，尚未验证 daemon、Compose、拉取权限或 Testcontainers。没有安装依赖、拉取镜像或启动容器。所有版本的组合兼容、镜像可获取性、构建与安全修复情况由 CP01 的真实结果裁决；存在不兼容时先修订版本表和证据，不使用 `latest` 悄悄漂移。
+CP01–CP10 已执行依赖获取、真实构建与容器启动；CP10 使用 Docker Engine `29.7.2` 完成单 all、API 加双 Worker、持久卷与强杀恢复。官方镜像网络超时期间采用经摘要链核验的缓存镜像，未替换依赖版本。详见[运行环境](reports/CP10/environment.json)与[阶段报告](reports/CP10/REPORT.md)。本项目不使用 Testcontainers，测试数据库通过显式 `TEST_DATABASE_*` 参数提供；缺少真实 PG 会失败，不能跳过后标绿。
 
 ## 3 模块与运行角色
 
@@ -61,10 +61,13 @@
 | `application` | 受理、状态查询、人工重投用例；控制事务边界 |
 | `storage` | JDBC Repository、条件更新、领取/回收 SQL、Flyway 迁移 |
 | `worker` | 扫描、供应商轮转、租约、attempt 预留、到期与过期租约恢复 |
-| `delivery` | 一次业务 HTTP 发送、结果分类、统一 `RetryPolicy`、取消与时间限制 |
+| `delivery` | 一次业务 HTTP 发送、受控 DNS/TLS/HTTP 客户端、取消与时间限制 |
+| `retry` | `RetryPolicy` 纯计算分类、Full Jitter 与 Retry-After 解析 |
 | `auth` | `AuthStrategy`、`SecretResolver`、API Key、OAuth、Token 本地缓存与 singleflight |
-| `protection` | 全局/供应商许可、熔断许可、认证/配额冷却 |
-| `observability` | 结构化日志、Micrometer 指标、健康检查 |
+| `protection` | 显式熔断许可与有界配额冷却；全局/供应商许可位于 `worker`，认证冷却位于 `auth` |
+| `admission` | API 进程令牌桶、积压拒绝与固定分类指标 |
+| `observability` | 受理统计、Micrometer 资源指标、数据库状态缓存采样 |
+| `health` / `runtime` | live/ready、运行角色、独立迁移入口与启动时 schema 校验 |
 
 接口仅用于真实变化点：编码、认证、密钥解析、出站策略以及可注入时间/随机源。不要给每张表或每个供应商生成一套抽象层。
 
@@ -88,7 +91,7 @@ flowchart LR
 
 ## 4 物理数据设计
 
-下表与 SQL 是待实现的迁移规格，不是已经创建的数据库。ID 使用应用生成的 UUID；所有时间用 `timestamptz`，展示为 UTC。调度、租约、轮次截止均以 PG 时间为准。字段必填性、枚举范围、唯一性和引用关系由迁移保证，不能仅依赖 Java 校验。
+下表与 SQL 摘要对应已实现的 [Flyway V1–V6](../src/main/resources/db/migration/)；完整 DDL 以迁移文件为准。ID 使用应用生成的 UUID；所有时间用 `timestamptz`，展示为 UTC。调度、租约、轮次截止均以 PG 时间为准。字段必填性、枚举范围、唯一性和引用关系由迁移保证，不能仅依赖 Java 校验。
 
 ### 4.1 配置与任务表
 
@@ -107,7 +110,7 @@ flowchart LR
 任务的核心字段规格：
 
 ```sql
--- 下列片段定义关键字段和约束；CP01/CP02 将展开为完整 Flyway 迁移。
+-- 下列片段摘录核心字段和约束；完整定义及后续扩展见 Flyway V1–V6。
 id uuid PRIMARY KEY,
 tenant_id varchar(64) NOT NULL,
 operation varchar(128) NOT NULL,
@@ -182,7 +185,7 @@ attempt 的组合主键已经支持历史顺序查询，不重复创建等价索
 
 ### 4.2 数据库与应用共同维护的不变量
 
-发布资源的不可变性使用迁移中的 BEFORE UPDATE/DELETE 触发器兜底：`OLD.status='published'` 时拒绝修改；发布本身允许由 draft 原子转为 published。任务使用触发器或应用数据库角色的列级权限保护事件键、请求快照和版本引用，不允许人工重投改写。FK 默认 RESTRICT，禁止级联删除历史任务。
+发布资源的不可变性使用迁移中的 BEFORE UPDATE/DELETE 触发器兜底：`OLD.status='published'` 时拒绝修改；发布本身允许由 draft 原子转为 published。任务使用 BEFORE UPDATE 触发器保护事件键、请求快照和版本引用，不允许人工重投改写。运行角色没有 DELETE/TRUNCATE/DDL 权限；外键禁止级联删除历史任务。
 
 跨表的“只能绑定已发布版本”、权限校验和预算与 attempt 记录一致性属于事务不变量；不能用假定 PG CHECK 能引用其他表的方式实现。每个预留、完成、回收、重投事务要么全部提交，要么全部回滚。
 
@@ -306,7 +309,7 @@ deadline 扫描独立使用 deadline 索引处理所有超期 pending，不要�
 
 ## 7 重试、冷却与人工重投
 
-唯一长期重试入口是 Worker 调度；禁止 Spring Retry、HTTP 自动重试或 OAuth 组件在内部透明重发业务请求。重试策略返回 `SUCCESS | FAIL | RETRY(notBefore) | AUTH_RECOVER(notBefore)`，纯计算分类便于表驱动测试。
+唯一长期重试入口是 Worker 调度；禁止 Spring Retry、HTTP 自动重试或 OAuth 组件在内部透明重发业务请求。`RetryPolicy.classify` 返回 `SUCCESS | FAIL | RETRY`，下一时间由 `nextAttemptAt` 纯计算；401 恢复由 Worker 单独判定并通过 T4 持久化，未隐藏在 HTTP 或认证客户端内。
 
 | 结果 | 调度行为 | 业务熔断样本 |
 | --- | --- | --- |
@@ -344,11 +347,11 @@ deadline 扫描独立使用 deadline 索引处理所有超期 pending，不要�
 
 缓存键为 `(environment,tenantId,authProfileVersionId,credentialVersion,tokenUrl,clientId,clientAuthMethod,normalizedScopes)`。scope 按标准集合去重排序；所有实际授权参数都参与隔离。同上下文不同 operation 可共用，不同租户绝不复用。
 
-缓存条目保存 Token、tokenType、receivedAt、expiresAt、随机 generation 和 SHA-256 Token 指纹。指纹仅用于区分拒绝过的高熵 Token，不作为认证材料；拒绝指纹可以存任务表内部字段，但不出 API/日志。generation 用于本进程 compare-and-remove，不能单凭“再次获取生成了新 generation”认定 Token 值已经改变。
+缓存条目保存 Token、寿命、receivedAt、expiresAt、获取起点的单调时钟、随机 generation 和 SHA-256 Token 指纹；协议层只接受 Bearer，不额外缓存其他 tokenType。指纹仅用于区分拒绝过的高熵 Token，不作为认证材料；拒绝指纹可以存任务表内部字段，但不出 API/日志。generation 用于本进程 compare-and-remove，不能单凭“再次获取生成了新 generation”认定 Token 值已经改变。
 
 ### 8.2 标准交换与有效期
 
-使用统一受保护的出站 HTTP 传输完成 client_credentials 交换；按配置支持 client_secret_basic 和 client_secret_post，正确做 Basic/form 编码，Scope 参数按 OAuth 规范发送。MVP 只接受 Bearer token_type，Access Token 不能为空。可以复用 Spring Security 的协议数据结构或转换器，但不引入其默认隐式缓存/自动刷新与业务重试链；缓存与调度只有本服务这一层负责。
+使用统一受保护的出站 HTTP 传输完成 client_credentials 交换；按配置支持 client_secret_basic 和 client_secret_post，正确做 Basic/form 编码，Scope 参数按 OAuth 规范发送。MVP 只接受 Bearer token_type，Access Token 不能为空。`OAuthTokenClient` 使用本服务的有限协议 DTO 与解析器，未引入 Spring Security OAuth 默认缓存/自动刷新链；缓存与调度只有本服务这一层负责。
 
 Token 接口总超时 5 秒且包含 DNS/连接/TLS/响应解析；响应 JSON 上限 64 KiB。必须有合法 expires_in 或供应商配置的显式寿命，不解析 JWT 来猜有效期。expiresAt 保守地从发起获取时间计算；使用单调时钟跟踪进程内有效期，壁钟仅展示和审计。剩余寿命须大于 `max(min(寿命*10%,60s),计划业务HTTP耗时+时钟余量)`，余量默认 2 秒。新 Token 仍无法覆盖计划执行时间则报告认证配置不兼容，不无限刷新。
 
@@ -390,7 +393,7 @@ T3 记录已使用合格的新 Token 后可清除 required，但 used 与拒绝�
 
 入站连接数、请求大小、本地 token bucket 接入速率和积压阈值都设上限。幂等命中请求可在鉴权和基础保护后优先返回，新增受理才检查容量阈值；已返回 202 的任务不能被容量策略删除。积压阈值允许近似，不承诺多实例精确总配额；返回 429/503 时带可解释错误码。
 
-CP07 将初始部署参数具体化为下表，后续性能测试记录实际覆盖值。速率桶按 API 进程共享，不随任意租户输入创建新桶。
+CP07 将初始部署参数具体化为下表，CP10 报告记录各场景实际覆盖值。速率桶按 API 进程共享，不随任意租户输入创建新桶。
 
 | 参数 | 初始值 | 作用 |
 | --- | ---: | --- |
@@ -399,7 +402,7 @@ CP07 将初始部署参数具体化为下表，后续性能测试记录实际覆
 | `app.admission.burst-capacity` | 200 | 本进程提交令牌桶上限 |
 | `app.admission.max-backlog` | 10000 | 新受理前检查的 pending + processing 阈值 |
 
-合法调用先通过提交权限与本地速率保护，耗尽返回 `429 ADMISSION_RATE_LIMITED` 和 Retry-After；已有事件随后优先返回原结果或冲突。只有新事件检查积压，达到阈值返回 `503 BACKLOG_CAPACITY_EXCEEDED`。积压查询对活动任务使用部分索引，并将计数输入限制在阈值以内；实际执行计划与资源成本在 CP10 检查。不将检查与其他 API 进程协调成严格全局配额，并发接入可能短暂超过阈值。
+合法调用先通过提交权限与本地速率保护，耗尽返回 `429 ADMISSION_RATE_LIMITED` 和 Retry-After；已有事件随后优先返回原结果或冲突。只有新事件检查积压，达到阈值返回 `503 BACKLOG_CAPACITY_EXCEEDED`。积压查询对活动任务使用部分索引，并将计数输入限制在阈值以内；CP10 真实执行计划使用 `task_active_backlog_idx`，资源成本见[压力审计](reports/CP10/pressure-audit.json)。不将检查与其他 API 进程协调成严格全局配额，并发接入可能短暂超过阈值。
 
 ## 10 出站安全与资源限制
 
@@ -423,7 +426,24 @@ CP07 将初始部署参数具体化为下表，后续性能测试记录实际覆
 
 结构化日志保留 notificationId/tenantId/operation/providerId/runNumber/attemptNo/phase/耗时/errorCode。API 受理日志记录真实服务端 requestId 与 notificationId 的对应关系；Worker 用 executionId 标识一次租约执行，以 notificationId 跨阶段关联，不将执行标识冒充原入站 requestId，也不为此新增持久字段。对供应商错误只使用本服务枚举和允许的状态字段，不直接打印异常携带的请求、响应或 Secret。预览的动态业务值默认掩码，保留字段路径/类型/长度与编码格式供核验；精确字节由使用非敏感测试夹具的自动化测试验证。
 
-指标包括受理/冲突/拒绝、任务各状态数量、最老到期等待、attempt 结果/延迟、租约回收、Token 获取/等待/失败、熔断、冷却和数据库/HTTP 连接池等待。指标标签使用受控 provider/errorCode/phase，避免 eventId/notificationId/任意 tenantId 造成高基数。需按租户排查时使用受权限控制的日志/查询。
+指标包括受理/冲突/拒绝、任务各状态数量、最老到期等待、attempt 结果/延迟、租约回收、Token 获取/等待/失败、熔断、冷却和数据库/HTTP 连接池等待。标签只用固定的结果、状态、错误代码和客户端类别，不按 provider、租户、任务、URL 或认证上下文创建时序。需按租户排查时使用受权限控制的日志/查询。
+
+三个运行模式均提供 `GET /actuator/metrics` 与 `/actuator/metrics/{name}`，仅 ADMIN 可读；无凭证返回 401，其他角色返回 403。只开放 metrics，env/configprops/heapdump 等 Actuator 端点不开放。使用 `?tag=client:business` 或 `?tag=status:pending` 筛选，不把多个客户端的容量直接当成单个客户端上限。
+
+| 指标 | 含义与限制 |
+| --- | --- |
+| `notification.submission{result}` | 受理事务提交后才增加 ACCEPTED 或 DEDUPLICATED；HTTP 拒绝及耗时由 `notification.submission.http` 和 `.http.duration` 另外记录 |
+| `notification.tasks{status}` | 全数据库任务数量，后台单 SQL 采样；多实例读同一数据库不能相加 |
+| `notification.queue.oldest_due.seconds` | 可执行 pending 中最早 nextAttemptAt 至采样 DB 时间的差；排除未来调度、已过截止或次数耗尽的任务 |
+| `notification.queue.sample.success` / `.age.seconds` / `.failures` | 默认每 5 秒采样，可用 `app.observability.sample-interval` 设置 1 秒至 1 分钟；失败保留旧值，首次成功前数量未知，读取 Gauge 不占数据库连接 |
+| `notification.worker.active` / `.queued` / `.capacity` | 本进程任务执行与有界队列；`.provider.active.max` 是当前各 provider 在途数的最大值，不是历史峰值 |
+| `notification.oauth.inflight` / `.leaders.active` / `.leaders.capacity` | 共享 Token 获取与 leader 执行资源；缓存条目由 `.cache.entries` 观察 |
+| `notification.http.connections.*` / `.execution.*` | 真实连接池和执行器，固定 client=business/token；leased、pending、active、queued、permits_used 与 capacity 分别观察 |
+| `notification.http.duration{client,result}` | 整次受控调用耗时；COMPLETED 表示协议调用返回，可能是 HTTP 500，业务成功看 Worker decision |
+| `hikaricp.connections.*` / `jvm.*` | 实际 Hikari 等待、获取耗时、超时及 JVM 资源；Hikari Gauge 有短暂刷新缓存 |
+| `notification.clock.epoch.seconds` | 实际 JVM 墙钟，仅用于跨进程测量校准，不用于判断调度、租约或截止 |
+
+计数器属于进程，重启归零。不同指标分别读取，不构成原子快照；压测资源峰值是采样峰值。精确计数、权限、失败后缓存语义和连接等待已由 CP10 的 8 个真实场景验证，不能将采样值解释成连续实时保证。
 
 live 仅反映进程存活；ready 检查数据库、schema 与本角色初始化。供应商故障不使 API ready 失败。关闭时先拒绝新增处理并停止领取，最多等待当前 attempt 的有界时间，然后取消网络、关闭资源；强杀时靠 PG 租约恢复，不做未完成任务的“批量成功”。
 
@@ -431,15 +451,17 @@ MVP 不自动清理任务/尝试/幂等/审计；提交说明要明确增长代�
 
 ## 12 部署与验证方案
 
-后续仓库包含 Maven Wrapper、Dockerfile、Compose、Flyway SQL、环境变量样例、两个协议 Mock、OAuth Mock、示例管理/提交请求与自动化测试。Compose 提供 `all` 单实例，以及 `api+worker-1+worker-2` 双 Worker profile；PG 使用具名数据卷，样例凭据仅为明确的测试值。
+仓库已包含 Maven Wrapper、Dockerfile、Compose、Flyway SQL、环境变量样例、JSON/表单配置样例、业务/OAuth Mock 与自动化测试。Compose 的 `all` profile 提供单实例，`distributed` profile 提供 `api+worker-1+worker-2`；PG 使用具名数据卷，样例凭据仅为明确的测试值。实际命令见[部署说明](../deploy/README.md)和[负载说明](../scripts/perf/README.md)。
 
-迁移与应用启动分开编排：迁移成功后 API/Worker 才 ready；同版本并发启动不手工执行重复 DDL。应用数据库账户非超级用户，schema 迁移使用独立权限；关键持久化参数不得关闭 fsync/synchronous_commit 来伪造性能。Docker 单机方案只用于复现，不等于生产 HA。
+迁移与应用启动分开编排：`--migrate-only` 仅执行 Flyway 和运行角色授权，然后退出；API/Worker 默认 `app.database.migration-mode=validate`，校验迁移历史、校验和及当前 schema 版本 6，不能悄悄建表。`migrate` 模式只供明确的开发/测试初始化。迁移角色拥有表，运行角色不是超级用户且没有 DDL/DELETE/TRUNCATE 权限；审计和重投记录仅允许 INSERT/SELECT，Flyway 历史只允许 SELECT。迁移重复运行和运行权限由真实角色测试验证。Compose 保持 fsync/synchronous_commit 开启，单机方案只用于复现，不等于生产 HA。
 
 JUnit 纯函数测试覆盖映射、摘要、分类；JDBC 集成测试全部使用真实 PostgreSQL，禁止 H2 替代锁/事务语义。端到端测试使用真实应用 HTTP、真实 PG 和可编程供应商 Mock；Mock 只模拟外部供应商，不能用 Stub Worker 或手工改成 succeeded 替代系统行为。双 Worker/强杀场景运行两个独立 JVM/容器，采用测试 profile 中可控阻塞点精确定位 T1/T2/T3/T4；生产构建不暴露故障注入入口。
 
 AT01–AT28 全部需要证据。供应商调用次数不等于业务副作用次数，AT14 的 Mock 必须分别记录二者。时间类测试允许缩短预算与注入时钟/随机源，但不能跳过数据库租约和实际网络链路。并发测试用屏障建立竞态，不靠增加 sleep 期待偶现。
 
-性能按 PRD 执行 10 租户、约 1 KiB、20 rps 持续 10 分钟、供应商 100 ms/200；记录接入 P95≤300 ms、从数据库 acceptedAt 至首次业务 HTTP 开始发送的 P95≤3 秒（包含 Token 等待），另报至首次 attempt 预留的调度延迟，不能以较早的预留时点替代投递指标。核对每个已受理 ID 与最终状态，未发送任务单列失败/未完成，不从样本中静默剔除。压力和突发测试显示内存/连接有界、容量保护与排空，失败或未执行如实记录，不能把目标写成现有能力。
+CP10 已按 PRD 执行 10 租户、1024 字节实际 Body、20 rps 持续 10 分钟、供应商 100 ms/200。12000 个正式输入全部受理并成功，接入 P95=6.607 ms，数据库 created_at 至首次业务传输调用 P95=0.09758 秒，首次 attempt 预留 P95=0.09447 秒，满足本次固定基线。记录传输调用不等于证明供应商收到请求；真实 Mock 到达及副作用另行对账。压力、突发与双 Worker 强杀均保留完整集合和资源记录，失败的 burst-001 也保留，详见 [CP10 报告](reports/CP10/REPORT.md)。这些是单机固定夹具结果，不能推导公网 TLS 或生产最高吞吐。
+
+`http_send_started_at` 在 T4 中持久化；进程若在实际发送后、T4 前被强杀，首次物理发送可能只存在于 Mock 日志。恢复报告对这类样本区分“最早已保存的发送时间”和“首次实际到达”，不把重试的较晚时间冒充原发送时间，也不静默删除缺失值。
 
 ## 13 取舍、风险与演进
 
@@ -451,8 +473,8 @@ AT01–AT28 全部需要证据。供应商调用次数不等于业务副作用�
 | 无续租、有界 attempt | 长暂停仍会重复投递；简单恢复机制加供应商幂等，未来出现必须长执行的需求再设计续租 |
 | 严格有限映射 | 特殊 HMAC/XML/动态路径需要策略扩展；拒绝把模板变成可执行语言 |
 | 基于 HTTP 状态成功 | 200+业务错误体仍成功；特定供应商需要显式响应策略及契约测试后扩展 |
-| Java 17 与保守依赖组合 | 易于本机及容器复现；CP01 验证安全维护状况，需要升级时整体验证而非混用不兼容依赖 |
+| Java 17 与固定依赖组合 | 本机与容器已验证；测试通过不等于持续安全承诺，部署和升级时仍需核查漏洞与维护状态并整体验证 |
 
-最需先验证的工程风险是安全 DNS 与总超时能否实际控制连接、lease/attempt 分阶段是否存在遗漏写回路径、Token 条件失效与跨进程恢复标记是否一致、健康供应商能否持续获得执行机会。相关断言分别落在 CP01/CP04/CP06/CP07/CP08/CP09，不能仅靠设计描述关闭风险。
+安全 DNS、总超时、分阶段写回、Token 条件失效与跨进程恢复、健康供应商执行机会等风险已有 CP01–CP10 真实断言和故障证据。验证范围内未发现阻断，不等于覆盖所有操作系统解析行为、供应商协议或部署网络；演进时须保留对应回归。
 
-README、实际测试报告与 AI_USAGE 是最终交付的一部分。AI 使用说明由真实历史对话和后续实现记录提取；当前文档不能预填“AI 实现已验证”或把本建议冒充用户已亲自完成的决策。开发开始前必须取得用户对方案与 checkpoint 的评审确认。
+README、实际测试报告与 AI_USAGE 是最终交付的一部分。用户已评审方案并授权开发；AI 使用说明区分用户提出的方向、共同取舍和 AI 实现/审查贡献，不把 AI 完成的代码或测量冒充用户独立完成。CP11 已完成全新环境复现、95 个逻辑用例与参数变体及最终交付证据核对，详见[最终报告](reports/CP11/REPORT.md)。

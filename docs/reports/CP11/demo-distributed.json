@@ -1,0 +1,452 @@
+{
+  "runId": "cp11-distributed-001",
+  "startedAt": "2026-10-13T08:07:58.948075+00:00",
+  "result": "PASS",
+  "checks": [
+    {
+      "name": "配置创建、校验、预览、发布不调用供应商或 Token 端点",
+      "at": "2026-10-13T08:07:59.020073+00:00"
+    },
+    {
+      "name": "真实 OAuth 与业务 HTTP 成功；同事件相同请求 200，不同请求 409",
+      "at": "2026-10-13T08:07:59.743843+00:00"
+    },
+    {
+      "name": "路由升版只影响新任务，旧事件仍引用 V1",
+      "at": "2026-10-13T08:08:00.145585+00:00"
+    },
+    {
+      "name": "路由回滚后新任务使用 V1",
+      "at": "2026-10-13T08:08:00.392773+00:00"
+    },
+    {
+      "name": "预期失败：404 任务重投保留原快照；run 增加、历史保留、重投键固定响应",
+      "at": "2026-10-13T08:08:01.016018+00:00"
+    },
+    {
+      "name": "失败事件普通重复提交仍为 failed/run 2，截止、计数及完整历史不变",
+      "at": "2026-10-13T08:08:01.017683+00:00"
+    },
+    {
+      "name": "对账：5 个新任务，4 个成功，1 个预期失败；无 Mock reset 或数据删除",
+      "at": "2026-10-13T08:08:01.258030+00:00"
+    }
+  ],
+  "tasks": [
+    {
+      "observedAt": "2026-10-13T08:07:59.400085+00:00",
+      "task": {
+        "notificationId": "7918d611-e3bf-43f7-a426-a3c82874a3d5",
+        "tenantId": "tenant-01",
+        "operation": "notify",
+        "eventId": "cp11-distributed-001-v1",
+        "status": "succeeded",
+        "runNumber": 1,
+        "runAttemptCount": 1,
+        "totalAttemptCount": 1,
+        "nextAttemptAt": null,
+        "deadlineAt": "2026-10-14T08:07:59.035084Z",
+        "lastOutcome": "HTTP_ACKNOWLEDGED",
+        "lastErrorCode": null,
+        "lastHttpStatus": 200,
+        "templateVersionId": "9548d802-f185-4c9b-969f-6261a6271adf",
+        "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82",
+        "routeRevision": 6,
+        "createdAt": "2026-10-13T08:07:59.035084Z",
+        "updatedAt": "2026-10-13T08:07:59.311421Z",
+        "deferReason": null
+      },
+      "attempts": [
+        {
+          "taskId": "7918d611-e3bf-43f7-a426-a3c82874a3d5",
+          "runNumber": 1,
+          "attemptNo": 1,
+          "phase": "COMPLETED",
+          "outcome": "HTTP_ACKNOWLEDGED",
+          "httpStatus": 200,
+          "errorCode": null,
+          "startedAt": "2026-10-13T08:07:59.116934Z",
+          "endedAt": "2026-10-13T08:07:59.311421Z",
+          "requestStartedAt": "2026-10-13T08:07:59.198475Z",
+          "httpSendStartedAt": "2026-10-13T08:07:59.200185Z",
+          "executionDeadline": "2026-10-13T08:08:29.116934Z",
+          "credentialVersion": "demo-v1"
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-13T08:08:00.131910+00:00",
+      "task": {
+        "notificationId": "1061675e-1503-4529-8521-40448fac701e",
+        "tenantId": "tenant-01",
+        "operation": "notify",
+        "eventId": "cp11-distributed-001-v2",
+        "status": "succeeded",
+        "runNumber": 1,
+        "runAttemptCount": 1,
+        "totalAttemptCount": 1,
+        "nextAttemptAt": null,
+        "deadlineAt": "2026-10-14T08:07:59.780987Z",
+        "lastOutcome": "HTTP_ACKNOWLEDGED",
+        "lastErrorCode": null,
+        "lastHttpStatus": 200,
+        "templateVersionId": "18af85cb-0ddf-465d-bba9-c1c3c26933e5",
+        "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82",
+        "routeRevision": 7,
+        "createdAt": "2026-10-13T08:07:59.780987Z",
+        "updatedAt": "2026-10-13T08:08:00.042140Z",
+        "deferReason": null
+      },
+      "attempts": [
+        {
+          "taskId": "1061675e-1503-4529-8521-40448fac701e",
+          "runNumber": 1,
+          "attemptNo": 1,
+          "phase": "COMPLETED",
+          "outcome": "HTTP_ACKNOWLEDGED",
+          "httpStatus": 200,
+          "errorCode": null,
+          "startedAt": "2026-10-13T08:07:59.854076Z",
+          "endedAt": "2026-10-13T08:08:00.042140Z",
+          "requestStartedAt": "2026-10-13T08:07:59.932845Z",
+          "httpSendStartedAt": "2026-10-13T08:07:59.934819Z",
+          "executionDeadline": "2026-10-13T08:08:29.854076Z",
+          "credentialVersion": "demo-v1"
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-13T08:08:00.391278+00:00",
+      "task": {
+        "notificationId": "cf61df05-5d20-40ad-b2b3-d6db641ad5f3",
+        "tenantId": "tenant-01",
+        "operation": "notify",
+        "eventId": "cp11-distributed-001-rollback",
+        "status": "succeeded",
+        "runNumber": 1,
+        "runAttemptCount": 1,
+        "totalAttemptCount": 1,
+        "nextAttemptAt": null,
+        "deadlineAt": "2026-10-14T08:08:00.157016Z",
+        "lastOutcome": "HTTP_ACKNOWLEDGED",
+        "lastErrorCode": null,
+        "lastHttpStatus": 200,
+        "templateVersionId": "9548d802-f185-4c9b-969f-6261a6271adf",
+        "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82",
+        "routeRevision": 8,
+        "createdAt": "2026-10-13T08:08:00.157016Z",
+        "updatedAt": "2026-10-13T08:08:00.368167Z",
+        "deferReason": null
+      },
+      "attempts": [
+        {
+          "taskId": "cf61df05-5d20-40ad-b2b3-d6db641ad5f3",
+          "runNumber": 1,
+          "attemptNo": 1,
+          "phase": "COMPLETED",
+          "outcome": "HTTP_ACKNOWLEDGED",
+          "httpStatus": 200,
+          "errorCode": null,
+          "startedAt": "2026-10-13T08:08:00.259037Z",
+          "endedAt": "2026-10-13T08:08:00.368167Z",
+          "requestStartedAt": "2026-10-13T08:08:00.261352Z",
+          "httpSendStartedAt": "2026-10-13T08:08:00.263099Z",
+          "executionDeadline": "2026-10-13T08:08:30.259037Z",
+          "credentialVersion": "demo-v1"
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-13T08:08:00.539891+00:00",
+      "task": {
+        "notificationId": "2be48ad8-e4ac-4996-9fab-bc7a7af3f71a",
+        "tenantId": "tenant-01",
+        "operation": "notify",
+        "eventId": "cp11-distributed-001-missing",
+        "status": "failed",
+        "runNumber": 1,
+        "runAttemptCount": 1,
+        "totalAttemptCount": 1,
+        "nextAttemptAt": null,
+        "deadlineAt": "2026-10-14T08:08:00.420809Z",
+        "lastOutcome": "HTTP_REJECTED",
+        "lastErrorCode": "HTTP_REJECTED",
+        "lastHttpStatus": 404,
+        "templateVersionId": "ed72f86e-c6e9-491e-9224-803b393dbe14",
+        "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82",
+        "routeRevision": 9,
+        "createdAt": "2026-10-13T08:08:00.420809Z",
+        "updatedAt": "2026-10-13T08:08:00.479330Z",
+        "deferReason": "HTTP_REJECTED"
+      },
+      "attempts": [
+        {
+          "taskId": "2be48ad8-e4ac-4996-9fab-bc7a7af3f71a",
+          "runNumber": 1,
+          "attemptNo": 1,
+          "phase": "COMPLETED",
+          "outcome": "HTTP_REJECTED",
+          "httpStatus": 404,
+          "errorCode": "HTTP_REJECTED",
+          "startedAt": "2026-10-13T08:08:00.474450Z",
+          "endedAt": "2026-10-13T08:08:00.479330Z",
+          "requestStartedAt": "2026-10-13T08:08:00.476255Z",
+          "httpSendStartedAt": "2026-10-13T08:08:00.477506Z",
+          "executionDeadline": "2026-10-13T08:08:30.474450Z",
+          "credentialVersion": "demo-v1"
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-13T08:08:00.675496+00:00",
+      "task": {
+        "notificationId": "2be48ad8-e4ac-4996-9fab-bc7a7af3f71a",
+        "tenantId": "tenant-01",
+        "operation": "notify",
+        "eventId": "cp11-distributed-001-missing",
+        "status": "failed",
+        "runNumber": 2,
+        "runAttemptCount": 1,
+        "totalAttemptCount": 2,
+        "nextAttemptAt": null,
+        "deadlineAt": "2026-10-14T08:08:00.551179Z",
+        "lastOutcome": "HTTP_REJECTED",
+        "lastErrorCode": "HTTP_REJECTED",
+        "lastHttpStatus": 404,
+        "templateVersionId": "ed72f86e-c6e9-491e-9224-803b393dbe14",
+        "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82",
+        "routeRevision": 9,
+        "createdAt": "2026-10-13T08:08:00.420809Z",
+        "updatedAt": "2026-10-13T08:08:00.580618Z",
+        "deferReason": "HTTP_REJECTED"
+      },
+      "attempts": [
+        {
+          "taskId": "2be48ad8-e4ac-4996-9fab-bc7a7af3f71a",
+          "runNumber": 2,
+          "attemptNo": 1,
+          "phase": "COMPLETED",
+          "outcome": "HTTP_REJECTED",
+          "httpStatus": 404,
+          "errorCode": "HTTP_REJECTED",
+          "startedAt": "2026-10-13T08:08:00.576583Z",
+          "endedAt": "2026-10-13T08:08:00.580618Z",
+          "requestStartedAt": "2026-10-13T08:08:00.578074Z",
+          "httpSendStartedAt": "2026-10-13T08:08:00.579052Z",
+          "executionDeadline": "2026-10-13T08:08:30.576583Z",
+          "credentialVersion": "demo-v1"
+        },
+        {
+          "taskId": "2be48ad8-e4ac-4996-9fab-bc7a7af3f71a",
+          "runNumber": 1,
+          "attemptNo": 1,
+          "phase": "COMPLETED",
+          "outcome": "HTTP_REJECTED",
+          "httpStatus": 404,
+          "errorCode": "HTTP_REJECTED",
+          "startedAt": "2026-10-13T08:08:00.474450Z",
+          "endedAt": "2026-10-13T08:08:00.479330Z",
+          "requestStartedAt": "2026-10-13T08:08:00.476255Z",
+          "httpSendStartedAt": "2026-10-13T08:08:00.477506Z",
+          "executionDeadline": "2026-10-13T08:08:30.474450Z",
+          "credentialVersion": "demo-v1"
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-13T08:08:01.254686+00:00",
+      "task": {
+        "notificationId": "861bd872-15ad-443b-93e0-70946b1e7ba6",
+        "tenantId": "tenant-01",
+        "operation": "notify",
+        "eventId": "cp11-distributed-001-healthy-after-replay",
+        "status": "succeeded",
+        "runNumber": 1,
+        "runAttemptCount": 1,
+        "totalAttemptCount": 1,
+        "nextAttemptAt": null,
+        "deadlineAt": "2026-10-14T08:08:01.025387Z",
+        "lastOutcome": "HTTP_ACKNOWLEDGED",
+        "lastErrorCode": null,
+        "lastHttpStatus": 200,
+        "templateVersionId": "9548d802-f185-4c9b-969f-6261a6271adf",
+        "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82",
+        "routeRevision": 10,
+        "createdAt": "2026-10-13T08:08:01.025387Z",
+        "updatedAt": "2026-10-13T08:08:01.212235Z",
+        "deferReason": null
+      },
+      "attempts": [
+        {
+          "taskId": "861bd872-15ad-443b-93e0-70946b1e7ba6",
+          "runNumber": 1,
+          "attemptNo": 1,
+          "phase": "COMPLETED",
+          "outcome": "HTTP_ACKNOWLEDGED",
+          "httpStatus": 200,
+          "errorCode": null,
+          "startedAt": "2026-10-13T08:08:01.106646Z",
+          "endedAt": "2026-10-13T08:08:01.212235Z",
+          "requestStartedAt": "2026-10-13T08:08:01.108188Z",
+          "httpSendStartedAt": "2026-10-13T08:08:01.109382Z",
+          "executionDeadline": "2026-10-13T08:08:31.106646Z",
+          "credentialVersion": "demo-v1"
+        }
+      ]
+    }
+  ],
+  "configurations": [
+    {
+      "kind": "oauth2_client_credentials",
+      "id": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82",
+      "version": 1
+    },
+    {
+      "kind": "template",
+      "id": "9548d802-f185-4c9b-969f-6261a6271adf",
+      "version": 1,
+      "expectedMissingTarget": false,
+      "previewBytes": 110
+    },
+    {
+      "kind": "template",
+      "id": "18af85cb-0ddf-465d-bba9-c1c3c26933e5",
+      "version": 2,
+      "expectedMissingTarget": false,
+      "previewBytes": 110
+    },
+    {
+      "kind": "template",
+      "id": "ed72f86e-c6e9-491e-9224-803b393dbe14",
+      "version": 1,
+      "expectedMissingTarget": true,
+      "previewBytes": 110
+    }
+  ],
+  "routeChanges": [
+    {
+      "revision": 6,
+      "templateVersionId": "9548d802-f185-4c9b-969f-6261a6271adf",
+      "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82"
+    },
+    {
+      "revision": 7,
+      "templateVersionId": "18af85cb-0ddf-465d-bba9-c1c3c26933e5",
+      "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82"
+    },
+    {
+      "revision": 8,
+      "templateVersionId": "9548d802-f185-4c9b-969f-6261a6271adf",
+      "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82"
+    },
+    {
+      "revision": 9,
+      "templateVersionId": "ed72f86e-c6e9-491e-9224-803b393dbe14",
+      "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82"
+    },
+    {
+      "revision": 10,
+      "templateVersionId": "9548d802-f185-4c9b-969f-6261a6271adf",
+      "authProfileId": "82b2215b-dcb2-4c8e-b6e8-8b0adea08c82"
+    }
+  ],
+  "mockObservations": [
+    {
+      "sequence": 7,
+      "kind": "business",
+      "receivedAt": 1791878879.2008173,
+      "eventId": "cp11-distributed-001-v1",
+      "tenantId": "tenant-01",
+      "provider": "vendor",
+      "bodyBytes": 105,
+      "bodySha256": "a957ea232a77afa75608a13a9ef8c5f17d91d93a7e4f31897f03da92896f5b99",
+      "duplicateEffectSuppressed": false,
+      "status": 200,
+      "expectedBodyBytes": 105,
+      "expectedBodySha256": "a957ea232a77afa75608a13a9ef8c5f17d91d93a7e4f31897f03da92896f5b99",
+      "bodyMatched": true
+    },
+    {
+      "sequence": 9,
+      "kind": "business",
+      "receivedAt": 1791878879.9355094,
+      "eventId": "cp11-distributed-001-v2",
+      "tenantId": "tenant-01",
+      "provider": "vendor",
+      "bodyBytes": 105,
+      "bodySha256": "6c8e04e19d4fe4072d56c446b7188444a6878821393e04a3ca9dd2dc622a86d2",
+      "duplicateEffectSuppressed": false,
+      "status": 200,
+      "expectedBodyBytes": 105,
+      "expectedBodySha256": "6c8e04e19d4fe4072d56c446b7188444a6878821393e04a3ca9dd2dc622a86d2",
+      "bodyMatched": true
+    },
+    {
+      "sequence": 10,
+      "kind": "business",
+      "receivedAt": 1791878880.2644472,
+      "eventId": "cp11-distributed-001-rollback",
+      "tenantId": "tenant-01",
+      "provider": "vendor",
+      "bodyBytes": 111,
+      "bodySha256": "71e753317179240076c50f903b0cf597af27d7af8fc479a1c470a838a6609a72",
+      "duplicateEffectSuppressed": false,
+      "status": 200,
+      "expectedBodyBytes": 111,
+      "expectedBodySha256": "71e753317179240076c50f903b0cf597af27d7af8fc479a1c470a838a6609a72",
+      "bodyMatched": true
+    },
+    {
+      "sequence": 11,
+      "kind": "business",
+      "receivedAt": 1791878881.11002,
+      "eventId": "cp11-distributed-001-healthy-after-replay",
+      "tenantId": "tenant-01",
+      "provider": "vendor",
+      "bodyBytes": 123,
+      "bodySha256": "9fab34429bce96a5bfe59264fc671715ca5a1b62a95d46d612eea630b1a134e1",
+      "duplicateEffectSuppressed": false,
+      "status": 200,
+      "expectedBodyBytes": 123,
+      "expectedBodySha256": "9fab34429bce96a5bfe59264fc671715ca5a1b62a95d46d612eea630b1a134e1",
+      "bodyMatched": true
+    }
+  ],
+  "scriptSha256": "b3866c9916d906fa01e0ebb5160e6851838681753853462f25b104196268c0c2",
+  "succeededEventDuplicate": {
+    "notificationId": "7918d611-e3bf-43f7-a426-a3c82874a3d5",
+    "status": "succeeded",
+    "runNumber": 1,
+    "httpStatus": 200,
+    "taskAndHistoryUnchanged": true,
+    "observationDelaySeconds": 0.3
+  },
+  "failedEventDuplicate": {
+    "notificationId": "2be48ad8-e4ac-4996-9fab-bc7a7af3f71a",
+    "status": "failed",
+    "runNumber": 2,
+    "httpStatus": 200,
+    "taskAndHistoryUnchanged": true,
+    "observationDelaySeconds": 0.3
+  },
+  "expectedFailure": {
+    "notificationId": "2be48ad8-e4ac-4996-9fab-bc7a7af3f71a",
+    "status": "failed",
+    "httpStatus": 404,
+    "runNumber": 2,
+    "totalAttemptCount": 2,
+    "explanation": "Replay retains the original missing-target snapshot despite route rollback."
+  },
+  "oauthSuccessfulExchangesObserved": 2,
+  "acceptedTaskIds": [
+    "7918d611-e3bf-43f7-a426-a3c82874a3d5",
+    "1061675e-1503-4529-8521-40448fac701e",
+    "cf61df05-5d20-40ad-b2b3-d6db641ad5f3",
+    "2be48ad8-e4ac-4996-9fab-bc7a7af3f71a",
+    "861bd872-15ad-443b-93e0-70946b1e7ba6"
+  ],
+  "acceptedTasks": 5,
+  "expectedSucceededTasks": 4,
+  "expectedFailedTasks": 1,
+  "finishedAt": "2026-10-13T08:08:01.259131+00:00"
+}

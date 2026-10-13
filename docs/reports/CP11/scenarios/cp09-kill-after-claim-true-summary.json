@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp09-kill-after-claim-true-summary",
+  "observedAt" : "2026-10-13T08:00:27.573074Z",
+  "acceptedCount" : 1,
+  "durableTaskCount" : 1,
+  "httpCalls" : 1,
+  "acceptedTaskIds" : [ "6b387263-e679-4484-8b00-739b27167da1" ],
+  "succeededCount" : 1,
+  "processIds" : [ 68072, 68073 ],
+  "sideEffects" : 1
+}

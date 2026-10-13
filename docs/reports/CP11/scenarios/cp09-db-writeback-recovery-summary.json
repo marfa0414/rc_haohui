@@ -1,0 +1,12 @@
+{
+  "sideEffectsWithSupplierDeduplication" : 1,
+  "databaseDisconnectedAt" : "2026-10-13T08:03:14.454707Z",
+  "databaseRestoredAt" : "2026-10-13T08:03:15.606774Z",
+  "businessRequests" : 2,
+  "acceptedTasks" : 1,
+  "outageAcceptanceStatus" : 503,
+  "originalPid" : 68282,
+  "successorPid" : 68287,
+  "interruptedPhase" : "AFTER_HTTP",
+  "acceptedTaskIds" : [ "0175538c-f53f-435a-abee-cdf6e5d32c7a" ]
+}

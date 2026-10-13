@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp09-kill-after-request-started-true-summary",
+  "observedAt" : "2026-10-13T08:00:44.447191Z",
+  "acceptedCount" : 1,
+  "durableTaskCount" : 1,
+  "httpCalls" : 1,
+  "acceptedTaskIds" : [ "eb568de6-6367-43cc-8e8d-d13aa7acdd65" ],
+  "succeededCount" : 1,
+  "processIds" : [ 68086, 68089 ],
+  "sideEffects" : 1
+}

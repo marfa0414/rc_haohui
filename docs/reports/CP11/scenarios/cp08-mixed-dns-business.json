@@ -1,0 +1,8 @@
+{
+  "scenario" : "cp08-mixed-dns-business",
+  "observedAt" : "2026-10-13T07:57:49.423043Z",
+  "targetRole" : "business",
+  "observedCalls" : 0,
+  "observedConnections" : 0,
+  "dnsObservations" : [ "allowed-and-forbidden-A", "allowed-A-and-forbidden-AAAA", "forbidden-A-first" ]
+}

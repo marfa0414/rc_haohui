@@ -1,0 +1,35 @@
+{
+  "scenario" : "cp09-stale-defer-replacement-lease",
+  "observedAt" : "2026-10-13T07:59:33.463610Z",
+  "task" : {
+    "id" : "0844b868-43eb-411c-aabb-20f2b21e6375",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "processing",
+    "lease_token" : "d8f887bc-475a-4e82-b392-b7126b27e8ff",
+    "lease_until" : "2026-10-13T15:59:43.42692+08:00",
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T15:59:32.605476+08:00",
+    "last_outcome" : "UNKNOWN",
+    "last_error_code" : "LEASE_EXPIRED",
+    "last_http_status" : null,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "0844b868-43eb-411c-aabb-20f2b21e6375",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "2bd0cb38-a181-42be-97c7-67da04a2e1c1",
+    "phase" : "COMPLETED",
+    "outcome" : "UNKNOWN",
+    "http_status" : null,
+    "error_code" : "LEASE_EXPIRED",
+    "started_at" : "2026-10-13T15:59:32.609066+08:00",
+    "ended_at" : "2026-10-13T15:59:33.417974+08:00",
+    "request_started_at" : null,
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T15:59:33.009066+08:00"
+  } ],
+  "httpCalls" : [ ]
+}

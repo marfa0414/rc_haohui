@@ -1,0 +1,11 @@
+{
+  "scenario" : "cp10-backlog-metrics",
+  "observedAt" : "2026-10-13T07:58:06.203996Z",
+  "observations" : {
+    "acceptedTaskIds" : [ "e26ec30c-f758-4189-a947-5ba305bd5e03", "cd08b07b-ed19-42de-9b4c-6f232782966e" ],
+    "retainedRows" : 2,
+    "committed" : 2,
+    "backlogRejected" : 1,
+    "deduplicated" : 1
+  }
+}

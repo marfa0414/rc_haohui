@@ -1,0 +1,78 @@
+{
+  "scenario" : "cp05-500-500-200",
+  "observedAt" : "2026-10-13T07:59:06.388810Z",
+  "task" : {
+    "id" : "cc448b6b-099f-40f2-a23b-97646ba7905c",
+    "run_number" : 1,
+    "run_attempt_count" : 3,
+    "total_attempt_count" : 3,
+    "status" : "succeeded",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T15:59:06.287382+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "cc448b6b-099f-40f2-a23b-97646ba7905c",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "32eae748-6829-474d-aae1-ef9e9f140f07",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 500,
+    "error_code" : "HTTP_REJECTED",
+    "started_at" : "2026-10-13T15:59:06.311311+08:00",
+    "ended_at" : "2026-10-13T15:59:06.316007+08:00",
+    "request_started_at" : "2026-10-13T15:59:06.313772+08:00",
+    "http_send_started_at" : "2026-10-13T15:59:06.315122+08:00",
+    "execution_deadline" : "2026-10-13T15:59:08.311311+08:00"
+  }, {
+    "task_id" : "cc448b6b-099f-40f2-a23b-97646ba7905c",
+    "run_number" : 1,
+    "attempt_no" : 2,
+    "lease_token" : "ae1eab6d-ad6b-4533-96b5-3b8f0f82b36c",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 500,
+    "error_code" : "HTTP_REJECTED",
+    "started_at" : "2026-10-13T15:59:06.338545+08:00",
+    "ended_at" : "2026-10-13T15:59:06.342872+08:00",
+    "request_started_at" : "2026-10-13T15:59:06.34082+08:00",
+    "http_send_started_at" : "2026-10-13T15:59:06.342011+08:00",
+    "execution_deadline" : "2026-10-13T15:59:08.338545+08:00"
+  }, {
+    "task_id" : "cc448b6b-099f-40f2-a23b-97646ba7905c",
+    "run_number" : 1,
+    "attempt_no" : 3,
+    "lease_token" : "7e906d4f-48cd-49c0-bad1-8ccb637dcde7",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "started_at" : "2026-10-13T15:59:06.367031+08:00",
+    "ended_at" : "2026-10-13T15:59:06.371379+08:00",
+    "request_started_at" : "2026-10-13T15:59:06.369359+08:00",
+    "http_send_started_at" : "2026-10-13T15:59:06.370569+08:00",
+    "execution_deadline" : "2026-10-13T15:59:08.367031+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T07:59:06.315455Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "c1d93b8a35ff79444210ea163de7a5531169d6fbc0284f8884f3caa9bc8e1d22"
+  }, {
+    "receivedAt" : "2026-10-13T07:59:06.342391Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "c1d93b8a35ff79444210ea163de7a5531169d6fbc0284f8884f3caa9bc8e1d22"
+  }, {
+    "receivedAt" : "2026-10-13T07:59:06.370890Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "c1d93b8a35ff79444210ea163de7a5531169d6fbc0284f8884f3caa9bc8e1d22"
+  } ]
+}

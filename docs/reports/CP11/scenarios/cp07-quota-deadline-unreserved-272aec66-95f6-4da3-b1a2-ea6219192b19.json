@@ -1,0 +1,26 @@
+{
+  "scenario" : "cp07-quota-deadline-unreserved",
+  "observedAt" : "2026-10-13T07:58:51.985031Z",
+  "task" : {
+    "id" : "272aec66-95f6-4da3-b1a2-ea6219192b19",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "status" : "failed",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-13T15:58:52.202155+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : "DEADLINE_EXCEEDED"
+  },
+  "attempts" : [ ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T07:58:51.929860Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "091926eaa2af91f269e33181100ccc702ac525e184a4abced3785b4e262b5052"
+  } ]
+}

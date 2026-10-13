@@ -1,0 +1,8 @@
+{
+  "scenario" : "cp08-redirect-307",
+  "observedAt" : "2026-10-13T07:57:49.394996Z",
+  "targetRole" : "business-and-token",
+  "observedCalls" : 0,
+  "observedConnections" : 0,
+  "dnsObservations" : [ ]
+}

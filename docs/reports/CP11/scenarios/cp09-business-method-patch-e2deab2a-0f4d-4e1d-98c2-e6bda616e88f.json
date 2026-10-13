@@ -1,0 +1,40 @@
+{
+  "scenario" : "cp09-business-method-patch",
+  "observedAt" : "2026-10-13T07:58:50.630553Z",
+  "task" : {
+    "id" : "e2deab2a-0f4d-4e1d-98c2-e6bda616e88f",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "succeeded",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T15:58:50.566096+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "e2deab2a-0f4d-4e1d-98c2-e6bda616e88f",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "d2ced841-6e6c-4a50-bd02-d09538381bfb",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "started_at" : "2026-10-13T15:58:50.584276+08:00",
+    "ended_at" : "2026-10-13T15:58:50.589427+08:00",
+    "request_started_at" : "2026-10-13T15:58:50.587071+08:00",
+    "http_send_started_at" : "2026-10-13T15:58:50.588463+08:00",
+    "execution_deadline" : "2026-10-13T15:58:54.584276+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T07:58:50.588800Z",
+    "method" : "PATCH",
+    "path" : "/configured-patch",
+    "bodySha256" : "634ace17360c84a7560c76a21d21dc22a1749cd4c2d20975b92fc58990ed1940"
+  } ]
+}

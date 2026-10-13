@@ -1,0 +1,59 @@
+{
+  "scenario" : "cp10-token-metrics",
+  "observedAt" : "2026-10-13T07:58:06.924757Z",
+  "task" : {
+    "id" : "4c344ac2-2722-4592-8701-6c784c40b0c5",
+    "run_number" : 1,
+    "run_attempt_count" : 2,
+    "total_attempt_count" : 2,
+    "status" : "succeeded",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T15:58:06.7895+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "4c344ac2-2722-4592-8701-6c784c40b0c5",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "b6f14a35-33b9-4425-9eb2-fb351f883fd1",
+    "phase" : "COMPLETED",
+    "outcome" : "NOT_SENT",
+    "http_status" : null,
+    "error_code" : "TOKEN_SERVER_ERROR",
+    "started_at" : "2026-10-13T15:58:06.802223+08:00",
+    "ended_at" : "2026-10-13T15:58:06.805632+08:00",
+    "request_started_at" : null,
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T15:58:10.802223+08:00"
+  }, {
+    "task_id" : "4c344ac2-2722-4592-8701-6c784c40b0c5",
+    "run_number" : 1,
+    "attempt_no" : 2,
+    "lease_token" : "32f9dc24-235c-4e9e-af56-08b9cc539965",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "started_at" : "2026-10-13T15:58:06.868031+08:00",
+    "ended_at" : "2026-10-13T15:58:06.873486+08:00",
+    "request_started_at" : "2026-10-13T15:58:06.871218+08:00",
+    "http_send_started_at" : "2026-10-13T15:58:06.873603+08:00",
+    "execution_deadline" : "2026-10-13T15:58:10.868031+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T07:58:06.873917Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "2bd3eec0921cc519a1c5b603dd582e84bdbfec023876eb085c6486012f2d6ee9"
+  }, {
+    "receivedAt" : "2026-10-13T07:58:06.905717Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "e948b3d97afec027014a1795a210542f7dc1c34e3d09baf4422d32965c01f588"
+  } ]
+}
