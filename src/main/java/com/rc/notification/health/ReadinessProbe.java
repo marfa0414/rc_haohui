@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReadinessProbe {
-    private static final String EXPECTED_SCHEMA_VERSION = "1";
+    private static final String EXPECTED_SCHEMA_VERSION = "2";
     private final JdbcTemplate jdbc;
     private final Flyway flyway;
     private final ApplicationAvailability availability;
@@ -30,6 +30,7 @@ public class ReadinessProbe {
                        AND to_regclass('auth_profile') IS NOT NULL
                        AND to_regclass('notification_route') IS NOT NULL
                        AND to_regclass('audit_event') IS NOT NULL
+                       AND to_regclass('notification_task') IS NOT NULL
                     """, Boolean.class);
             if (!Boolean.TRUE.equals(tablesPresent) || !flyway.validateWithResult().validationSuccessful) {
                 return false;

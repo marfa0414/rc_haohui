@@ -1,0 +1,56 @@
+CREATE TABLE notification_task (
+    id uuid PRIMARY KEY,
+    tenant_id varchar(64) NOT NULL CHECK (tenant_id ~ '^[A-Za-z0-9._:-]{1,64}$'),
+    operation varchar(128) NOT NULL CHECK (operation ~ '^[A-Za-z0-9._:-]{1,128}$'),
+    event_id varchar(128) NOT NULL CHECK (event_id ~ '^[A-Za-z0-9._:-]{1,128}$'),
+    request_hash bytea NOT NULL CHECK (octet_length(request_hash) = 32),
+    template_version_id uuid NOT NULL REFERENCES notification_template_version(id),
+    auth_profile_id uuid NOT NULL,
+    route_revision bigint NOT NULL CHECK (route_revision > 0),
+    provider_id varchar(128) NOT NULL,
+    endpoint_group varchar(128) NOT NULL,
+    quota_key varchar(256) NOT NULL,
+    request_url text NOT NULL,
+    request_method varchar(8) NOT NULL CHECK (request_method IN ('POST','PUT','PATCH')),
+    ordinary_headers jsonb NOT NULL CHECK (jsonb_typeof(ordinary_headers) = 'object'),
+    content_type varchar(128) NOT NULL,
+    body_bytes bytea NOT NULL CHECK (octet_length(body_bytes) <= 262144),
+    status varchar(16) NOT NULL CHECK (status IN ('pending','processing','succeeded','failed')),
+    run_number integer NOT NULL DEFAULT 1 CHECK (run_number >= 1),
+    run_attempt_count integer NOT NULL DEFAULT 0,
+    total_attempt_count bigint NOT NULL DEFAULT 0,
+    max_attempts integer NOT NULL CHECK (max_attempts > 0),
+    run_started_at timestamptz NOT NULL,
+    deadline_at timestamptz NOT NULL,
+    next_attempt_at timestamptz,
+    defer_reason varchar(64),
+    lease_token uuid,
+    lease_owner varchar(128),
+    lease_until timestamptz,
+    auth_recovery_used boolean NOT NULL DEFAULT false,
+    auth_recovery_required boolean NOT NULL DEFAULT false,
+    rejected_token_digest bytea,
+    last_outcome varchar(32) NOT NULL DEFAULT 'NOT_SENT',
+    last_error_code varchar(64),
+    last_http_status smallint,
+    created_at timestamptz NOT NULL,
+    updated_at timestamptz NOT NULL,
+    UNIQUE (tenant_id, operation, event_id),
+    FOREIGN KEY (auth_profile_id, tenant_id) REFERENCES auth_profile(id, tenant_id),
+    CHECK (run_attempt_count BETWEEN 0 AND max_attempts),
+    CHECK (total_attempt_count >= run_attempt_count),
+    CHECK (deadline_at > run_started_at),
+    CHECK ((status = 'processing' AND lease_token IS NOT NULL AND lease_owner IS NOT NULL AND lease_until IS NOT NULL)
+        OR (status <> 'processing' AND lease_token IS NULL AND lease_owner IS NULL AND lease_until IS NULL)),
+    CHECK ((status = 'pending' AND next_attempt_at IS NOT NULL) OR (status <> 'pending' AND next_attempt_at IS NULL)),
+    CHECK (last_outcome IN ('NOT_SENT','HTTP_ACKNOWLEDGED','HTTP_REJECTED','UNKNOWN')),
+    CHECK (NOT auth_recovery_required OR auth_recovery_used),
+    CHECK (rejected_token_digest IS NULL OR octet_length(rejected_token_digest) = 32),
+    CHECK (last_http_status IS NULL OR last_http_status BETWEEN 100 AND 599)
+);
+
+CREATE INDEX task_due_idx ON notification_task(provider_id, next_attempt_at, created_at, id)
+    WHERE status = 'pending';
+CREATE INDEX task_lease_idx ON notification_task(lease_until, id) WHERE status = 'processing';
+CREATE INDEX task_deadline_idx ON notification_task(deadline_at, id) WHERE status = 'pending';
+CREATE INDEX task_query_idx ON notification_task(tenant_id, status, created_at, id);

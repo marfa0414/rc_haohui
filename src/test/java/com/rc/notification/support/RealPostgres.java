@@ -54,6 +54,10 @@ public final class RealPostgres implements AutoCloseable {
         return schema;
     }
 
+    public String jdbcUrl() {
+        return url;
+    }
+
     public Map<String, Object> springProperties(String mode) {
         return Map.ofEntries(
                 Map.entry("server.port", "0"),
