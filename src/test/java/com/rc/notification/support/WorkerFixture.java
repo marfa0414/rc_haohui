@@ -43,6 +43,7 @@ public final class WorkerFixture implements AutoCloseable {
         properties.put("app.outbound.allowed-hosts", "supplier.invalid,127.0.0.1");
         properties.put("app.outbound.allowed-ports", "443," + mock.uri("/notify").getPort());
         properties.put("app.outbound.development-http-hosts", "127.0.0.1");
+        properties.put("app.outbound.development-allowed-cidrs", "127.0.0.1/32");
         var developmentPorts = new ArrayList<>(additionalHttpPorts);
         developmentPorts.add(mock.uri("/notify").getPort());
         properties.put("app.outbound.development-http-ports", developmentPorts.stream().map(Object::toString)

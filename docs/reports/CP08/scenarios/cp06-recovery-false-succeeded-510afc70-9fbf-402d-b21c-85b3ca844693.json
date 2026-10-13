@@ -1,0 +1,59 @@
+{
+  "scenario" : "cp06-recovery-false-succeeded",
+  "observedAt" : "2026-10-13T06:03:03.544111Z",
+  "task" : {
+    "id" : "510afc70-9fbf-402d-b21c-85b3ca844693",
+    "run_number" : 1,
+    "run_attempt_count" : 2,
+    "total_attempt_count" : 2,
+    "status" : "succeeded",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : null,
+    "deadline_at" : "2026-10-14T14:03:03.466883+08:00",
+    "last_outcome" : "HTTP_ACKNOWLEDGED",
+    "last_error_code" : null,
+    "last_http_status" : 200,
+    "defer_reason" : null
+  },
+  "attempts" : [ {
+    "task_id" : "510afc70-9fbf-402d-b21c-85b3ca844693",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "e605f405-6b5a-4fcc-967d-e973ff5e61dc",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_REJECTED",
+    "http_status" : 401,
+    "error_code" : "AUTH_INVALID_TOKEN",
+    "started_at" : "2026-10-13T14:03:03.478923+08:00",
+    "ended_at" : "2026-10-13T14:03:03.484061+08:00",
+    "request_started_at" : "2026-10-13T14:03:03.482035+08:00",
+    "http_send_started_at" : "2026-10-13T14:03:03.483329+08:00",
+    "execution_deadline" : "2026-10-13T14:03:05.478923+08:00"
+  }, {
+    "task_id" : "510afc70-9fbf-402d-b21c-85b3ca844693",
+    "run_number" : 1,
+    "attempt_no" : 2,
+    "lease_token" : "ba9fff84-5d21-4bfe-88ba-bad8faa60972",
+    "phase" : "COMPLETED",
+    "outcome" : "HTTP_ACKNOWLEDGED",
+    "http_status" : 200,
+    "error_code" : null,
+    "started_at" : "2026-10-13T14:03:03.527127+08:00",
+    "ended_at" : "2026-10-13T14:03:03.532528+08:00",
+    "request_started_at" : "2026-10-13T14:03:03.530233+08:00",
+    "http_send_started_at" : "2026-10-13T14:03:03.531756+08:00",
+    "execution_deadline" : "2026-10-13T14:03:05.527127+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T06:03:03.483557Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "05c2d473ab49f8777c31cd84090b68b6313f40cf4b48511d98e115587d13a66a"
+  }, {
+    "receivedAt" : "2026-10-13T06:03:03.532018Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "05c2d473ab49f8777c31cd84090b68b6313f40cf4b48511d98e115587d13a66a"
+  } ]
+}

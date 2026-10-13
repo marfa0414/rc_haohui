@@ -1,0 +1,32 @@
+# Deployment-side example only. Replace vendor domains and supply all referenced secrets externally.
+app:
+  environment: production
+  outbound:
+    allowed-hosts:
+      - crm.example.com
+      - auth.crm.example.com
+      - ads.example.com
+    allowed-ports: [443]
+  secrets:
+    tenant-references:
+      tenant-a:
+        - env:EXAMPLE_CRM_API_KEY
+        - env:EXAMPLE_CRM_CLIENT_SECRET
+        - env:EXAMPLE_ADS_API_KEY
+  security:
+    callers:
+      - id: business-a
+        token: ${BUSINESS_A_INTERNAL_TOKEN}
+        roles: [BUSINESS]
+        tenants: [tenant-a]
+        operations: [subscription.paid, user.registered]
+      - id: configuration-a
+        token: ${CONFIG_A_INTERNAL_TOKEN}
+        roles: [CONFIG_ADMIN]
+        tenants: [tenant-a]
+        operations: [subscription.paid, user.registered]
+      - id: operator-a
+        token: ${OPERATOR_A_INTERNAL_TOKEN}
+        roles: [OPERATOR]
+        tenants: [tenant-a]
+        operations: [subscription.paid, user.registered]

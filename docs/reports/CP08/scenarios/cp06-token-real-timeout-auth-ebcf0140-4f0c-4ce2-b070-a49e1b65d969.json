@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-token-real-timeout-authentication",
+  "observedAt" : "2026-10-13T06:02:50.762553Z",
+  "taskId" : "ebcf0140-4f0c-4ce2-b070-a49e1b65d969",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T06:02:50.561382Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

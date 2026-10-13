@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp07-half-open-token-failure-authentication",
+  "observedAt" : "2026-10-13T06:01:18.819417Z",
+  "taskId" : "d6ee9cb6-4f2a-49db-b069-c8acf0eb5a6d",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T06:01:18.771466Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

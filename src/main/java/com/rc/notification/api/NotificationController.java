@@ -7,7 +7,10 @@ import com.rc.notification.runtime.RoleConfiguration;
 import com.rc.notification.security.CallerPrincipal;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/notifications")
 @Conditional(RoleConfiguration.ApiEnabled.class)
 public class NotificationController {
+    private static final Logger LOG = LoggerFactory.getLogger(NotificationController.class);
     private final SubmissionParser parser;
     private final NotificationService service;
     public NotificationController(SubmissionParser parser, NotificationService service) {
@@ -32,7 +36,13 @@ public class NotificationController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<NotificationService.Accepted> submit(HttpServletRequest request,
                                                               @AuthenticationPrincipal CallerPrincipal caller) throws IOException {
-        var accepted = service.submit(parser.parse(request.getInputStream()), caller);
+        long started = System.nanoTime();
+        var submission = parser.parse(request.getInputStream());
+        var accepted = service.submit(submission, caller);
+        // This association is emitted after commit; asynchronous executions join by notificationId.
+        LOG.info("notification_accepted requestId={} notificationId={} tenantId={} operation={} runNumber={} phase=ACCEPTED durationMs={} errorCode=NONE deduplicated={}",
+                ApiErrors.requestId(request), accepted.notificationId(), submission.tenantId(), submission.operation(), accepted.runNumber(),
+                Duration.ofNanos(System.nanoTime() - started).toMillis(), accepted.deduplicated());
         return ResponseEntity.status(accepted.deduplicated() ? 200 : 202).body(accepted);
     }
 

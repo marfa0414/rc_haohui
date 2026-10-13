@@ -29,6 +29,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeoutException;
 import org.apache.hc.client5.http.ClientProtocolException;
 import org.apache.hc.core5.http.ConnectionRequestTimeoutException;
+import org.apache.hc.core5.http.MessageConstraintException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
@@ -114,7 +115,7 @@ public class OAuthTokenClient {
             throw failure("TOKEN_TARGET_REJECTED", false);
         } catch (ControlledHttpClient.ResponseTooLargeException excessive) {
             throw failure("TOKEN_RESPONSE_TOO_LARGE", false);
-        } catch (ClientProtocolException protocol) {
+        } catch (ControlledHttpClient.ResponseHeadersTooLargeException | MessageConstraintException | ClientProtocolException protocol) {
             throw failure("TOKEN_PROTOCOL_ERROR", false);
         } catch (IOException network) {
             throw failure("TOKEN_NETWORK", true);

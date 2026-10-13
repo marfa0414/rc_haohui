@@ -56,10 +56,11 @@ public class WorkerEngine {
     }
 
     public void process(Lease lease) {
+        long executionStarted = System.nanoTime();
         Attempt attempt = null;
         ProtectionGate.Permit permit = null;
         try {
-            phase(WorkerLifecycleListener.Phase.AFTER_CLAIM, lease, null);
+            phase(WorkerLifecycleListener.Phase.AFTER_CLAIM, lease, null, executionStarted);
             var admission = protection.acquire(lease);
             permit = admission.permit();
             var profile = configurations.auth(lease.authProfileId(), false);
@@ -69,12 +70,14 @@ public class WorkerEngine {
                 boolean authDominates = cooldown.remaining().compareTo(admission.delay()) > 0;
                 repository.defer(lease, authDominates ? cooldown.remaining() : admission.delay(), cooldown.retryAfterValues(),
                         authDominates ? "AUTH_COOLDOWN" : admission.reason());
+                logEvent(org.slf4j.event.Level.INFO, "delivery_deferred", lease, null, "DEFERRED",
+                        authDominates ? "AUTH_COOLDOWN" : admission.reason(), executionStarted);
                 return;
             }
             long budgetStarted = System.nanoTime();
             attempt = repository.reserve(lease, properties.attemptTimeout()).orElse(null);
             if (attempt == null) return;
-            phase(WorkerLifecycleListener.Phase.AFTER_RESERVE, lease, attempt);
+            phase(WorkerLifecycleListener.Phase.AFTER_RESERVE, lease, attempt, executionStarted);
             AuthRecoveryState recovery = repository.authRecovery(lease).orElse(null);
             if (recovery == null) return;
             PreparedAuthentication authentication;
@@ -85,25 +88,25 @@ public class WorkerEngine {
                 if (Thread.currentThread().isInterrupted() || failure.code().equals("TOKEN_CANCELLED")) return;
                 Duration authDelay = failure.retryable() ? authenticationStrategies.cooldown(context).remaining() : Duration.ZERO;
                 finish(lease, attempt, new Completion("NOT_SENT", null, failure.code(), null, failure.retryable(), failure.retryAfterValues(),
-                        false, null, authDelay), context);
+                        false, null, authDelay), context, executionStarted);
                 return;
             }
             Duration beforeIntent = remaining(lease, attempt, budgetStarted);
             if (beforeIntent.isNegative() || beforeIntent.isZero()) return;
             if (!repository.markRequestStarted(lease, attempt, authentication.transport().credentialVersion(), authentication.tokenDigest())) return;
-            phase(WorkerLifecycleListener.Phase.AFTER_REQUEST_STARTED, lease, attempt);
+            phase(WorkerLifecycleListener.Phase.AFTER_REQUEST_STARTED, lease, attempt, executionStarted);
             Duration remaining = remaining(lease, attempt, budgetStarted);
             if (remaining.isNegative() || remaining.isZero()) return;
             try {
                 authenticationStrategies.ensureValidForSend(authentication, remaining);
             } catch (TokenFailure expired) {
-                finish(lease, attempt, new Completion("NOT_SENT", null, expired.code(), null, true, List.of()), context);
+                finish(lease, attempt, new Completion("NOT_SENT", null, expired.code(), null, true, List.of()), context, executionStarted);
                 return;
             }
             Duration quotaRemaining = protection.cooldown(lease);
             if (!quotaRemaining.isZero() && !quotaRemaining.isNegative()) {
                 finish(lease, attempt, new Completion("NOT_SENT", null, "QUOTA_COOLDOWN", null, true, List.of(),
-                        false, null, quotaRemaining), context);
+                        false, null, quotaRemaining), context, executionStarted);
                 return;
             }
             Completion completion;
@@ -131,22 +134,22 @@ public class WorkerEngine {
                         "HTTP_" + failure.kind().name(), failure.httpSendStartedAt(),
                         retryPolicy.classify(null, failure.kind()) == RetryPolicy.Outcome.RETRY, List.of());
             }
-            phase(WorkerLifecycleListener.Phase.AFTER_HTTP, lease, attempt);
-            boolean committed = finish(lease, attempt, completion, context);
+            phase(WorkerLifecycleListener.Phase.AFTER_HTTP, lease, attempt, executionStarted);
+            boolean committed = finish(lease, attempt, completion, context, executionStarted);
             if (committed && completion.authRecovery() && !recovery.used()) {
-                phase(WorkerLifecycleListener.Phase.AFTER_COMPLETION, lease, attempt);
+                phase(WorkerLifecycleListener.Phase.AFTER_COMPLETION, lease, attempt, executionStarted);
                 authenticationStrategies.invalidate(authentication);
             }
         } catch (InterruptedException interrupted) {
             Thread.currentThread().interrupt();
-            LOG.info("delivery_interrupted taskId={} run={} attempt={}", lease.taskId(), lease.runNumber(), attempt == null ? 0 : attempt.attemptNo());
+            logEvent(org.slf4j.event.Level.INFO, "delivery_interrupted", lease, attempt, "INTERRUPTED", "WORKER_INTERRUPTED", executionStarted);
         } catch (DataAccessException | TransactionException unavailable) {
             // Neither a failed commit nor an unavailable database licenses a later HTTP call.
             metrics.counter("notification.worker.storage_failure").increment();
-            LOG.warn("delivery_storage_unavailable taskId={} run={}", lease.taskId(), lease.runNumber());
+            logEvent(org.slf4j.event.Level.WARN, "delivery_storage_unavailable", lease, attempt, "STORAGE_FAILURE", "STORAGE_UNAVAILABLE", executionStarted);
         } catch (RuntimeException unexpected) {
             metrics.counter("notification.worker.execution_failure").increment();
-            LOG.error("delivery_execution_failed taskId={} run={} exceptionType={}", lease.taskId(), lease.runNumber(), unexpected.getClass().getSimpleName());
+            logEvent(org.slf4j.event.Level.ERROR, "delivery_execution_failed", lease, attempt, "EXECUTION_FAILURE", "EXECUTION_FAILURE", executionStarted);
         } finally {
             if (permit != null) permit.close();
         }
@@ -166,15 +169,21 @@ public class WorkerEngine {
         return attemptRemaining.compareTo(leaseRemaining) < 0 ? attemptRemaining : leaseRemaining;
     }
 
-    private void phase(WorkerLifecycleListener.Phase phase, Lease lease, Attempt attempt) throws InterruptedException {
+    private void phase(WorkerLifecycleListener.Phase phase, Lease lease, Attempt attempt, long started) throws InterruptedException {
         if (Thread.currentThread().isInterrupted()) throw new InterruptedException("Worker interrupted");
         metrics.counter("notification.worker.phase", "phase", phase.name()).increment();
-        LOG.debug("delivery_phase taskId={} run={} attempt={} phase={}", lease.taskId(), lease.runNumber(),
-                attempt == null ? 0 : attempt.attemptNo(), phase);
+        logEvent(org.slf4j.event.Level.INFO, "delivery_phase", lease, attempt, phase.name(), "NONE", started);
         for (var listener : listeners) listener.onPhase(phase, lease, attempt);
     }
 
-    private boolean finish(Lease lease, Attempt attempt, Completion completion, AuthContext context) {
+    private static void logEvent(org.slf4j.event.Level level, String event, Lease lease, Attempt attempt,
+                                 String phase, String errorCode, long started) {
+        LOG.atLevel(level).log("{} executionId={} notificationId={} tenantId={} operation={} providerId={} runNumber={} attemptNo={} phase={} durationMs={} errorCode={}",
+                event, lease.leaseToken(), lease.taskId(), lease.tenantId(), lease.operation(), lease.providerId(), lease.runNumber(),
+                attempt == null ? 0 : attempt.attemptNo(), phase, Duration.ofNanos(System.nanoTime() - started).toMillis(), errorCode);
+    }
+
+    private boolean finish(Lease lease, Attempt attempt, Completion completion, AuthContext context, long started) {
         if (completion.retryable()) {
             Duration delay = completion.retryDelay();
             Duration quota = protection.cooldown(lease);
@@ -186,8 +195,10 @@ public class WorkerEngine {
         }
         boolean committed = repository.complete(lease, attempt, completion);
         metrics.counter("notification.worker.completion", "result", committed ? completion.outcome() : "STALE_OWNER").increment();
-        LOG.info("delivery_completion taskId={} run={} attempt={} outcome={} committed={}", lease.taskId(), lease.runNumber(),
-                attempt.attemptNo(), completion.outcome(), committed);
+        LOG.info("delivery_completion executionId={} notificationId={} tenantId={} operation={} providerId={} runNumber={} attemptNo={} phase=COMPLETION durationMs={} errorCode={} outcome={} committed={}",
+                lease.leaseToken(), lease.taskId(), lease.tenantId(), lease.operation(), lease.providerId(), lease.runNumber(),
+                attempt.attemptNo(), Duration.ofNanos(System.nanoTime() - started).toMillis(),
+                committed ? completion.errorCode() == null ? "NONE" : completion.errorCode() : "STALE_OWNER", completion.outcome(), committed);
         return committed;
     }
 }

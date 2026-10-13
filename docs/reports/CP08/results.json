@@ -1,0 +1,3994 @@
+{
+  "checkpoint": "CP08",
+  "suiteScope": "Cumulative CP01-CP08",
+  "suites": [
+    {
+      "suite": "com.rc.notification.admission.AdmissionGateTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "fiftyConcurrentCallsCannotExceedOneSharedLocalBurst",
+          "class": "com.rc.notification.admission.AdmissionGateTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "refillIsMonotonicAndCappedAtTheConfiguredBurst",
+          "class": "com.rc.notification.admission.AdmissionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "c3b2588dbfeb899509a007e077ef64fd6df8f60ed722db125bdd8bc569cc83ca"
+    },
+    {
+      "suite": "com.rc.notification.api.IngressProtectionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "unauthenticatedCallsDoNotSpendAdmissionTokensAndARejectedNewEventIsNotPersisted",
+          "class": "com.rc.notification.api.IngressProtectionTest",
+          "seconds": "1.392",
+          "status": "PASS"
+        },
+        {
+          "name": "fullBacklogRejectsOnlyNewWorkAndIdempotentResolutionSurvivesUntilCapacityRecovers",
+          "class": "com.rc.notification.api.IngressProtectionTest",
+          "seconds": "0.338",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "fdba80be9dffd3f4edfbb435451ee6051d827ac01da9f027f78f1c19a600192e"
+    },
+    {
+      "suite": "com.rc.notification.api.NotificationAcceptanceFailureTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "anAfterInsertDatabaseFailureRollsBackInsteadOfReturning202",
+          "class": "com.rc.notification.api.NotificationAcceptanceFailureTest",
+          "seconds": "0.294",
+          "status": "PASS"
+        },
+        {
+          "name": "aCommittedResponseLostOnTheWireCanBeResolvedByTheOriginalEventKey",
+          "class": "com.rc.notification.api.NotificationAcceptanceFailureTest",
+          "seconds": "0.23",
+          "status": "PASS"
+        },
+        {
+          "name": "disconnectedDatabaseCannotAcknowledgeAndReadinessRecovers",
+          "class": "com.rc.notification.api.NotificationAcceptanceFailureTest",
+          "seconds": "0.344",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "1afb642a0d76aea3e56b64b17b9bff0425dd3977e94383a66c4e34b5b4656070"
+    },
+    {
+      "suite": "com.rc.notification.api.NotificationAccessAndQueryTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "paginatesEqualCreationTimesWithoutGapsAndFiltersTenantStatusAndOperation",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.285",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsOnlyAfterCommitAndReportsThePendingSnapshotWithoutSecrets",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.226",
+          "status": "PASS"
+        },
+        {
+          "name": "unknownAndUnauthorizedTaskIdsHaveTheSameNotFoundShape",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.232",
+          "status": "PASS"
+        },
+        {
+          "name": "missingDraftAndMalformedConfigurationsCannotBeAccepted",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.261",
+          "status": "PASS"
+        },
+        {
+          "name": "workerModeDoesNotExposeNotificationSubmission",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.225",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsMissingWrongTenantAndUnauthorizedOperationCredentialsBeforeAccepting",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.227",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "bcc2538a012ee978497e72d09244106e22aec0e1bac1074e65550d088ef3472a"
+    },
+    {
+      "suite": "com.rc.notification.api.NotificationIdempotencyTest",
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "existingEventIsAuthorizedThenDeduplicatedBeforeReadingTheCurrentRoute",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.242",
+          "status": "PASS"
+        },
+        {
+          "name": "fiftySimultaneousFirstSubmissionsProduceOneDurableTask",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "2.398",
+          "status": "PASS"
+        },
+        {
+          "name": "competingContentsHaveOneWinnerAndTheOtherAlwaysConflicts",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "2.491",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[1]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.233",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[2]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.221",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[3]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.222",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[4]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.225",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[5]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.227",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[6]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.222",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[7]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.224",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[8]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.225",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[9]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.226",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[10]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.251",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[11]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.224",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[12]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.224",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[13]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.226",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[14]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.229",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[15]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.228",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[16]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.227",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[17]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.225",
+          "status": "PASS"
+        },
+        {
+          "name": "tenantAndOperationAreBothPartsOfTheEventKey",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.223",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "4ac8c9d8454eb12f648b3ebd520b83cd811228238af9f8b87831246c4fcbb450"
+    },
+    {
+      "suite": "com.rc.notification.api.NotificationInputTest",
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "rejectsMoreThan256KiBBeforeCreatingATask",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.014",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[1]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.005",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[2]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[3]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[4]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[5]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[6]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsMaximumIdentifierLengthsAndKeepsCaseDistinct",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.015",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[1]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[2]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[3]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[4]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[5]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.017",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[6]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.015",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[7]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.014",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[8]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.015",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[9]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.017",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[10]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.016",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[11]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.016",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[12]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.017",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[13]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.014",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[14]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[15]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[16]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[17]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[18]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[19]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[20]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[21]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.011",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[22]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.011",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[23]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[24]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[25]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[26]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[27]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[28]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[29]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[30]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[31]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[32]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.011",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[33]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "8ab4b1de56ec2bfcba1d1ecf7126ef953f3b20919e47a4a71a573fc24635e609"
+    },
+    {
+      "suite": "com.rc.notification.application.SubmissionParserTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "canonicalGoldenVectorSortsByUnicodeCodePointRatherThanUtf16CodeUnit",
+          "class": "com.rc.notification.application.SubmissionParserTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "oversizedStreamStopsAtTheLimitPlusOneWithoutReadingAnUnboundedBody",
+          "class": "com.rc.notification.application.SubmissionParserTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "da85c3ac939fcd50a1c84502e8994e7a8c8da2ad8b75bbf94869e8c28187b4ea"
+    },
+    {
+      "suite": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "horizontalTabsRemainAllowedInCredentialHeaderValues",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[1]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[2]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[3]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[4]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[5]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[6]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "resolvesTheCurrentCredentialOnlyDuringPreparationAndRedactsDebugOutput",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[1]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[2]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[3]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[4]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[5]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "missingDeploymentPermissionRejectsBothValueAndMetadataBeforeSecretResolution",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "e74ed68f413bf41df8d6fe744d11ed783b1de59ab3c2420324d14f8758dded84"
+    },
+    {
+      "suite": "com.rc.notification.auth.BearerChallengeTest",
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[1]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[2]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[3]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[4]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[5]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[6]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[7]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[8]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[9]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[10]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[11]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[12]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[13]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[14]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[15]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[16]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[17]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[18]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[19]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[20]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsChallengeGrammarAndCannotInferAnErrorFromRealmOrAnotherScheme(List, boolean)[21]",
+          "class": "com.rc.notification.auth.BearerChallengeTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "bb2c24ece04ab558ba57244649fa666957fb7c47a842020bc571db57ae617e90"
+    },
+    {
+      "suite": "com.rc.notification.auth.OAuthTokenProtocolTest",
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "slowResponseBodyConsumesTheSameDeadlineAndCapacityIsReusableAfterCancellation",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.259",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[1]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[2]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[3]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[4]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[5]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[6]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[7]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[8]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[9]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[10]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[11]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[12]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedProtocolResponsesFailPermanentlyAndCannotBeHiddenByFallbackTtl(String)[13]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "responseDecoderWorkIsAlsoInsideTheTransportDeadline",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.256",
+          "status": "PASS"
+        },
+        {
+          "name": "tokenRedirectsNeverForwardClientCredentials(int)[1]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "tokenRedirectsNeverForwardClientCredentials(int)[2]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "tokenRedirectsNeverForwardClientCredentials(int)[3]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "tokenRedirectsNeverForwardClientCredentials(int)[4]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "chunkedTokenBodyWithoutContentLengthCannotExceedTheByteLimit",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "aLongRequestedBudgetIsStillCappedAtFiveSecondsAndDoesNotRetry",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "5.003",
+          "status": "PASS"
+        },
+        {
+          "name": "missingExpiryRequiresAnExplicitLifetimeAndDoesNotAssumeTokensAreJwt",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.011",
+          "status": "PASS"
+        },
+        {
+          "name": "usesCorrectOAuthClientAuthenticationAndNormalizedScopeEncoding(String)[1]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "usesCorrectOAuthClientAuthenticationAndNormalizedScopeEncoding(String)[2]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "oauthErrorResponsesHaveExplicitSanitizedRetryClassification(int, String, String, boolean)[1]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "oauthErrorResponsesHaveExplicitSanitizedRetryClassification(int, String, String, boolean)[2]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "oauthErrorResponsesHaveExplicitSanitizedRetryClassification(int, String, String, boolean)[3]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "oauthErrorResponsesHaveExplicitSanitizedRetryClassification(int, String, String, boolean)[4]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "oauthErrorResponsesHaveExplicitSanitizedRetryClassification(int, String, String, boolean)[5]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "oauthErrorResponsesHaveExplicitSanitizedRetryClassification(int, String, String, boolean)[6]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "oauthErrorResponsesHaveExplicitSanitizedRetryClassification(int, String, String, boolean)[7]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "tokenJsonHasAnExactUtf8ByteLimit(int)[1]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "tokenJsonHasAnExactUtf8ByteLimit(int)[2]",
+          "class": "com.rc.notification.auth.OAuthTokenProtocolTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "897dc8d2b9e97e205068a2e266deabed439451a6bab0e0b4b9c898ac6561d267"
+    },
+    {
+      "suite": "com.rc.notification.auth.TokenCacheLifecycleTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "closeReleasesEveryWaiterAndCancelsTheLiveTransportBeforeServerCompletion",
+          "class": "com.rc.notification.auth.TokenCacheLifecycleTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "interruptingOneWaiterLeavesTheSharedExchangeAndOtherWaiterAlive",
+          "class": "com.rc.notification.auth.TokenCacheLifecycleTest",
+          "seconds": "0.007",
+          "status": "PASS"
+        },
+        {
+          "name": "tokenRateLimitHonorsSecondsAndHttpDateBeyondTheShortFailureCooldown(boolean)[1]",
+          "class": "com.rc.notification.auth.TokenCacheLifecycleTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "tokenRateLimitHonorsSecondsAndHttpDateBeyondTheShortFailureCooldown(boolean)[2]",
+          "class": "com.rc.notification.auth.TokenCacheLifecycleTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "enormousLegalRetryAfterRemainsPositiveAndCannotWrapIntoAnImmediateExchange",
+          "class": "com.rc.notification.auth.TokenCacheLifecycleTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "88f6bbed289fb77bffa3b2497f1bb3d34d617683a8d45c844a1b9c54605cad16"
+    },
+    {
+      "suite": "com.rc.notification.auth.TokenCacheTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "delayedOld401CannotInvalidateANewerGenerationAndRejectedValuesCannotBeReused",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.005",
+          "status": "PASS"
+        },
+        {
+          "name": "fiftyFailedWaitersDoNotSeriallyHammerTheEndpointAndCooldownCanRecover",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.005",
+          "status": "PASS"
+        },
+        {
+          "name": "safetyBoundaryUsesMonotonicAgeAndRefreshesAtSixtySecondsRemaining",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "fiftyConcurrentCallersShareOneNetworkExchangeAndOneGeneration",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "anIndividualWaiterTimeoutDoesNotCancelTheSharedLeader",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.057",
+          "status": "PASS"
+        },
+        {
+          "name": "allAuthorizationContextDimensionsAreIsolatedButEquivalentScopeSetsReuse",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.006",
+          "status": "PASS"
+        },
+        {
+          "name": "plannedBusinessTimeAndSafetyMarginCanRequireEarlierRefreshWithoutAnInfiniteLoop",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "fullCacheDoesNotEvictAnInflightEntryAndExpiredEntriesCanBeReclaimed",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "leadersPrivateRejectionOrDurationConstraintDoesNotPoisonAnotherWaitersSharedToken(boolean)[1]",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.007",
+          "status": "PASS"
+        },
+        {
+          "name": "leadersPrivateRejectionOrDurationConstraintDoesNotPoisonAnotherWaitersSharedToken(boolean)[2]",
+          "class": "com.rc.notification.auth.TokenCacheTest",
+          "seconds": "0.007",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "a7d4f53069a1cf9218016bfeb2c72ef2232fd28029507c78d299610f60e252b3"
+    },
+    {
+      "suite": "com.rc.notification.config.ConfigurationAccessTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "concurrentDifferentTenantsCannotCaptureDifferentVersionsOfOneGlobalTemplateKey",
+          "class": "com.rc.notification.config.ConfigurationAccessTest",
+          "seconds": "0.334",
+          "status": "PASS"
+        },
+        {
+          "name": "maximumTenantAndOperationIdentifiersFitTheRouteAndItsAuditRecord",
+          "class": "com.rc.notification.config.ConfigurationAccessTest",
+          "seconds": "0.24",
+          "status": "PASS"
+        },
+        {
+          "name": "allManagementCollectionsPaginateWithoutRepeatsAndHonorTenantScope",
+          "class": "com.rc.notification.config.ConfigurationAccessTest",
+          "seconds": "0.296",
+          "status": "PASS"
+        },
+        {
+          "name": "sharedTemplatesDoNotShareCredentialAuthorityOrMoveOtherTenantBindings",
+          "class": "com.rc.notification.config.ConfigurationAccessTest",
+          "seconds": "0.258",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "cdc10248641c4391556e6c21234c40da69d7c12acaa955f791f96812a8ec0d03"
+    },
+    {
+      "suite": "com.rc.notification.config.ConfigurationLifecycleTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "copyingWithOnlyDescriptionChangesKeepsExecutionBytesAndLeavesTheOldVersionAlone",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.273",
+          "status": "PASS"
+        },
+        {
+          "name": "previewAndOAuthPublicationAreOfflineAndRedactAllRenderedValues",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.241",
+          "status": "PASS"
+        },
+        {
+          "name": "checkedInCrmAndAdsExamplesAreAcceptedThroughConfigurationOnly",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.265",
+          "status": "PASS"
+        },
+        {
+          "name": "draftsMustPublishBeforeBindingAndPublishedResourcesAndSnapshotsAreImmutable",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.327",
+          "status": "PASS"
+        },
+        {
+          "name": "largeButAllowedNumericConstantSurvivesTheRealJsonbRoundTrip",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.268",
+          "status": "PASS"
+        },
+        {
+          "name": "configurationJsonbExpansionIsBoundedBeforeCreateOrUpdateCanCommit",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.274",
+          "status": "PASS"
+        },
+        {
+          "name": "staleDraftRevisionCannotBePublishedAndConcurrentEditsHaveOneWinner",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.246",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "241b9e5f0fb3c14bec0199eeb88bf78cde570f87da90163499249f7bc1553309"
+    },
+    {
+      "suite": "com.rc.notification.config.ConfigurationValidationTest",
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "customApiKeyHeaderCannotConflictWithAnOrdinaryHeaderIgnoringCase",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.278",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[1]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.244",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[2]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.278",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[3]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.256",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[4]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.258",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[5]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.264",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[6]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.263",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[7]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.251",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[8]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.243",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[9]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.244",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[10]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.238",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[11]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.239",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[12]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.241",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[13]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.237",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[14]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.249",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[15]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.233",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[16]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.244",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[17]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.236",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[18]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.305",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[19]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.246",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[20]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.242",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[21]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.244",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[22]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.238",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[23]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.239",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[24]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.242",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[25]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.248",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[26]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.247",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[27]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.245",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[28]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.238",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[29]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.231",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[30]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.23",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[31]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.234",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[32]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.232",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[33]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.227",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[34]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.254",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[35]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.227",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[36]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.234",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[37]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.239",
+          "status": "PASS"
+        },
+        {
+          "name": "unknownAuthAndUnsafeCredentialConfigurationCannotPublish",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.249",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "bfd440d64057156d57f1fc49a684ea103b748e4d58f187a24e2e1aeb9b1f66cb"
+    },
+    {
+      "suite": "com.rc.notification.config.ConfigurationVersionTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "routeCompareAndSetHasOneWinnerAndNeverMixesTheTwoVersionReferences",
+          "class": "com.rc.notification.config.ConfigurationVersionTest",
+          "seconds": "1.367",
+          "status": "PASS"
+        },
+        {
+          "name": "oldEventSurvivesNewRequiredFieldsAndRollbackOnlyChangesFutureTasks",
+          "class": "com.rc.notification.config.ConfigurationVersionTest",
+          "seconds": "0.491",
+          "status": "PASS"
+        },
+        {
+          "name": "submissionsDuringRepeatedRouteChangesSnapshotAWholeVersion",
+          "class": "com.rc.notification.config.ConfigurationVersionTest",
+          "seconds": "0.472",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "9d4970a2a67e22699e42712c1a826a07498509c73ace8c20253775182ba17987"
+    },
+    {
+      "suite": "com.rc.notification.config.MappingIntegrationTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "optionalNullAndMissingAreOmittedButFalseAndZeroRemain",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.352",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[1]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.349",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[2]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.336",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[3]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.353",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[4]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.315",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[5]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.291",
+          "status": "PASS"
+        },
+        {
+          "name": "outputBodyBoundaryUsesUtf8BytesAndRejectsExpansionBeforePersistence",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.333",
+          "status": "PASS"
+        },
+        {
+          "name": "formRejectsEmptyStringNullAndNonScalarValues",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.276",
+          "status": "PASS"
+        },
+        {
+          "name": "ordinaryHeaderBoundaryUsesUtf8BytesAndDynamicValuesCannotInjectLines",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.308",
+          "status": "PASS"
+        },
+        {
+          "name": "jsonSupportsNestedObjectsDirectArraysAndExactScalarTypes",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.27",
+          "status": "PASS"
+        },
+        {
+          "name": "secondSupplierUsesOnlyFormConfigurationAndEncodesSpecialCharactersOnce",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.286",
+          "status": "PASS"
+        },
+        {
+          "name": "jsonBusinessStringMayContainAnEscapedNulWithoutHeaderPolicyRejectingIt",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.268",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "dbbd0d89d86f714f70db98348945ef7d79a37e38eeeb0653e6c2ce79c479e13c"
+    },
+    {
+      "suite": "com.rc.notification.delivery.ControlledHttpClientTest",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "aDnsRejectionProducesNoHttpConnection",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "finalResponseHeadersAreEnoughWithoutWaitingForTheBody",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "dnsThatIgnoresInterruptionCannotConnectAfterDeadline",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.913",
+          "status": "PASS"
+        },
+        {
+          "name": "callerInterruptionCancelsTheRequestAndReleasesCapacity",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "neverFollowsRedirects(int)[1]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "neverFollowsRedirects(int)[2]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "neverFollowsRedirects(int)[3]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "neverFollowsRedirects(int)[4]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "doesNotRetainCookiesAcrossRequests",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "returnsAuthenticationChallengeWithoutResending",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "neverRetriesAnIdempotentRequestAfterConnectionReset",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "totalTimeoutCancelsSlowResponseAndReleasesCapacity",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.509",
+          "status": "PASS"
+        },
+        {
+          "name": "validatedResolverRejectsMixedAddressesBeforeAnyRealConnection",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "retryAfterDoesNotCauseATransparentRetry(int)[1]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "retryAfterDoesNotCauseATransparentRetry(int)[2]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "sendsOneRealHttpRequestWithExactBytesAndInjectedDns",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsExcessConcurrentRequestsInsteadOfBuildingAnUnboundedQueue",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "455a1bfb52f2899352008c2d4700336267fd1930d2ed66d5cfe49c42ec4b050e"
+    },
+    {
+      "suite": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "businessStatusDoesNotWaitForOrDrainAnUnboundedResponseBody(int, String)[1]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "businessStatusDoesNotWaitForOrDrainAnUnboundedResponseBody(int, String)[2]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "businessStatusDoesNotWaitForOrDrainAnUnboundedResponseBody(int, String)[3]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "businessStatusDoesNotWaitForOrDrainAnUnboundedResponseBody(int, String)[4]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "businessStatusDoesNotWaitForOrDrainAnUnboundedResponseBody(int, String)[5]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "businessStatusDoesNotWaitForOrDrainAnUnboundedResponseBody(int, String)[6]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "outerDeadlineCancelsStalledTlsAndPartialHeadersInBothPaths(boolean, String)[1]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.316",
+          "status": "PASS"
+        },
+        {
+          "name": "outerDeadlineCancelsStalledTlsAndPartialHeadersInBothPaths(boolean, String)[2]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.308",
+          "status": "PASS"
+        },
+        {
+          "name": "outerDeadlineCancelsStalledTlsAndPartialHeadersInBothPaths(boolean, String)[3]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.311",
+          "status": "PASS"
+        },
+        {
+          "name": "outerDeadlineCancelsStalledTlsAndPartialHeadersInBothPaths(boolean, String)[4]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.311",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[1]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.007",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[2]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.005",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[3]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.006",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[4]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[5]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[6]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.005",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[7]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[8]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[9]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "responseHeadersHaveIndependentAggregateLineAndCountBounds(boolean, String)[10]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "uninterruptibleDnsRetainsOnlyItsBoundedSlotsAndNeverConnectsAfterDeadline(boolean)[1]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.363",
+          "status": "PASS"
+        },
+        {
+          "name": "uninterruptibleDnsRetainsOnlyItsBoundedSlotsAndNeverConnectsAfterDeadline(boolean)[2]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.36",
+          "status": "PASS"
+        },
+        {
+          "name": "compressedResponsesAreNeverTransparentlyExpanded(boolean)[1]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.006",
+          "status": "PASS"
+        },
+        {
+          "name": "compressedResponsesAreNeverTransparentlyExpanded(boolean)[2]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.007",
+          "status": "PASS"
+        },
+        {
+          "name": "repeatedConcurrentInterruptionsClosePhysicalSocketsAndReturnEverySlot(boolean)[1]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.011",
+          "status": "PASS"
+        },
+        {
+          "name": "repeatedConcurrentInterruptionsClosePhysicalSocketsAndReturnEverySlot(boolean)[2]",
+          "class": "com.rc.notification.delivery.OutboundResourceLimitsTest",
+          "seconds": "0.015",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "469674ad3d5387d4d3775fbe18d1e705b592908a62bf5919b5a46d13a0db1a71"
+    },
+    {
+      "suite": "com.rc.notification.delivery.OutboundTlsTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "validatesTheRealCertificateChainValidityAndOriginalHostnameForBusinessAndToken(CertificateKind, boolean)[1]",
+          "class": "com.rc.notification.delivery.OutboundTlsTest",
+          "seconds": "0.154",
+          "status": "PASS"
+        },
+        {
+          "name": "validatesTheRealCertificateChainValidityAndOriginalHostnameForBusinessAndToken(CertificateKind, boolean)[2]",
+          "class": "com.rc.notification.delivery.OutboundTlsTest",
+          "seconds": "0.067",
+          "status": "PASS"
+        },
+        {
+          "name": "validatesTheRealCertificateChainValidityAndOriginalHostnameForBusinessAndToken(CertificateKind, boolean)[3]",
+          "class": "com.rc.notification.delivery.OutboundTlsTest",
+          "seconds": "0.066",
+          "status": "PASS"
+        },
+        {
+          "name": "validatesTheRealCertificateChainValidityAndOriginalHostnameForBusinessAndToken(CertificateKind, boolean)[4]",
+          "class": "com.rc.notification.delivery.OutboundTlsTest",
+          "seconds": "0.056",
+          "status": "PASS"
+        },
+        {
+          "name": "validatesTheRealCertificateChainValidityAndOriginalHostnameForBusinessAndToken(CertificateKind, boolean)[5]",
+          "class": "com.rc.notification.delivery.OutboundTlsTest",
+          "seconds": "0.054",
+          "status": "PASS"
+        },
+        {
+          "name": "validatesTheRealCertificateChainValidityAndOriginalHostnameForBusinessAndToken(CertificateKind, boolean)[6]",
+          "class": "com.rc.notification.delivery.OutboundTlsTest",
+          "seconds": "0.053",
+          "status": "PASS"
+        },
+        {
+          "name": "validatesTheRealCertificateChainValidityAndOriginalHostnameForBusinessAndToken(CertificateKind, boolean)[7]",
+          "class": "com.rc.notification.delivery.OutboundTlsTest",
+          "seconds": "0.057",
+          "status": "PASS"
+        },
+        {
+          "name": "validatesTheRealCertificateChainValidityAndOriginalHostnameForBusinessAndToken(CertificateKind, boolean)[8]",
+          "class": "com.rc.notification.delivery.OutboundTlsTest",
+          "seconds": "0.054",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "329fec1ca8a21f39a70ea2904d14d3c913ca8ac25482a39e645feccd3179d499"
+    },
+    {
+      "suite": "com.rc.notification.delivery.OutboundWireEncodingTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "unicodeOrdinaryHeaderIsWrittenAsExactUtf8RatherThanSilentlyReplaced",
+          "class": "com.rc.notification.delivery.OutboundWireEncodingTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "a57bb4979ab07daf63eb98759a7d71891d29eefa636883d10fd4aade998c63ae"
+    },
+    {
+      "suite": "com.rc.notification.protection.ProtectionCapacityTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "unusedOpenDomainsNeedBothTheirWaitAndIdleTtlBeforeTheyCanBeReclaimed",
+          "class": "com.rc.notification.protection.ProtectionCapacityTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "expiredQuotaEntriesCanBeReusedButALiveRetryAfterCannotBeEvicted",
+          "class": "com.rc.notification.protection.ProtectionCapacityTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "activeEntriesStayPinnedAndInactiveClosedEntriesBecomeReclaimableAfterIdleTtl",
+          "class": "com.rc.notification.protection.ProtectionCapacityTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "abandonedHalfOpenDomainsCanBeReclaimedAfterIdleTtlButLiveProbesRemainPinned",
+          "class": "com.rc.notification.protection.ProtectionCapacityTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "63e78fafd91d4d827d264323fb7c54abd502bddf44504d97f1a85440ae99f4ec"
+    },
+    {
+      "suite": "com.rc.notification.protection.ProtectionGateTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "enormousLegalQuotaDelayRemainsPositiveAndExplicitMappingCanShareOnlyChosenContexts",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "explicitDatabaseTimeDefinesHttpDateCooldownEvenWhenTheProcessWallClockIsFarAhead",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "eligibleNetworkTimeoutAndServerFailuresCountExactlyOnceDespiteRepeatedCompletionAndClose",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "wallClockJumpsNeitherAdvanceOpenPermissionNorChangeAnEstablishedQuotaWait",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "defaultsAndMinimumTenSamplesRequireAnActualFiftyPercentFailureRate",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "abandonedHalfOpenProbeAndExcludedResultBothAllowTheNextProbe",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[1]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[2]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[3]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[4]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[5]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[6]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[7]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[8]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[9]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "excludedOutcomesReleaseThePermitWithoutAddingEitherASuccessOrAFailure(Integer, FailureKind)[10]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "quotaLowerBoundIsSeparateFromCircuitAndFromOtherAuthenticationContexts(boolean)[1]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "quotaLowerBoundIsSeparateFromCircuitAndFromOtherAuthenticationContexts(boolean)[2]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "aLaterZeroRetryAfterCannotShortenAnAlreadyEstablishedQuotaCooldown",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "defaultThirtySecondFallbackDoesNotOverrideAnyLegalRetryAfter(List, long)[1]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "defaultThirtySecondFallbackDoesNotOverrideAnyLegalRetryAfter(List, long)[2]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "defaultThirtySecondFallbackDoesNotOverrideAnyLegalRetryAfter(List, long)[3]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "defaultThirtySecondFallbackDoesNotOverrideAnyLegalRetryAfter(List, long)[4]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "defaultThirtySecondFallbackDoesNotOverrideAnyLegalRetryAfter(List, long)[5]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "defaultThirtySecondFallbackDoesNotOverrideAnyLegalRetryAfter(List, long)[6]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "defaultThirtySecondFallbackDoesNotOverrideAnyLegalRetryAfter(List, long)[7]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "aLateClosedGenerationCannotCompleteOrReleaseTheNewHalfOpenProbe(boolean)[1]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "aLateClosedGenerationCannotCompleteOrReleaseTheNewHalfOpenProbe(boolean)[2]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "fiftyConcurrentHalfOpenContendersHaveExactlyOneProbeAndItsResultControlsTransition(boolean)[1]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "fiftyConcurrentHalfOpenContendersHaveExactlyOneProbeAndItsResultControlsTransition(boolean)[2]",
+          "class": "com.rc.notification.protection.ProtectionGateTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "d9e9753fb451dd156002e820d8f340e39ab8cea7669455ae72d7e14b71f0601a"
+    },
+    {
+      "suite": "com.rc.notification.retry.RetryPolicyTest",
+      "tests": 37,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "obsoleteDatesResolveTheFiftyYearWindowBeforeWeekdayAndLeapDayValidation",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.016",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[1]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[2]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[3]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[4]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[5]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[6]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[7]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[8]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[9]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[10]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[11]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[12]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[13]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[14]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[15]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[16]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[17]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[18]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[19]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "followsTheFrozenHttpClassification(int, String)[20]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "parsesValidRetryAfterWithoutShorteningTheServersMinimum(String, Instant)[1]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "parsesValidRetryAfterWithoutShorteningTheServersMinimum(String, Instant)[2]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "parsesValidRetryAfterWithoutShorteningTheServersMinimum(String, Instant)[3]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "parsesValidRetryAfterWithoutShorteningTheServersMinimum(String, Instant)[4]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "parsesValidRetryAfterWithoutShorteningTheServersMinimum(String, Instant)[5]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "parsesValidRetryAfterWithoutShorteningTheServersMinimum(String, Instant)[6]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "parsesValidRetryAfterWithoutShorteningTheServersMinimum(String, Instant)[7]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "duplicateHeadersUseTheLargestValidLowerBoundEvenAboveLocalCap",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "networkUncertaintyRetriesAndRejectedTargetsDoNot",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "productionDefaultsAndFullJitterIncludeZeroAndRespectExponentialCaps",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidRetryAfterFallsBackToOrdinaryBackoff(String)[1]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidRetryAfterFallsBackToOrdinaryBackoff(String)[2]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidRetryAfterFallsBackToOrdinaryBackoff(String)[3]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidRetryAfterFallsBackToOrdinaryBackoff(String)[4]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidRetryAfterFallsBackToOrdinaryBackoff(String)[5]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidRetryAfterFallsBackToOrdinaryBackoff(String)[6]",
+          "class": "com.rc.notification.retry.RetryPolicyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "8adeb95ec991f1a8784cce86d2090c2e884fb4242e242909be031f6dccacbb87"
+    },
+    {
+      "suite": "com.rc.notification.runtime.ApplicationFoundationTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "enablesOnlyTheSelectedRolesAndExposesHealthyEndpoints(String, boolean, boolean)[1]",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.237",
+          "status": "PASS"
+        },
+        {
+          "name": "enablesOnlyTheSelectedRolesAndExposesHealthyEndpoints(String, boolean, boolean)[2]",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.223",
+          "status": "PASS"
+        },
+        {
+          "name": "enablesOnlyTheSelectedRolesAndExposesHealthyEndpoints(String, boolean, boolean)[3]",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.207",
+          "status": "PASS"
+        },
+        {
+          "name": "readinessBecomesDownOnSchemaMismatchWithoutFailingLiveness",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.225",
+          "status": "PASS"
+        },
+        {
+          "name": "readinessRejectsANewerSchemaVersion",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.198",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidRuntimeModeAtStartup",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.026",
+          "status": "PASS"
+        },
+        {
+          "name": "aSecondApplicationStartDoesNotRepeatMigration",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.352",
+          "status": "PASS"
+        },
+        {
+          "name": "readinessRejectsMissingRequiredTablesAndRecoversWhenRestored",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.215",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "c52182b57f1193ab3f84c60acffcd34263ae95006aa0fb5ac4bc866e88d80304"
+    },
+    {
+      "suite": "com.rc.notification.security.OutboundSecurityTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "publicPreflightCannotAuthorizeAReboundPrivateConnection(String)[1]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.007",
+          "status": "PASS"
+        },
+        {
+          "name": "publicPreflightCannotAuthorizeAReboundPrivateConnection(String)[2]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "redirectsNeverForwardEitherCredentialOrBodyEvenToAnOtherwiseAllowedTarget(int)[1]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "redirectsNeverForwardEitherCredentialOrBodyEvenToAnOtherwiseAllowedTarget(int)[2]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "redirectsNeverForwardEitherCredentialOrBodyEvenToAnOtherwiseAllowedTarget(int)[3]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "redirectsNeverForwardEitherCredentialOrBodyEvenToAnOtherwiseAllowedTarget(int)[4]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "productionRejectsEverySpecialUseAddressForBothTargetRolesWithoutDnsOrConnections",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "numericLiteralCannotBypassTheConnectorAddressPredicate",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "authorityNormalizationAndExplicitDevelopmentIntersectionCannotBeBypassed",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.011",
+          "status": "PASS"
+        },
+        {
+          "name": "inheritedProxiesCookiesAndAuthenticationChallengesDoNotCreateHiddenRequests(boolean)[1]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.005",
+          "status": "PASS"
+        },
+        {
+          "name": "inheritedProxiesCookiesAndAuthenticationChallengesDoNotCreateHiddenRequests(boolean)[2]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "checkedDnsAddressesAreUsedDirectlyAndHostIsPreservedOnEveryNewConnection",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "oneForbiddenDnsAnswerRejectsTheWholeSetBeforeAnyConnection(String)[1]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "oneForbiddenDnsAnswerRejectsTheWholeSetBeforeAnyConnection(String)[2]",
+          "class": "com.rc.notification.security.OutboundSecurityTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "025f0630a7c9f6e5239811153292e2e9d8e822c7b8bcede6c438e5f07f7570c1"
+    },
+    {
+      "suite": "com.rc.notification.security.SecurityAuthorizationTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "tenantConfigCannotBorrowAnotherTenantsSecretReferenceOrBypassItWithAdminRole",
+          "class": "com.rc.notification.security.SecurityAuthorizationTest",
+          "seconds": "0.279",
+          "status": "PASS"
+        },
+        {
+          "name": "productionApiExposesNoFaultSwitchOrScriptExecutionSurface",
+          "class": "com.rc.notification.security.SecurityAuthorizationTest",
+          "seconds": "0.233",
+          "status": "PASS"
+        },
+        {
+          "name": "roleAndTenantMatrixProtectsEveryManagementOperationAndCreatesNoFalseAudit",
+          "class": "com.rc.notification.security.SecurityAuthorizationTest",
+          "seconds": "0.29",
+          "status": "PASS"
+        },
+        {
+          "name": "operationScopeAlsoProtectsAttemptsReplayRoutesAndTheirCollections",
+          "class": "com.rc.notification.security.SecurityAuthorizationTest",
+          "seconds": "0.318",
+          "status": "PASS"
+        },
+        {
+          "name": "productionPublicationRejectsUnsafeBusinessAndTokenUrlsWithoutConnecting",
+          "class": "com.rc.notification.security.SecurityAuthorizationTest",
+          "seconds": "0.311",
+          "status": "PASS"
+        },
+        {
+          "name": "deploymentSecretRevocationAppliesToPublicationAndPreviouslyAcceptedSnapshots",
+          "class": "com.rc.notification.security.SecurityAuthorizationTest",
+          "seconds": "0.409",
+          "status": "PASS"
+        },
+        {
+          "name": "revokedOAuthSecretNeverStartsEitherTokenOrBusinessHttp",
+          "class": "com.rc.notification.security.SecurityAuthorizationTest",
+          "seconds": "0.419",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "8a4ca66170a77229e1706c677b566e808a1234ae7a424e32690dc7d3aab4631c"
+    },
+    {
+      "suite": "com.rc.notification.security.SensitiveDataExposureTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "successBusinessRejectionAndTokenErrorsExposeOnlySafeMetadata(boolean)[1]",
+          "class": "com.rc.notification.security.SensitiveDataExposureTest",
+          "seconds": "0.501",
+          "status": "PASS"
+        },
+        {
+          "name": "successBusinessRejectionAndTokenErrorsExposeOnlySafeMetadata(boolean)[2]",
+          "class": "com.rc.notification.security.SensitiveDataExposureTest",
+          "seconds": "0.376",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "97be04e9cea6684d4fc8639514f31680c9017792cadcccad56d06548a0ffc331"
+    },
+    {
+      "suite": "com.rc.notification.storage.PostgresMigrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "schemaHistoryMismatchIsAnErrorNotASilentRepair",
+          "class": "com.rc.notification.storage.PostgresMigrationTest",
+          "seconds": "0.117",
+          "status": "PASS"
+        },
+        {
+          "name": "twoMigratorsSafelyCompeteForOneEmptySchema",
+          "class": "com.rc.notification.storage.PostgresMigrationTest",
+          "seconds": "1.159",
+          "status": "PASS"
+        },
+        {
+          "name": "migratesAnEmptySchemaAndDoesNotRepeatAppliedMigrations",
+          "class": "com.rc.notification.storage.PostgresMigrationTest",
+          "seconds": "0.142",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "412ef76d88ce674578dd8171ab3b9cc11be27fd2cd7526c090dc741a2b4c94d9"
+    },
+    {
+      "suite": "com.rc.notification.worker.AttemptHistoryTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "historyHasStableKeysetPagesAcrossRunsWithNoSensitivePayloadOrAuthorizationLeak",
+          "class": "com.rc.notification.worker.AttemptHistoryTest",
+          "seconds": "3.277",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "6ea5a45023c182c97a7d0bb2d62b7a09be101c44e1d2a6a8e4223fd7b20021fe"
+    },
+    {
+      "suite": "com.rc.notification.worker.DeliveryRepositoryTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "reservationRollbackCannotIncrementCountersWithoutCreatingAnAttempt",
+          "class": "com.rc.notification.worker.DeliveryRepositoryTest",
+          "seconds": "0.307",
+          "status": "PASS"
+        },
+        {
+          "name": "completionRollsBackBothTaskAndAttemptIfTheDatabaseRejectsEitherUpdate",
+          "class": "com.rc.notification.worker.DeliveryRepositoryTest",
+          "seconds": "0.285",
+          "status": "PASS"
+        },
+        {
+          "name": "competingClaimsHaveOneLeaseAndReservationAtomicallyCountsExactlyOnce",
+          "class": "com.rc.notification.worker.DeliveryRepositoryTest",
+          "seconds": "0.273",
+          "status": "PASS"
+        },
+        {
+          "name": "wrongTokenWrongRunAndTerminalStateCannotReserveStartOrComplete",
+          "class": "com.rc.notification.worker.DeliveryRepositoryTest",
+          "seconds": "0.262",
+          "status": "PASS"
+        },
+        {
+          "name": "aCompletionThatWaitsOnAnAttemptLockCannotCommitAfterItsLeaseExpires",
+          "class": "com.rc.notification.worker.DeliveryRepositoryTest",
+          "seconds": "1.799",
+          "status": "PASS"
+        },
+        {
+          "name": "anExpiredLeaseCannotWriteEvenBeforeARecoveryOrAnotherOwnerExists",
+          "class": "com.rc.notification.worker.DeliveryRepositoryTest",
+          "seconds": "0.574",
+          "status": "PASS"
+        },
+        {
+          "name": "recoveryUsesRemainingBudgetAndDoesNotInventExtraAttempts",
+          "class": "com.rc.notification.worker.DeliveryRepositoryTest",
+          "seconds": "0.617",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "535df1620bfa7227484eeabab0b800ff34d60a8d0b03bebd42a8dca0d8aec2e2"
+    },
+    {
+      "suite": "com.rc.notification.worker.ReplayTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "replayPreservesTheSnapshotHistoryAndLastOutcomeThenUsesTheNewDeploymentsRoundBudget",
+          "class": "com.rc.notification.worker.ReplayTest",
+          "seconds": "0.559",
+          "status": "PASS"
+        },
+        {
+          "name": "replayRejectsUnauthorizedCallersNonfailedStatesAndStaleRoundsWithoutMutation",
+          "class": "com.rc.notification.worker.ReplayTest",
+          "seconds": "0.682",
+          "status": "PASS"
+        },
+        {
+          "name": "oldWorkerWritesCannotChangeTheReplayRoundOrItsNewSuccessfulAttempt",
+          "class": "com.rc.notification.worker.ReplayTest",
+          "seconds": "3.349",
+          "status": "PASS"
+        },
+        {
+          "name": "replayAuditFailureRollsBackTheNewRoundAndItsIdempotencyRecord",
+          "class": "com.rc.notification.worker.ReplayTest",
+          "seconds": "0.35",
+          "status": "PASS"
+        },
+        {
+          "name": "fiftyConcurrentReplayCallsCreateExactlyOneRoundWithOneAudit(boolean)[1]",
+          "class": "com.rc.notification.worker.ReplayTest",
+          "seconds": "2.226",
+          "status": "PASS"
+        },
+        {
+          "name": "fiftyConcurrentReplayCallsCreateExactlyOneRoundWithOneAudit(boolean)[2]",
+          "class": "com.rc.notification.worker.ReplayTest",
+          "seconds": "2.144",
+          "status": "PASS"
+        },
+        {
+          "name": "replayInputIsStrictAndRejectedBodiesCannotCreateAnOperation",
+          "class": "com.rc.notification.worker.ReplayTest",
+          "seconds": "0.292",
+          "status": "PASS"
+        },
+        {
+          "name": "lostReplayResponseIsResolvedByItsOwnKeyAndChangedParametersConflict",
+          "class": "com.rc.notification.worker.ReplayTest",
+          "seconds": "0.297",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "4d2199588ec910f1dd7ccff31917832c2be51710b9f55feae9e77c8f9f82e8e8"
+    },
+    {
+      "suite": "com.rc.notification.worker.WorkerBoundaryTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "aSuccessfulHttpWithFailedCommitWaitsForRecoveryInsteadOfSendingAgainInTheSameAttempt",
+          "class": "com.rc.notification.worker.WorkerBoundaryTest",
+          "seconds": "3.363",
+          "status": "PASS"
+        },
+        {
+          "name": "aLateWorkerCannotOverwriteARecoveredWorkersSuccess",
+          "class": "com.rc.notification.worker.WorkerBoundaryTest",
+          "seconds": "3.377",
+          "status": "PASS"
+        },
+        {
+          "name": "anAttemptStartedBeforeTheRoundDeadlineCanPersistItsLaterAcknowledgement",
+          "class": "com.rc.notification.worker.WorkerBoundaryTest",
+          "seconds": "0.789",
+          "status": "PASS"
+        },
+        {
+          "name": "deadlineAfterClaimButBeforeReservationDoesNotGrantANewAttempt",
+          "class": "com.rc.notification.worker.WorkerBoundaryTest",
+          "seconds": "0.795",
+          "status": "PASS"
+        },
+        {
+          "name": "shutdownStopsNewClaimsAndCancelsAnInflightHttpWithinABound",
+          "class": "com.rc.notification.worker.WorkerBoundaryTest",
+          "seconds": "6.312",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "10f25c9764ff404c02248edffa87cfa371b704675ec55b4375825bc65c3e6a01"
+    },
+    {
+      "suite": "com.rc.notification.worker.WorkerCrashWindowTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "interruptionBeforeHttpPreservesTheRightBudgetAndRecoversByRealDelivery(Phase)[1]",
+          "class": "com.rc.notification.worker.WorkerCrashWindowTest",
+          "seconds": "3.31",
+          "status": "PASS"
+        },
+        {
+          "name": "interruptionBeforeHttpPreservesTheRightBudgetAndRecoversByRealDelivery(Phase)[2]",
+          "class": "com.rc.notification.worker.WorkerCrashWindowTest",
+          "seconds": "3.322",
+          "status": "PASS"
+        },
+        {
+          "name": "interruptionBeforeHttpPreservesTheRightBudgetAndRecoversByRealDelivery(Phase)[3]",
+          "class": "com.rc.notification.worker.WorkerCrashWindowTest",
+          "seconds": "3.318",
+          "status": "PASS"
+        },
+        {
+          "name": "supplierAcknowledgementBeforePersistenceCanDuplicateRequestsButNotAnIdempotentSuppliersEffect(boolean)[1]",
+          "class": "com.rc.notification.worker.WorkerCrashWindowTest",
+          "seconds": "3.315",
+          "status": "PASS"
+        },
+        {
+          "name": "supplierAcknowledgementBeforePersistenceCanDuplicateRequestsButNotAnIdempotentSuppliersEffect(boolean)[2]",
+          "class": "com.rc.notification.worker.WorkerCrashWindowTest",
+          "seconds": "3.325",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "19be840cc8affc3ab9d188807b44e652ac178a5f78cc6df899bfcb005111dd08"
+    },
+    {
+      "suite": "com.rc.notification.worker.WorkerDeliveryTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "aManualTickHasAFixedClaimBudgetEvenWhenFastRequestsReturnSlotsDuringTheTick",
+          "class": "com.rc.notification.worker.WorkerDeliveryTest",
+          "seconds": "2.115",
+          "status": "PASS"
+        },
+        {
+          "name": "allModeSchedulesAcceptedWorkWithoutManualTicksAndDoesNotWaitForTheSupplier",
+          "class": "com.rc.notification.worker.WorkerDeliveryTest",
+          "seconds": "0.315",
+          "status": "PASS"
+        },
+        {
+          "name": "anAcceptedHttpsNumericSnapshotIsRejectedAfterItsDevelopmentCidrIsRevoked",
+          "class": "com.rc.notification.worker.WorkerDeliveryTest",
+          "seconds": "0.448",
+          "status": "PASS"
+        },
+        {
+          "name": "supplierWaitDoesNotHoldTaskLocksAndGlobalExecutionCapacityIsBounded",
+          "class": "com.rc.notification.worker.WorkerDeliveryTest",
+          "seconds": "0.284",
+          "status": "PASS"
+        },
+        {
+          "name": "aMissingRuntimeSecretFailsDiagnosticallyWithoutCallingTheSupplier",
+          "class": "com.rc.notification.worker.WorkerDeliveryTest",
+          "seconds": "0.262",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptedTaskIsDeliveredAsynchronouslyWithExactSnapshotAndRuntimeCredential",
+          "class": "com.rc.notification.worker.WorkerDeliveryTest",
+          "seconds": "0.281",
+          "status": "PASS"
+        },
+        {
+          "name": "configurationOnlyFormSupplierReceivesThePersistedEncoding",
+          "class": "com.rc.notification.worker.WorkerDeliveryTest",
+          "seconds": "0.261",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "57d5116751a8e3b7fd1b94c563283536f9b303d53d12193ebf7d7c6cf0554a10"
+    },
+    {
+      "suite": "com.rc.notification.worker.WorkerIsolationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "thirtyTimeoutsCannotStarveTenHealthyRequestsWithDefaultTenAndThreeLimits",
+          "class": "com.rc.notification.worker.WorkerIsolationTest",
+          "seconds": "20.881",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "183177c18ebf40a9e6c90b585390da07abc2157477d3dae661e7f502a2068716"
+    },
+    {
+      "suite": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "actualTokenTimeoutFinishesNotSentWithinAttemptAndCanBeRetried",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "0.486",
+          "status": "PASS"
+        },
+        {
+          "name": "lateSharedTokenCompletionCannotSendAfterItsWaitingAttemptHasRunOutOfTime",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "1.126",
+          "status": "PASS"
+        },
+        {
+          "name": "failurePersistsCooldownAndAnotherTaskDefersBeforeReservingAnAttempt",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "1.395",
+          "status": "PASS"
+        },
+        {
+          "name": "aNewAccountVersionChangesNewTasksOnlyAndKeepsOldAuthorizationParametersFrozen",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "0.368",
+          "status": "PASS"
+        },
+        {
+          "name": "tokenLosingItsSendWindowAfterDurableIntentIsNotSentOrRefreshedInTheSameAttempt",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "1.612",
+          "status": "PASS"
+        },
+        {
+          "name": "anApiKeyRequestDoesNotAcquireOAuthRecoveryFromAnInvalidTokenChallenge",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "0.249",
+          "status": "PASS"
+        },
+        {
+          "name": "temporaryTokenHttpFailuresConsumeOneAttemptAndRecoverWithoutSendingUnauthenticatedBusiness(int, String)[1]",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "0.311",
+          "status": "PASS"
+        },
+        {
+          "name": "temporaryTokenHttpFailuresConsumeOneAttemptAndRecoverWithoutSendingUnauthenticatedBusiness(int, String)[2]",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "1.284",
+          "status": "PASS"
+        },
+        {
+          "name": "temporaryTokenHttpFailuresConsumeOneAttemptAndRecoverWithoutSendingUnauthenticatedBusiness(int, String)[3]",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "0.311",
+          "status": "PASS"
+        },
+        {
+          "name": "crashAfterRecoveryCommitBeforeCacheInvalidationStillForcesADifferentToken",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "0.319",
+          "status": "PASS"
+        },
+        {
+          "name": "aNewlyIssuedTokenTooShortForTheRequestFailsWithoutARefreshLoop",
+          "class": "com.rc.notification.worker.WorkerOAuthBoundaryTest",
+          "seconds": "0.261",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "6303f23826e578818e6ad6abd379314c5d9b0148022765c3a61906df7e067a43"
+    },
+    {
+      "suite": "com.rc.notification.worker.WorkerOAuthTest",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "delayedOld401DoesNotDeleteTheNewTokenAcquiredByAnotherTasksRecovery",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.388",
+          "status": "PASS"
+        },
+        {
+          "name": "transientTokenFailureDuringRecoveryPreservesItsIntentUntilANewTokenCanBeUsed",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.35",
+          "status": "PASS"
+        },
+        {
+          "name": "definitiveCredentialErrorsFailWithoutSendingBusinessHttp(int, String, String)[1]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.258",
+          "status": "PASS"
+        },
+        {
+          "name": "definitiveCredentialErrorsFailWithoutSendingBusinessHttp(int, String, String)[2]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.264",
+          "status": "PASS"
+        },
+        {
+          "name": "definitiveCredentialErrorsFailWithoutSendingBusinessHttp(int, String, String)[3]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.258",
+          "status": "PASS"
+        },
+        {
+          "name": "ordinaryUnauthorizedAndForbiddenResponsesDoNotRefreshTokens(int, boolean)[1]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.263",
+          "status": "PASS"
+        },
+        {
+          "name": "ordinaryUnauthorizedAndForbiddenResponsesDoNotRefreshTokens(int, boolean)[2]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.27",
+          "status": "PASS"
+        },
+        {
+          "name": "aNewGenerationWithTheSameRejectedTokenStopsBeforeAnotherBusinessRequest",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.315",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedOrMisleadingChallengesDoNotCreateARecoveryAttempt(String)[1]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.263",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedOrMisleadingChallengesDoNotCreateARecoveryAttempt(String)[2]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.267",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedOrMisleadingChallengesDoNotCreateARecoveryAttempt(String)[3]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.273",
+          "status": "PASS"
+        },
+        {
+          "name": "malformedOrMisleadingChallengesDoNotCreateARecoveryAttempt(String)[4]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.279",
+          "status": "PASS"
+        },
+        {
+          "name": "budgetExhaustionOrASecondExplicitRejectionCannotCreateAnotherRecovery(int)[1]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.283",
+          "status": "PASS"
+        },
+        {
+          "name": "budgetExhaustionOrASecondExplicitRejectionCannotCreateAnotherRecovery(int)[2]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.321",
+          "status": "PASS"
+        },
+        {
+          "name": "environmentBackedOAuthExamplesSendBearerAndReuseTheContextAcrossOperations(String)[1]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.329",
+          "status": "PASS"
+        },
+        {
+          "name": "environmentBackedOAuthExamplesSendBearerAndReuseTheContextAcrossOperations(String)[2]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.337",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTokenRecoveryIsPersistedAndUsesOneNewAttemptEvenAfterRestart(boolean)[1]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.477",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTokenRecoveryIsPersistedAndUsesOneNewAttemptEvenAfterRestart(boolean)[2]",
+          "class": "com.rc.notification.worker.WorkerOAuthTest",
+          "seconds": "0.327",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "7dd47ec36d17aaf68cc994b97dbd199ae701e43ddf381cbf6963ebc534791bff"
+    },
+    {
+      "suite": "com.rc.notification.worker.WorkerProtectionTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "actualNineAndTenSamplesOpenTheCircuitAndUnsentTasksStillReachTheirDeadline",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.994",
+          "status": "PASS"
+        },
+        {
+          "name": "longQuotaCoolingCannotKeepANewTaskAliveBeyondItsOriginalDeadline",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.325",
+          "status": "PASS"
+        },
+        {
+          "name": "aHalfOpenProbeThatNeverSendsBusinessReleasesItsPermitForANewHealthyTask(String)[1]",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.515",
+          "status": "PASS"
+        },
+        {
+          "name": "aHalfOpenProbeThatNeverSendsBusinessReleasesItsPermitForANewHealthyTask(String)[2]",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.515",
+          "status": "PASS"
+        },
+        {
+          "name": "aHalfOpenProbeThatNeverSendsBusinessReleasesItsPermitForANewHealthyTask(String)[3]",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.678",
+          "status": "PASS"
+        },
+        {
+          "name": "aHalfOpenProbeThatNeverSendsBusinessReleasesItsPermitForANewHealthyTask(String)[4]",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.521",
+          "status": "PASS"
+        },
+        {
+          "name": "aHalfOpenProbeThatNeverSendsBusinessReleasesItsPermitForANewHealthyTask(String)[5]",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.563",
+          "status": "PASS"
+        },
+        {
+          "name": "realClaimedTasksCompeteForExactlyOneHalfOpenHttpProbeWithoutChargingTheOthers(int)[1]",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.498",
+          "status": "PASS"
+        },
+        {
+          "name": "realClaimedTasksCompeteForExactlyOneHalfOpenHttpProbeWithoutChargingTheOthers(int)[2]",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.503",
+          "status": "PASS"
+        },
+        {
+          "name": "aNewQuotaRestrictionAfterT2KeepsItsReservedAttemptButPreventsTheFirstPhysicalSend",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "0.312",
+          "status": "PASS"
+        },
+        {
+          "name": "quotaCoolingDefersUnsentSameContextWithoutBlockingAnotherAuthenticationContext(String)[1]",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "1.361",
+          "status": "PASS"
+        },
+        {
+          "name": "quotaCoolingDefersUnsentSameContextWithoutBlockingAnotherAuthenticationContext(String)[2]",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "2.267",
+          "status": "PASS"
+        },
+        {
+          "name": "aQuotaRestrictionArrivingDuringActualOAuthExchangePreventsBusinessSendWithoutUndoingT2",
+          "class": "com.rc.notification.worker.WorkerProtectionTest",
+          "seconds": "1.647",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "429bfea7c004075038daf009b0079fa6383aa750b234ea5cf64ee9789535c70e"
+    },
+    {
+      "suite": "com.rc.notification.worker.WorkerRetryTest",
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "recoveringAClaimWithoutAnAttemptKeepsThePreviousHttpOutcomeAndHistory",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.519",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[1]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.279",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[2]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.294",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[3]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.354",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[4]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.278",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[5]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.264",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[6]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.271",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[7]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.266",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[8]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.26",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[9]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.259",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[10]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.267",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[11]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.264",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[12]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.262",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[13]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.262",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[14]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.263",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[15]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.275",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[16]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.271",
+          "status": "PASS"
+        },
+        {
+          "name": "physicalHttpResultsFollowTheClassificationWithoutHiddenRetries(int, String)[17]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.268",
+          "status": "PASS"
+        },
+        {
+          "name": "twoServerFailuresReallyBackOffThenSucceedWithOneRequestPerAttempt",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.345",
+          "status": "PASS"
+        },
+        {
+          "name": "independentExpiryFindsAFarFutureScheduleAndPreservesTheLastObservedHttpResult",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.451",
+          "status": "PASS"
+        },
+        {
+          "name": "retryAfterIsARealArrivalLowerBoundEvenAboveTheLocalBackoffCap(String)[1]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "1.292",
+          "status": "PASS"
+        },
+        {
+          "name": "retryAfterIsARealArrivalLowerBoundEvenAboveTheLocalBackoffCap(String)[2]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "2.029",
+          "status": "PASS"
+        },
+        {
+          "name": "aLostResponseAfterASupplierEffectIsUnknownAndRetriesWithTheSameEvent(boolean)[1]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "1.392",
+          "status": "PASS"
+        },
+        {
+          "name": "aLostResponseAfterASupplierEffectIsUnknownAndRetriesWithTheSameEvent(boolean)[2]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.321",
+          "status": "PASS"
+        },
+        {
+          "name": "retryAfterExactlyAtTheRoundDeadlineTerminatesWithoutQueueingAnotherAttempt",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.263",
+          "status": "PASS"
+        },
+        {
+          "name": "exhaustedAttemptBudgetHasNoAdditionalReservationOrPhysicalSend(int)[1]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.341",
+          "status": "PASS"
+        },
+        {
+          "name": "exhaustedAttemptBudgetHasNoAdditionalReservationOrPhysicalSend(int)[2]",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.595",
+          "status": "PASS"
+        },
+        {
+          "name": "anOverflowingButValidRetryAfterExceedsDeadlineInsteadOfRetryingEarly",
+          "class": "com.rc.notification.worker.WorkerRetryTest",
+          "seconds": "0.255",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "729fde1d0e7a84467df10f33fdaecacaa4134ec050e56cb97e3bd1e472deedd5"
+    }
+  ],
+  "totals": {
+    "tests": 486,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "scenarioEvidence": [
+    {
+      "file": "scenarios/cp04-after-http-false-interrupted-47677306-9447-4f88-a30a-4809c38d5acc.json",
+      "sha256": "fd6c07046ee70a224ebc5071138fd43e8af0703d67d2a53fea1e936b1ee1215a"
+    },
+    {
+      "file": "scenarios/cp04-after-http-false-recovered-47677306-9447-4f88-a30a-4809c38d5acc.json",
+      "sha256": "686ca38b545c378b05308cd6575993abc928e355e28abc9bccb65f3bb7aba4a4"
+    },
+    {
+      "file": "scenarios/cp04-after-http-true-interrupted-60ba827b-7341-4777-9f62-616bf2cdd813.json",
+      "sha256": "aa7dd3ea7385ef46c79f245852cf7ea6d5593ac8369b2f2a88950b538569c38a"
+    },
+    {
+      "file": "scenarios/cp04-after-http-true-recovered-60ba827b-7341-4777-9f62-616bf2cdd813.json",
+      "sha256": "7c52bd13956be481af7e631339b95bfcf14238593ddc76bd9a12c31a29c1575d"
+    },
+    {
+      "file": "scenarios/cp04-after_claim-interrupted-e70ce30c-2c22-4c8b-8bfc-44fada21cfbd.json",
+      "sha256": "9a3899cc95bed48f0ccdc1916a79ac2b7296dce53d649aaec0487fa9ead0844d"
+    },
+    {
+      "file": "scenarios/cp04-after_claim-recovered-e70ce30c-2c22-4c8b-8bfc-44fada21cfbd.json",
+      "sha256": "b61041d94f58b1325880f8141e20dae44568e4a9c910601cced522b2588e8ed9"
+    },
+    {
+      "file": "scenarios/cp04-after_request_started-interrupted-fcd83f0e-a6b4-4b68-9e17-9b619b6688a7.json",
+      "sha256": "f8654dc9f5200a7d1ff145b15814b3be9322ec5d04a4a35d6cd96ac4a6cd4102"
+    },
+    {
+      "file": "scenarios/cp04-after_request_started-recovered-fcd83f0e-a6b4-4b68-9e17-9b619b6688a7.json",
+      "sha256": "3999fff94c87d88a54ab93ed4afbfea2fcd933eea8ee07824196e36e2f779d4c"
+    },
+    {
+      "file": "scenarios/cp04-after_reserve-interrupted-31171b56-7d18-4064-b9a6-42139a9dcc1f.json",
+      "sha256": "9d7f2399a5aea1e926ab98c85bfe2c727337911e84c2aa653f155fba693d876d"
+    },
+    {
+      "file": "scenarios/cp04-after_reserve-recovered-31171b56-7d18-4064-b9a6-42139a9dcc1f.json",
+      "sha256": "f2c00c44e376e54796f1ee0fc1de313f114c454b751ff25aeb4b9d578c576414"
+    },
+    {
+      "file": "scenarios/cp04-http-success-writeback-recovered-719e6c0f-a6a3-4c9e-a072-741b128c738d.json",
+      "sha256": "ea629ddf5f1ef35bed87ef545d6eb737bfa118728e057cb2579706dbc2ce1efc"
+    },
+    {
+      "file": "scenarios/cp04-http-success-writeback-rollback-719e6c0f-a6a3-4c9e-a072-741b128c738d.json",
+      "sha256": "b75987bf03416363c3918129cfb509852d55d1be56d5f5598fb3b7db0ea3d0f4"
+    },
+    {
+      "file": "scenarios/cp04-late-owner-fenced-a044b71c-ccc9-4a45-9246-cb304d8eb674.json",
+      "sha256": "0b9614e2769daa8095b9a872ceede4ccaa12048bebf75ff8fd28087eaefea03e"
+    },
+    {
+      "file": "scenarios/cp05-500-500-200-177a6e14-dafc-486f-b1c7-f87aa3bdbba5.json",
+      "sha256": "b4956bac446c281123f3acd281b789629b0f5562448d5d103fc2cb916329a65c"
+    },
+    {
+      "file": "scenarios/cp05-attempt-budget-12-8f4c32ae-b6da-43ca-aabc-c8523c6923f1.json",
+      "sha256": "1dcd280efdac894c826879c331ccdef7461c8b279b096a841dfbd7f6c57f2707"
+    },
+    {
+      "file": "scenarios/cp05-attempt-budget-3-04b630a6-68f6-468d-bc24-722b972df02e.json",
+      "sha256": "1020a73c8d43f4e3302bb757219687edb8cc35c90820cd269af9a0faa700111f"
+    },
+    {
+      "file": "scenarios/cp05-attempt-history-bebf4be9-e592-4349-a888-6a3f515720d2.json",
+      "sha256": "87ab00e8ccc466c9d49d1cd0211625d3b9afb11edb8b528f9d8bad4cc158f4e4"
+    },
+    {
+      "file": "scenarios/cp05-claim-no-attempt-preserved-c05ab13c-a587-410d-9e52-37f748f17aaa.json",
+      "sha256": "3dd94d00302d799c3507f6c66f367e215352d8b3f86aaee602893f1b98ada132"
+    },
+    {
+      "file": "scenarios/cp05-independent-expiry-de6454ab-8b6e-44d8-bb2a-d42937cb57fa.json",
+      "sha256": "6692a6b86a42ab2c74cd788274f1e942cf07be2dbe5f196535a9832836a0fbd6"
+    },
+    {
+      "file": "scenarios/cp05-old-worker-new-round-f4424379-9780-4e7a-a963-eae61cba78cf.json",
+      "sha256": "d5a382b0eddbf2bba4ae4b15dd3ef1f04c3d59404dc03e773505b346a67c34a0"
+    },
+    {
+      "file": "scenarios/cp05-replay-completed-66eee983-0764-4ca9-9815-3a29e34001b7.json",
+      "sha256": "e0000f1fe01fbe0ac05c8d6bf508406b5a8338c28f9ee4c07775ffa61dc60e15"
+    },
+    {
+      "file": "scenarios/cp05-replay-lost-response-d11e4161-5696-488e-972d-1c2fbd311201.json",
+      "sha256": "f0e2a2a199cf6d1b9bfe4dd39aa5d312a155dd56922cd7ee0044de802863ee6a"
+    },
+    {
+      "file": "scenarios/cp05-replay-pending-preserved-66eee983-0764-4ca9-9815-3a29e34001b7.json",
+      "sha256": "fa8e5a58ad9c59e0cd56438bce36659a60f6dd4ab77811c5672c4c34c49ced2b"
+    },
+    {
+      "file": "scenarios/cp05-replay-race-false-5e01cbff-cd45-4b81-b71f-0d2a6a56896e.json",
+      "sha256": "bbbad4e24742078c51656f042f36968f4ae571b28dd44c7f2b3597b7b92702ea"
+    },
+    {
+      "file": "scenarios/cp05-replay-race-true-d67bf163-93cd-4189-a695-1f5a640b64c4.json",
+      "sha256": "8fc508e876ca8588789efd51afadbb402a728595bfc52f00c75a15534d111918"
+    },
+    {
+      "file": "scenarios/cp05-retry-after-date-25f6344a-c920-459e-8622-048206aa1c83.json",
+      "sha256": "5f500e99ef07c9e812a8cc6bbc13eda1da4ded87c7878b65753f9c1b4e218d1d"
+    },
+    {
+      "file": "scenarios/cp05-retry-after-seconds-f72e5bac-0678-4483-a37b-ae8c2f1a8b99.json",
+      "sha256": "df8f491939f079f6ce36c81f7c03c89f63ce354e65e9a70c6b47ba4886602a03"
+    },
+    {
+      "file": "scenarios/cp05-unknown-false-first-34b5bac6-1825-4bc9-87bc-5a7855687978.json",
+      "sha256": "7a4b43d556159e887dd2fe6925f64412195377deb2362bd1635abd4ddbb18051"
+    },
+    {
+      "file": "scenarios/cp05-unknown-false-recovered-34b5bac6-1825-4bc9-87bc-5a7855687978.json",
+      "sha256": "1611669f5cbcb6c3368768b565f444e26ad2f8ca0f7937c9a7d564ed3d6d63f3"
+    },
+    {
+      "file": "scenarios/cp05-unknown-true-first-29db7891-d0ed-4def-9f7a-fdfe2a8a4537.json",
+      "sha256": "a6327648dfb32e69650c6ec46a31fbc285c69d1733f6750b02363abd763759b4"
+    },
+    {
+      "file": "scenarios/cp05-unknown-true-recovered-29db7891-d0ed-4def-9f7a-fdfe2a8a4537.json",
+      "sha256": "1fdc39c3fb254b6bf486de34ae4ca46cd6591146ec2e738cba7889a7a82cd9c0"
+    },
+    {
+      "file": "scenarios/cp06-auth-budget-1-04690ee6-4919-49c1-9412-84deec5b4336.json",
+      "sha256": "c343da83b81c64c7d0afeea5d4ef86d9e6eae746954366a31a48cff2e144d4b5"
+    },
+    {
+      "file": "scenarios/cp06-auth-budget-1-auth-04690ee6-4919-49c1-9412-84deec5b4336.json",
+      "sha256": "1f176efca8bae42fdd93d40f0688d0ffca5eb2ecd656fb49b1527abcacb0b62e"
+    },
+    {
+      "file": "scenarios/cp06-auth-budget-12-8c5da32f-83ef-4698-bfb3-09b91a3f605a.json",
+      "sha256": "0af159837dc2cb70e75f586e849e03805e78b781681514f81724939d928e6d15"
+    },
+    {
+      "file": "scenarios/cp06-auth-budget-12-auth-8c5da32f-83ef-4698-bfb3-09b91a3f605a.json",
+      "sha256": "5ab2921ecf12608f96f22bf30768bac01bbbb00392237f17ec5417e12351872d"
+    },
+    {
+      "file": "scenarios/cp06-auth-cooldown-first-147451de-866a-4094-9cbb-d1243e3e550e.json",
+      "sha256": "4b67e1b8ed4eb8904cef96d4e507d324b1aed0e951f36ce4aab9bc7f81f68aa3"
+    },
+    {
+      "file": "scenarios/cp06-auth-cooldown-first-auth-147451de-866a-4094-9cbb-d1243e3e550e.json",
+      "sha256": "07a9238dcc56c2d5f198f90e38d2bd013429d0e3cf8947f9032847633c7da2d7"
+    },
+    {
+      "file": "scenarios/cp06-auth-cooldown-unreserved-1bdd748c-065a-441b-b036-05172aef8bad.json",
+      "sha256": "80d1eb68e29599d733a4b683bcbf3f32f6fbc654aae273c206ca37fced76fa2a"
+    },
+    {
+      "file": "scenarios/cp06-auth-cooldown-unreserved-auth-1bdd748c-065a-441b-b036-05172aef8bad.json",
+      "sha256": "725e862087c6cbc0925318020d7cc34762e84e6fe59c7e91ddff0b1c4b08328f"
+    },
+    {
+      "file": "scenarios/cp06-auth-recovery-commit-window-auth-ca1ec5c6-4d5f-49b1-a361-84e2edff9f74.json",
+      "sha256": "207934707f30b4e63edbe9937b35b7772c94ed61f3aca9271341ff6cdb98003d"
+    },
+    {
+      "file": "scenarios/cp06-auth-recovery-commit-window-ca1ec5c6-4d5f-49b1-a361-84e2edff9f74.json",
+      "sha256": "b871b81bbd91c554a32e3e7d90f1d38a59cc8afbb5ce8f3a12bada62bb2d85ec"
+    },
+    {
+      "file": "scenarios/cp06-delayed-old-401-55e00bb3-afd1-47cb-95c9-2a0e12df6cc1.json",
+      "sha256": "c8e385e9ab401ce66fb65546553bb6b54a5b4b60472ee99a352ebdceb40a7fab"
+    },
+    {
+      "file": "scenarios/cp06-delayed-old-401-auth-55e00bb3-afd1-47cb-95c9-2a0e12df6cc1.json",
+      "sha256": "af9abbcf61cd963f3d396ec9df00141523d9a88c5ff8e20c76ded474ae571167"
+    },
+    {
+      "file": "scenarios/cp06-env-client_secret_basic-7f1a5a5d-371f-423b-975e-4951c6d07d49.json",
+      "sha256": "266916e089c662a3bb813e04ac07059b75fe30ac278dcd8a704d2b7296f6922d"
+    },
+    {
+      "file": "scenarios/cp06-env-client_secret_basic-auth-7f1a5a5d-371f-423b-975e-4951c6d07d49.json",
+      "sha256": "b29ad376b463c984ac36cd7b0b9f9b9dc40f8d3f3e995bef98bc0276b0ae1b0e"
+    },
+    {
+      "file": "scenarios/cp06-env-client_secret_post-85fea541-abc6-4961-8297-a538b277cbba.json",
+      "sha256": "455f28f535874b388655fc10e46bfc59d470f48afec921aace7a1fe8144cf6ae"
+    },
+    {
+      "file": "scenarios/cp06-env-client_secret_post-auth-85fea541-abc6-4961-8297-a538b277cbba.json",
+      "sha256": "58248ebd0bff38e2a2afd995ddd2ee648b5aa5d0868a6d2fc3ff8c2a16f3c139"
+    },
+    {
+      "file": "scenarios/cp06-fixed-old-auth-version-auth-c01ae47f-4ea2-4ba5-a137-0014c69353a2.json",
+      "sha256": "e121251d6e4391e4098a54a9dc1dfa9b039a534b7ff7ea2f8ba096899643f5ea"
+    },
+    {
+      "file": "scenarios/cp06-fixed-old-auth-version-c01ae47f-4ea2-4ba5-a137-0014c69353a2.json",
+      "sha256": "7df8a165cfdac645943594c3247ca3e3da110d63323d65a049dae1f20f54b29c"
+    },
+    {
+      "file": "scenarios/cp06-new-auth-version-auth-d3d996b7-b032-4b3c-ae0e-32a81c83f3ab.json",
+      "sha256": "39042643bebab1be44409b0468fa012694d36195f69bb093d278854655488e11"
+    },
+    {
+      "file": "scenarios/cp06-new-auth-version-d3d996b7-b032-4b3c-ae0e-32a81c83f3ab.json",
+      "sha256": "b68729cd335fa9e400d0aff8848d2482871acb025505119e248960d3f54ae288"
+    },
+    {
+      "file": "scenarios/cp06-recovery-false-pending-510afc70-9fbf-402d-b21c-85b3ca844693.json",
+      "sha256": "323fe46cee86685bfa61a0aeba1a29646ed2abfef7876b33f34453748721cd7d"
+    },
+    {
+      "file": "scenarios/cp06-recovery-false-pending-auth-510afc70-9fbf-402d-b21c-85b3ca844693.json",
+      "sha256": "4c126e4885d26185d7ed477255928b8b954241508df05e9787231db8d07cee43"
+    },
+    {
+      "file": "scenarios/cp06-recovery-false-succeeded-510afc70-9fbf-402d-b21c-85b3ca844693.json",
+      "sha256": "ea671893c1f307cfcfe604bd2a1923b57bdfcba39864cce5b0d9cb3a260c2f07"
+    },
+    {
+      "file": "scenarios/cp06-recovery-false-succeeded-auth-510afc70-9fbf-402d-b21c-85b3ca844693.json",
+      "sha256": "e39097627e5366fa3c79fa7772642b311989c4ac0441afb4c5961143e823491a"
+    },
+    {
+      "file": "scenarios/cp06-recovery-token-failure-pending-auth-fff64f9a-54ae-4e07-8282-8c62ece89bfb.json",
+      "sha256": "22b148403bc28afed4e058e9edef46be0d3a17416e7c4d2a8a3dd8b165277d4b"
+    },
+    {
+      "file": "scenarios/cp06-recovery-token-failure-pending-fff64f9a-54ae-4e07-8282-8c62ece89bfb.json",
+      "sha256": "055440bc7e0c042e0ad31d4d9084c18778a29a366f1b4f4bf186966e50f313c8"
+    },
+    {
+      "file": "scenarios/cp06-recovery-token-failure-succeeded-auth-fff64f9a-54ae-4e07-8282-8c62ece89bfb.json",
+      "sha256": "7c590d30f7f4ea1c6155d5f309097c5f7fc02329c228906fff090050bcc28f28"
+    },
+    {
+      "file": "scenarios/cp06-recovery-token-failure-succeeded-fff64f9a-54ae-4e07-8282-8c62ece89bfb.json",
+      "sha256": "85aa235e00cdb989cc5e8878a415f7dee81447481ca9cbe9b16f5f8d5b0a8640"
+    },
+    {
+      "file": "scenarios/cp06-recovery-true-pending-auth-cb549be9-8426-43ee-9d22-37c4e894d25d.json",
+      "sha256": "9a7be3f84ed438c496d95e140ffa97f0115d99498847f2e09ee4dd6f07ab41bf"
+    },
+    {
+      "file": "scenarios/cp06-recovery-true-pending-cb549be9-8426-43ee-9d22-37c4e894d25d.json",
+      "sha256": "acd429c19dcf5514ae969a1144b3f3b5d1ff363065f62d41265d05539c02d66f"
+    },
+    {
+      "file": "scenarios/cp06-recovery-true-succeeded-auth-cb549be9-8426-43ee-9d22-37c4e894d25d.json",
+      "sha256": "628476fb5c9a9d5e7d1a3c587b35ccac43aaf16a423e751dfbf4b7a38a693255"
+    },
+    {
+      "file": "scenarios/cp06-recovery-true-succeeded-cb549be9-8426-43ee-9d22-37c4e894d25d.json",
+      "sha256": "0772e43efd8c1beceb58c2e0bf433f1a93c3344d681346ba0539374a58144e97"
+    },
+    {
+      "file": "scenarios/cp06-same-rejected-token-auth-f37ba27f-c940-43a4-bc87-44d5e5ed170c.json",
+      "sha256": "a4f39fe7971c493e50cbc59c8e00d82129bc1f3379e1f1161f6aacc6144cf569"
+    },
+    {
+      "file": "scenarios/cp06-same-rejected-token-f37ba27f-c940-43a4-bc87-44d5e5ed170c.json",
+      "sha256": "f36ca6499a499de0b5e1dc2dd4e52ae3b6e24ba8aa4e1d51bb0bfb78ce687f49"
+    },
+    {
+      "file": "scenarios/cp06-token-expired-before-send-70c6146c-20b3-499b-933e-32ba5aa0f4af.json",
+      "sha256": "6540e2b8e1a6d1300bb1117b1e9ee911eccdb9a390519f1cba28e0783f3da447"
+    },
+    {
+      "file": "scenarios/cp06-token-expired-before-send-auth-70c6146c-20b3-499b-933e-32ba5aa0f4af.json",
+      "sha256": "164608c5001072a0a5e57bc1c9bcbb2f23f351eb075713d133cf7de99f1c0c78"
+    },
+    {
+      "file": "scenarios/cp06-token-http-408-pending-95b061a0-b449-4a7a-84f8-e04df6739ce8.json",
+      "sha256": "fd3364f1b9fdf6d5da7bc35f1449c0ee9c9942d5e944aa2ce3938d3167e0e133"
+    },
+    {
+      "file": "scenarios/cp06-token-http-408-pending-auth-95b061a0-b449-4a7a-84f8-e04df6739ce8.json",
+      "sha256": "f313940bc809204207b9a9e20510539f46fee033dd4449df5868eaecb06464f5"
+    },
+    {
+      "file": "scenarios/cp06-token-http-429-pending-7f978766-158e-4a6e-a074-2444671b0ea6.json",
+      "sha256": "c7aad3a5397a5271ca12c7868fb96b7e6ffbd353df2808e94e0b27e7689aa540"
+    },
+    {
+      "file": "scenarios/cp06-token-http-429-pending-auth-7f978766-158e-4a6e-a074-2444671b0ea6.json",
+      "sha256": "35370943cb8d83e88e82529722ba577e42460245b9a0b25890e2a8fe1a1bde7d"
+    },
+    {
+      "file": "scenarios/cp06-token-http-503-pending-8dc863fd-890a-4737-af25-4af112dfd0a0.json",
+      "sha256": "0ce2644df8bbcb8e0f2777c18196ddd5f6e87b980428d74d22df3def1b333a69"
+    },
+    {
+      "file": "scenarios/cp06-token-http-503-pending-auth-8dc863fd-890a-4737-af25-4af112dfd0a0.json",
+      "sha256": "79810bb530eca9d2984104de5cfa70183ffb0ff338b67cb4c12858998708006e"
+    },
+    {
+      "file": "scenarios/cp06-token-late-leader-no-send-60a05cab-f9a1-4945-a4fa-153e82c855a2.json",
+      "sha256": "115f05df658c7f209a69b707288684f18f38af66810acc1733f6bfc2410c9084"
+    },
+    {
+      "file": "scenarios/cp06-token-late-leader-no-send-auth-60a05cab-f9a1-4945-a4fa-153e82c855a2.json",
+      "sha256": "3973d7336d6798531020e7701e24e65ee66b5130eda81c004b83defef45aa5a3"
+    },
+    {
+      "file": "scenarios/cp06-token-real-timeout-auth-ebcf0140-4f0c-4ce2-b070-a49e1b65d969.json",
+      "sha256": "edb2e376c209d48b136632ffd66b69fcf9d6abf32f8f4b6316558cec0fef1700"
+    },
+    {
+      "file": "scenarios/cp06-token-real-timeout-ebcf0140-4f0c-4ce2-b070-a49e1b65d969.json",
+      "sha256": "bd6c1132a629baf8ae13b455c47f29ea3a2121f5a88d32d852e44309403979e8"
+    },
+    {
+      "file": "scenarios/cp07-backlog-capacity-recovery-ee2be38b-9aaa-449d-be2d-be6b2ea04202.json",
+      "sha256": "6fcdc0735ddf1f1c845b37d2b56f4c735dad7352ec7982aa9bcdd9ff26ff2ad0"
+    },
+    {
+      "file": "scenarios/cp07-half-open-cancel-after-intent-aac56c62-56b7-4c62-87e8-ff471a9282dd.json",
+      "sha256": "867abf1eb7ac9153948791feb3b03955fd893295205d97e5324057af3abe1fee"
+    },
+    {
+      "file": "scenarios/cp07-half-open-cancel-after-intent-auth-aac56c62-56b7-4c62-87e8-ff471a9282dd.json",
+      "sha256": "2c452dcb6cb45c265cb163410ea7f5a4f9e20d8b039d946767c48a78679939b4"
+    },
+    {
+      "file": "scenarios/cp07-half-open-cancel-after-reserve-61ffeebb-9951-426d-aedc-3e52f49d312b.json",
+      "sha256": "5e568de94c60625dcbf788586d50d89a46a5d6d054f8c560cbb2ab168abbc8ec"
+    },
+    {
+      "file": "scenarios/cp07-half-open-cancel-after-reserve-auth-61ffeebb-9951-426d-aedc-3e52f49d312b.json",
+      "sha256": "2fd29c8670602d88bff01c6bc57386b7748ca28576d5c3b81c99c294f27c3e3d"
+    },
+    {
+      "file": "scenarios/cp07-half-open-real-200-probe-b7e38c05-9cb0-416f-a67b-8e0d5c1cfff7.json",
+      "sha256": "4c3fb0b90533d3d89209f0993686e18d4359556e649ef57240eeed21b16744f8"
+    },
+    {
+      "file": "scenarios/cp07-half-open-real-200-unreserved-0fce2f27-ad2e-48bf-8e44-cae0f3feb8c9.json",
+      "sha256": "52baac6db590017a589f3fa930b266d34fabc52aa4185617934380c8a7aaad70"
+    },
+    {
+      "file": "scenarios/cp07-half-open-real-200-unreserved-6868df05-3da1-42c7-9190-9f749aa22fff.json",
+      "sha256": "b29dee9e505c98373ec63e33d6eb36ab6acb9bd62843d223cfd2adddb5f3a4e3"
+    },
+    {
+      "file": "scenarios/cp07-half-open-real-503-probe-03752887-4cca-4d29-9fe2-8cf095467644.json",
+      "sha256": "fe3295360abb9516334efc50260ede5023b6bca5640029606553e8c70b0ef6de"
+    },
+    {
+      "file": "scenarios/cp07-half-open-real-503-unreserved-448edb5c-f37c-4c4f-9af5-77ed6b145bcb.json",
+      "sha256": "f5cfa03741204310ba866f963115290f0cb948ee2577eb96608aeb0393b25061"
+    },
+    {
+      "file": "scenarios/cp07-half-open-real-503-unreserved-918b3468-799f-4b63-8ca1-6820340d9ea3.json",
+      "sha256": "87a64160d916bf49b8a08f73150f4473b25d893d3f0eaa90d70164b25c98fb83"
+    },
+    {
+      "file": "scenarios/cp07-half-open-token-failure-auth-d6ee9cb6-4f2a-49db-b069-c8acf0eb5a6d.json",
+      "sha256": "7505d4d124b605b24a3c0a686eb34c33103dc68673bae179506afbfcaf6c941f"
+    },
+    {
+      "file": "scenarios/cp07-half-open-token-failure-d6ee9cb6-4f2a-49db-b069-c8acf0eb5a6d.json",
+      "sha256": "4c55356c4c0207cc8056d8d93c2fc7cb66bb4fb09ca82c32f7e9c4cdd87fe256"
+    },
+    {
+      "file": "scenarios/cp07-half-open-token-rate-limit-auth-e6891a8d-f4cd-4cc8-a5e3-4fad32ca8677.json",
+      "sha256": "ffaef39e31665e958ddca6f9c1e1d8de8075c45f6bd3e7733d25081ba19878d6"
+    },
+    {
+      "file": "scenarios/cp07-half-open-token-rate-limit-e6891a8d-f4cd-4cc8-a5e3-4fad32ca8677.json",
+      "sha256": "08429c1c6cacb60c53917ecaf59fd7f7c541d82bf362899983836382f2d0f3f5"
+    },
+    {
+      "file": "scenarios/cp07-half-open-token-timeout-auth-e080a42b-0577-4d2d-bb47-e6ad26dc47f1.json",
+      "sha256": "932719573ff64c905d2b1ac4c12b5f065dce7ad1ef225691d1aa5e72897516dc"
+    },
+    {
+      "file": "scenarios/cp07-half-open-token-timeout-e080a42b-0577-4d2d-bb47-e6ad26dc47f1.json",
+      "sha256": "a85543d454d38bd173f2589e5de21aa0760408f6e535542376a3e9ccecf0a4a8"
+    },
+    {
+      "file": "scenarios/cp07-open-independent-deadline-ff6c0c7f-0ed6-4eaf-bc5e-e80241ada620.json",
+      "sha256": "7a3203d5f50a442bfbd557da8f8f6cfdd01309e76c3010602b1de21df6f2f9b8"
+    },
+    {
+      "file": "scenarios/cp07-open-no-attempt-ff6c0c7f-0ed6-4eaf-bc5e-e80241ada620.json",
+      "sha256": "f7a184b351cf2c5a8a46edfdf57935d9a97045cf2ef0d168f9f153244cea347e"
+    },
+    {
+      "file": "scenarios/cp07-quota-after-reservation-48d642d0-11a5-4981-a41a-48c880744f5f.json",
+      "sha256": "e0dd0cb618d7e0ec19dd0d12812e025db64f8109fe61268f2183a9a5b6ef4288"
+    },
+    {
+      "file": "scenarios/cp07-quota-date-recovered-224f522d-05d6-424b-b409-cf692d5082f1.json",
+      "sha256": "5d19578153ea2995682f9bf1b1e6c2928a8b8de2b5984817bdfdc3c46aa103ac"
+    },
+    {
+      "file": "scenarios/cp07-quota-date-unreserved-224f522d-05d6-424b-b409-cf692d5082f1.json",
+      "sha256": "0051157207f9fdf3f86b8aa80ce055762de57d6591b59a29c74544c41017bcca"
+    },
+    {
+      "file": "scenarios/cp07-quota-deadline-unreserved-1c69c7e2-d9dc-404a-ad83-809bddd7ffe8.json",
+      "sha256": "8452b8d7b9c5f71ff6f7ad1dbcb38d9a6a5d1242fa99da29353d3f1535642f12"
+    },
+    {
+      "file": "scenarios/cp07-quota-during-token-wait-8e2628cf-5281-479f-9d1d-c10be39aa8d6.json",
+      "sha256": "2a129c10cac86e6edb951195b129f515732d72f98458576fb3fdc416e0482c51"
+    },
+    {
+      "file": "scenarios/cp07-quota-during-token-wait-auth-8e2628cf-5281-479f-9d1d-c10be39aa8d6.json",
+      "sha256": "1b0984a7cec238a8b3bf41104d0b2072864111823ee7899486373b0f8bfad105"
+    },
+    {
+      "file": "scenarios/cp07-quota-seconds-recovered-1520339a-b219-496a-bf48-bd2bc795c197.json",
+      "sha256": "018bb6fcd93f5564043f5228951ab07555fe6b7e14a39b39646649ab67c99cd1"
+    },
+    {
+      "file": "scenarios/cp07-quota-seconds-unreserved-1520339a-b219-496a-bf48-bd2bc795c197.json",
+      "sha256": "785a6230bd41cc9a68061a883ffc3fcbf63abe1d4e06ce659a809cc77c85f1e4"
+    },
+    {
+      "file": "scenarios/cp07-supplier-isolation.json",
+      "sha256": "a0deefaea1e136b382454e2370718eb8597538ecfab41479e0c06ee8fda5e989"
+    },
+    {
+      "file": "scenarios/cp08-authorized-replay-after-scope-rejections-487b30be-11a5-4730-85a0-56cff87abad7.json",
+      "sha256": "adbf2ae4e91749a23cdc3654aef13c98994f9adc5d615b5dde1d3d632a6e9636"
+    },
+    {
+      "file": "scenarios/cp08-business-body-200-endless.json",
+      "sha256": "4eb85d05e50130dae5e1abd1765cfd9c1dfa81ab2f9e984698ef0087c68df139"
+    },
+    {
+      "file": "scenarios/cp08-business-body-200-huge.json",
+      "sha256": "f7c132a04aa30b6997430f2741d3278cd60a61fcce49aaf54e938802be30f09a"
+    },
+    {
+      "file": "scenarios/cp08-business-body-200-slow.json",
+      "sha256": "881cbabb36e8d11dd3450d29ee23c547c08373546a8fe666dc2be91e684630ac"
+    },
+    {
+      "file": "scenarios/cp08-business-body-503-endless.json",
+      "sha256": "ca84dd575a025b15d3b40d79e15788af810655456fca51f26235d39178ded6f7"
+    },
+    {
+      "file": "scenarios/cp08-business-body-503-huge.json",
+      "sha256": "c87440592f850c38d72da1e4de281e5fdfb4f12287ab04c005b07480bdb2552f"
+    },
+    {
+      "file": "scenarios/cp08-business-body-503-slow.json",
+      "sha256": "8fb283a7978148a141e4fad6e7d7cfdd29898d90d30bc568ab229c9e9234a49e"
+    },
+    {
+      "file": "scenarios/cp08-compression-disabled-business.json",
+      "sha256": "4ecd9df4ff9227e2259fdd7dfb92054518c15b75222072f4a6c87829f46a48c7"
+    },
+    {
+      "file": "scenarios/cp08-compression-disabled-token.json",
+      "sha256": "4a63b8a4b40719706c1f5c6a89e423a21e6363bf3f77d9af70b0302e36ee330e"
+    },
+    {
+      "file": "scenarios/cp08-concurrent-cancellation-business.json",
+      "sha256": "1bfda6e739d3b254433a271a0016d0ed86485baff1a155e10329d4ecf75f4d6c"
+    },
+    {
+      "file": "scenarios/cp08-concurrent-cancellation-token.json",
+      "sha256": "27ea2fd44de13913a4fddc6a0d9418c960ee861d3607a8ae44c45910aa9cec65"
+    },
+    {
+      "file": "scenarios/cp08-dns-bound-business.json",
+      "sha256": "154a2ef418f983221a0050528b7b1552f9468625cc3dfe54fddb728379285191"
+    },
+    {
+      "file": "scenarios/cp08-dns-bound-token.json",
+      "sha256": "ad920259fbaa3a50470327f7fde083fc67d190cf3d05f24994570b214978684e"
+    },
+    {
+      "file": "scenarios/cp08-dns-used-once.json",
+      "sha256": "ed707d433e8e7ed9154db7788b078415eacc6cf34880bc7a2c7a22fdc67ea017"
+    },
+    {
+      "file": "scenarios/cp08-management-role-matrix.json",
+      "sha256": "23a938fe53857938c37d05a486f5a6186f7f53bad70b7ad5e75f4128050b19a2"
+    },
+    {
+      "file": "scenarios/cp08-mixed-dns-business.json",
+      "sha256": "2098c4b22979fdcbd7720c62fa773e6572b970e6bb5d78d913925c3b6fce80d5"
+    },
+    {
+      "file": "scenarios/cp08-mixed-dns-token.json",
+      "sha256": "cdb0d7ea41d42bb52b406e746d742307f4c299157eb936b15933b25b394e07fb"
+    },
+    {
+      "file": "scenarios/cp08-no-implicit-state-false.json",
+      "sha256": "a4f92c441ff81234ea3ddfaa450bd5285f766031f0f802e01f022f1a05dd86e0"
+    },
+    {
+      "file": "scenarios/cp08-no-implicit-state-true.json",
+      "sha256": "83b37a555b057c43f62dcdcd4dbf0b47b03c14eccd05b53481ee04d195fcfdd1"
+    },
+    {
+      "file": "scenarios/cp08-numeric-connector.json",
+      "sha256": "979529f301efa01bdb178c2bd2f24efd3a1b6c955a3ab0cb71b8eddc457978cb"
+    },
+    {
+      "file": "scenarios/cp08-oauth-secret-revoked-5215b7ec-88b7-4c74-b720-9ce42ae66ea3.json",
+      "sha256": "192aba461e3eec4013425d046a53cb9a073ffdd4355ef12fa046acc7a04c9a38"
+    },
+    {
+      "file": "scenarios/cp08-oauth-secret-revoked-auth-5215b7ec-88b7-4c74-b720-9ce42ae66ea3.json",
+      "sha256": "d5c1d5b005c087ef56ef3af68af8c58342673d82d1115f93dca4590a504fbf0d"
+    },
+    {
+      "file": "scenarios/cp08-offline-url-publication.json",
+      "sha256": "d09da94a621c552ac0ca39c5f8b7e9f77a1ab6ea48554377a063c7fe2b753bdd"
+    },
+    {
+      "file": "scenarios/cp08-privacy-rejected-3e73866b-6997-4d4f-adc7-1247fe0fd644.json",
+      "sha256": "170d141f9e3866876c13f939b4167158f1ec635929d0036df375f2526d24fcae"
+    },
+    {
+      "file": "scenarios/cp08-privacy-rejected-auth-3e73866b-6997-4d4f-adc7-1247fe0fd644.json",
+      "sha256": "93e3bd7314a46b01479b9cdb96c0ce171e8c0d9f5e7b5936a44e6c7e11bbbd75"
+    },
+    {
+      "file": "scenarios/cp08-privacy-success-4b791dac-0ef3-4d1b-b32c-57657624ce99.json",
+      "sha256": "553f91b1ed9d5afc1c4a2a198814e0433294d6f07f2c4116f11879af1279389f"
+    },
+    {
+      "file": "scenarios/cp08-privacy-success-auth-4b791dac-0ef3-4d1b-b32c-57657624ce99.json",
+      "sha256": "011050261cf05dc6b954c69c58768c0c6565d01c49b5ed30db75137394de9ef8"
+    },
+    {
+      "file": "scenarios/cp08-privacy-token-failed-097de663-8575-4fb4-ba9e-c455b85ba856.json",
+      "sha256": "2d4b426a69c8af7e9616a8a04a275b195dc7c539c532031c41dd66b9c31823c7"
+    },
+    {
+      "file": "scenarios/cp08-privacy-token-failed-auth-097de663-8575-4fb4-ba9e-c455b85ba856.json",
+      "sha256": "a3c1d1f1115a9451b8ba583883b28f5c73eafb9b3e35f9efc97dc3d625555cbc"
+    },
+    {
+      "file": "scenarios/cp08-rebound-private-business.json",
+      "sha256": "51660b5c5d8ebecf38ad6118e2cb54d0e8d087f045b72c4ef75bf2f6426b2d26"
+    },
+    {
+      "file": "scenarios/cp08-rebound-private-token.json",
+      "sha256": "3a6c292efa55a9809d32430fc35fa01fab9b93d214d597ec62dbcd1376e527f2"
+    },
+    {
+      "file": "scenarios/cp08-redaction-false.json",
+      "sha256": "1980206a1191db6cfa9d2272847776ae429f049eeaa9659cf45876b672cc7def"
+    },
+    {
+      "file": "scenarios/cp08-redaction-true.json",
+      "sha256": "d5cfa08120d224ab33c3be0b0a827cf9bea8a4d2d3bd57c817933f1bd36ec5c9"
+    },
+    {
+      "file": "scenarios/cp08-redirect-301.json",
+      "sha256": "b6b322ef47cee0bfeb4a8dcc63ec6f3ad5d03028517ed5675ca3ae3ca750c931"
+    },
+    {
+      "file": "scenarios/cp08-redirect-302.json",
+      "sha256": "dc1a183fea4a8880631858de88b2b75ac020cde5d46f462015d7d211438bd31e"
+    },
+    {
+      "file": "scenarios/cp08-redirect-307.json",
+      "sha256": "0d66e346da0ae2f87a77d7de9660b02f1a93ee5a5008c67f615822de4dee4c17"
+    },
+    {
+      "file": "scenarios/cp08-redirect-308.json",
+      "sha256": "fb9a0abca0f035e42c2d87bed08611697c2cc3a903fa7f008492b9aeeedccad2"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-count-exact-business.json",
+      "sha256": "09736d92df97c4a8c8440db1d2f7c4686c201e28395c3a9961be72352579af62"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-count-exact-token.json",
+      "sha256": "9e1283b29f711bbbfbfe235025628e8ce0ae597d303c4569208499dfb0f61195"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-count-excess-business.json",
+      "sha256": "97a23bdd58cc2a9afe85c6f5773b1c78767a7f24f7f6af8c2d1ed7f1559274d6"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-count-excess-token.json",
+      "sha256": "6edd940a320d85eb47a4d4239e4331bb75b1eb0085a2082cf409b9851374fb1c"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-line-excess-business.json",
+      "sha256": "4c0f18534402df446b2665d14b05a4acc02caf1ab1c7cc4c70800256f1465382"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-line-excess-token.json",
+      "sha256": "c5489186b72492ef2d5874d40c6bde69bc4653e7da7df144b19799edc4d51a89"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-total-exact-business.json",
+      "sha256": "e15f02004effe49437f88d7a09406236ec47bb68d9edb29a3eb489ac56d3eeeb"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-total-exact-token.json",
+      "sha256": "7ef5fe7832c4aa1ec0f4b7cb74a945fbc40ef26f638e5b8d42612b91564b4e72"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-total-excess-business.json",
+      "sha256": "910d1f1184a03f7fc6f868ef382bca06f3f9c5019368eaeab53adabf6317e4f0"
+    },
+    {
+      "file": "scenarios/cp08-response-headers-total-excess-token.json",
+      "sha256": "0975cfa8e7945f213bf86a3a8cf8e4f623a1f2fd4dda783acb15a7fa1bd1b27d"
+    },
+    {
+      "file": "scenarios/cp08-secret-revoked-old-snapshot-e081699c-69b7-4523-9c83-4da63174cd79.json",
+      "sha256": "cc7c108982ad0aa41073dfd919802f7e75698cdae4551aaac1c9a863c725894c"
+    },
+    {
+      "file": "scenarios/cp08-slow-headers-business.json",
+      "sha256": "62e2fb9a22a7236151d5b5b2634d3174b7c6cba5c811862462e4bba9147d9f31"
+    },
+    {
+      "file": "scenarios/cp08-slow-headers-token.json",
+      "sha256": "678a64730b90401a12111db6d9f0b4af6431b15e7f86521649321f394eab1f6c"
+    },
+    {
+      "file": "scenarios/cp08-slow-tls-business.json",
+      "sha256": "135ab8a73de12142d65f20b74ec53f9cce0eb2a3083252aa94a2c50117b7c1af"
+    },
+    {
+      "file": "scenarios/cp08-slow-tls-token.json",
+      "sha256": "edeec4c210997aa5851138364033e243e13eeea85d3d3ddf28389167ca7af1a8"
+    },
+    {
+      "file": "scenarios/cp08-tenant-secret-permission.json",
+      "sha256": "eb2758e008a2c8d23be3a942df1673dd81531aea4eed3dd63434c309001faec0"
+    },
+    {
+      "file": "scenarios/cp08-tls-expired-business.json",
+      "sha256": "e8e7b037b427e84ed19b1227dc93e88fc1140d7a16ec0960de766597abc70821"
+    },
+    {
+      "file": "scenarios/cp08-tls-expired-token.json",
+      "sha256": "82d143470baacd6b0aff4ff6e9db855ef3a8ad0e4ec76bbe9676ba3eb3a6f787"
+    },
+    {
+      "file": "scenarios/cp08-tls-untrusted-business.json",
+      "sha256": "d6b4f03a6ee09ee0ce4f2a55f90f3c17223490d97ccdca3ef34d7821b275a26b"
+    },
+    {
+      "file": "scenarios/cp08-tls-untrusted-token.json",
+      "sha256": "d3b5aa8e372222be95e9b58a1150075bc0f7a61c4f9b5ad6a81ce10636a390a6"
+    },
+    {
+      "file": "scenarios/cp08-tls-valid-business.json",
+      "sha256": "d8effd16dcc3dee5a8678104261e22e6daa944af2c8db5c5e2a6101da747baa5"
+    },
+    {
+      "file": "scenarios/cp08-tls-valid-token.json",
+      "sha256": "16e51907566a0157737ac4090ddf27a76e56282e82b5af3a2197bf06723fe4fa"
+    },
+    {
+      "file": "scenarios/cp08-tls-wrong-host-business.json",
+      "sha256": "2fc877a9ef47c0daede7bb20074dd72fe15a4f9fbc733247ca3007df08a9d278"
+    },
+    {
+      "file": "scenarios/cp08-tls-wrong-host-token.json",
+      "sha256": "65ca6dcf82f0ae768615c3065a34e2ccc4864ac3bd130fe5d789b5d938db3d2b"
+    }
+  ]
+}

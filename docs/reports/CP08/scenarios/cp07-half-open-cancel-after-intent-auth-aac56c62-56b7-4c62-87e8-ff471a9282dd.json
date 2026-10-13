@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp07-half-open-cancel-after-intent-authentication",
+  "observedAt" : "2026-10-13T06:01:21.096980Z",
+  "taskId" : "aac56c62-56b7-4c62-87e8-ff471a9282dd",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T06:01:21.059065Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

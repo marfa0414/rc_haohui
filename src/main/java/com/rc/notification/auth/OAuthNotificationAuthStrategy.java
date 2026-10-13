@@ -11,13 +11,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Conditional(RoleConfiguration.WorkerEnabled.class)
 public class OAuthNotificationAuthStrategy implements NotificationAuthStrategy {
-    private final SecretResolver secrets;
+    private final TenantSecretAccess secrets;
     private final TokenCache tokens;
-    public OAuthNotificationAuthStrategy(SecretResolver secrets, TokenCache tokens) { this.secrets = secrets; this.tokens = tokens; }
+    public OAuthNotificationAuthStrategy(TenantSecretAccess secrets, TokenCache tokens) { this.secrets = secrets; this.tokens = tokens; }
     @Override public String type() { return "oauth2_client_credentials"; }
     @Override public AuthCooldown cooldown(AuthContext context) {
         try {
-            String version = secrets.credentialVersion(context.profile().path("clientSecretRef").asText());
+            if (!context.tenantId().equals(context.profile().path("tenantId").asText())) return AuthCooldown.none();
+            String version = secrets.credentialVersion(context.tenantId(), context.profile().path("clientSecretRef").asText());
             if (version == null || !version.matches("[A-Za-z0-9._:-]{1,128}")) return AuthCooldown.none();
             TokenKey key = key(context, version);
             return new AuthCooldown(tokens.cooldownRemaining(key), tokens.cooldownRetryAfter(key));
@@ -27,7 +28,10 @@ public class OAuthNotificationAuthStrategy implements NotificationAuthStrategy {
             throws TokenFailure, InterruptedException {
         long started = System.nanoTime();
         SecretResolver.ResolvedSecret secret;
-        try { secret = secrets.resolve(context.profile().path("clientSecretRef").asText()); }
+        try {
+            if (!context.tenantId().equals(context.profile().path("tenantId").asText())) throw new IllegalArgumentException("Authentication tenant mismatch");
+            secret = secrets.resolve(context.tenantId(), context.profile().path("clientSecretRef").asText());
+        }
         catch (IllegalArgumentException | IllegalStateException invalid) { throw new TokenFailure("AUTH_CONFIGURATION_ERROR", false, List.of()); }
         if (secret.credentialVersion() == null || !secret.credentialVersion().matches("[A-Za-z0-9._:-]{1,128}")) {
             throw new TokenFailure("AUTH_CONFIGURATION_ERROR", false, List.of());

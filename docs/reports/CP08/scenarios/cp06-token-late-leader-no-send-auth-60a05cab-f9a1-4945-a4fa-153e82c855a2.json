@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-token-late-leader-no-send-authentication",
+  "observedAt" : "2026-10-13T06:02:51.877369Z",
+  "taskId" : "60a05cab-f9a1-4945-a4fa-153e82c855a2",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T06:02:51.050593Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

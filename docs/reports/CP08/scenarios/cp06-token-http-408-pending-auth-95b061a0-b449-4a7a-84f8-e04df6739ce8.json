@@ -1,0 +1,13 @@
+{
+  "scenario" : "cp06-token-http-408-pending-authentication",
+  "observedAt" : "2026-10-13T06:02:57.422637Z",
+  "taskId" : "95b061a0-b449-4a7a-84f8-e04df6739ce8",
+  "runNumber" : 1,
+  "recoveryUsed" : false,
+  "recoveryRequired" : false,
+  "tokenCalls" : [ {
+    "receivedAt" : "2026-10-13T06:02:57.400484Z",
+    "method" : "POST",
+    "path" : "/token"
+  } ]
+}

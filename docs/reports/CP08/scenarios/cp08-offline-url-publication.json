@@ -1,0 +1,9 @@
+{
+  "rejectedPublications" : 20,
+  "observedConnections" : 0,
+  "taskRows" : 0,
+  "capturedLogEvents" : 3,
+  "sensitiveUrlMatches" : 0,
+  "scenario" : "cp08-offline-url-publication",
+  "observedAt" : "2026-10-13T06:00:42.377686Z"
+}

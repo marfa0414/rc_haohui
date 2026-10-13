@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 public class ApiKeyAuthStrategy {
     private static final Set<String> TRANSPORT_HEADERS = Set.of("host", "content-length", "connection", "transfer-encoding",
             "content-type", "proxy-authorization", "te", "trailer", "upgrade", "expect", "proxy-connection", "keep-alive");
-    private final SecretResolver secrets;
-    public ApiKeyAuthStrategy(SecretResolver secrets) { this.secrets = secrets; }
+    private final TenantSecretAccess secrets;
+    public ApiKeyAuthStrategy(TenantSecretAccess secrets) { this.secrets = secrets; }
     public record Prepared(Map<String, String> headers, String credentialVersion) {
         public Prepared { headers = Map.copyOf(headers); }
         @Override public String toString() { return "Prepared[headers=REDACTED,credentialVersion=" + credentialVersion + "]"; }
     }
-    public Prepared prepare(JsonNode parameters, String secretReference) {
+    public Prepared prepare(String tenant, JsonNode parameters, String secretReference) {
         validateParameters(parameters);
-        SecretResolver.ResolvedSecret secret = secrets.resolve(secretReference);
+        SecretResolver.ResolvedSecret secret = secrets.resolve(tenant, secretReference);
         String name = parameters.path("headerName").asText();
         String value = parameters.path("prefix").asText("") + secret.value();
         if (!name.matches("[!#$%&'*+.^_`|~0-9A-Za-z-]+") || invalidControl(value)

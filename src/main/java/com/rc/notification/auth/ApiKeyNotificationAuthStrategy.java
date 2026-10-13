@@ -13,7 +13,10 @@ public class ApiKeyNotificationAuthStrategy implements NotificationAuthStrategy 
     public ApiKeyNotificationAuthStrategy(ApiKeyAuthStrategy apiKeys) { this.apiKeys = apiKeys; }
     @Override public String type() { return "api_key"; }
     @Override public PreparedAuthentication prepare(AuthContext context, Duration remaining, Duration planned, byte[] rejected) throws TokenFailure {
-        try { return new PreparedAuthentication(apiKeys.prepare(context.profile(), context.profile().path("secretRef").asText()), null, null, null); }
+        try {
+            if (!context.tenantId().equals(context.profile().path("tenantId").asText())) throw new IllegalArgumentException("Authentication tenant mismatch");
+            return new PreparedAuthentication(apiKeys.prepare(context.tenantId(), context.profile(), context.profile().path("secretRef").asText()), null, null, null);
+        }
         catch (IllegalArgumentException | IllegalStateException invalid) { throw new TokenFailure("AUTH_CONFIGURATION_ERROR", false, List.of()); }
     }
 }

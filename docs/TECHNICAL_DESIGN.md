@@ -340,6 +340,8 @@ deadline 扫描独立使用 deadline 索引处理所有超期 pending，不要�
 
 `SecretResolver` MVP 只实现 `env:NAME`，返回 Secret 值及显式 `credentialVersion`；Secret 与版本成对部署，轮换时升级版本并重启，禁止通过引用改变账号身份。值只在发送范围内使用，不写快照、日志、查询或预览。生产 Secret store 是以后可加的实现。
 
+租户能够编辑自己的认证配置，不代表能读取进程中的任意 Secret。CP08 增加部署级 `app.secrets.tenant-references` 白名单，由 `TenantSecretAccess` 约束租户与逻辑引用的对应关系；默认空即拒绝，不支持通配符，共享引用需逐租户显式授权。认证配置创建、修改、发布和路由绑定时检查授权，实际解析和 OAuth 元数据读取前再次按任务的租户核验，并检查认证配置所属租户。管理请求越权返回 `403 SECRET_REFERENCE_FORBIDDEN`；已排队任务在部署撤权后，于认证准备阶段记 `NOT_SENT/AUTH_CONFIGURATION_ERROR` 并停止，不绕过授权或无次数地反复延期。同一引用下轮换凭据不改变授权关系，换引用需要部署侧授权。示例见 [安全配置](../examples/security/README.md)。
+
 缓存键为 `(environment,tenantId,authProfileVersionId,credentialVersion,tokenUrl,clientId,clientAuthMethod,normalizedScopes)`。scope 按标准集合去重排序；所有实际授权参数都参与隔离。同上下文不同 operation 可共用，不同租户绝不复用。
 
 缓存条目保存 Token、tokenType、receivedAt、expiresAt、随机 generation 和 SHA-256 Token 指纹。指纹仅用于区分拒绝过的高熵 Token，不作为认证材料；拒绝指纹可以存任务表内部字段，但不出 API/日志。generation 用于本进程 compare-and-remove，不能单凭“再次获取生成了新 generation”认定 Token 值已经改变。
@@ -401,15 +403,17 @@ CP07 将初始部署参数具体化为下表，后续性能测试记录实际覆
 
 ## 10 出站安全与资源限制
 
-业务 URL 和 Token URL 走同一 `OutboundPolicy`。解析标准 URI，拒绝 userinfo、fragment、非 HTTP(S)、异常端口、混淆主机格式；生产仅 HTTPS 443 或显式批准端口，域名按 IDNA/大小写规范化后严格匹配允许列表。Header 不承载入站内部凭证，模板中不保存 Secret。
+业务 URL 和 Token URL 走同一 `OutboundPolicy`。解析标准 URI，拒绝 userinfo、fragment、非 HTTP(S)、异常端口、混淆主机格式；生产仅 HTTPS 443 或显式批准端口。允许列表按 IDNA/大小写规范化，URL 要求 ASCII 域名或 punycode 并精确匹配，不接受通配符、尾点或有歧义的数字地址。标准 IP literal 除配置校验外，在进入传输前检查地址，避免 HTTP 库对 literal 跳过 DNS Resolver 而绕过限制。Header 不承载入站内部凭证，模板中不保存 Secret。
 
 实际连接的 DNS Resolver 返回前检查全部 A/AAAA 候选；发现禁止地址则拒绝这次解析。检查 IPv4、IPv6、IPv4-mapped IPv6、回环、私网、链路本地、组播、未指定/保留和云元数据地址，不仅调用 `isSiteLocalAddress()`。允许列表并不替代 IP 检查。[OWASP SSRF 指南](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
 
-检查后的 InetAddress 直接交给连接器使用，不允许校验后走第二次 DNS；Host/SNI 与 TLS hostname verification 仍使用原始允许域名。连接复用仅能复用已检查地址，目标策略变更需要重启并清空连接池。禁止系统代理自动继承、自动重定向、Cookie 共享、透明认证挑战重发和隐式重试。开发/test 仅显式放行指定 Mock 名称、端口及 CIDR，生产 profile 不能接受该例外。
+检查后的 InetAddress 直接交给连接器使用，不允许校验后走第二次 DNS；Host/SNI 与 TLS hostname verification 仍使用原始允许域名。MVP 显式关闭连接复用：业务响应在确认响应头后取消，Token 响应即使读完也关闭物理连接；这样每次连接都重新校验地址，避免无用 Body 排空及已归还连接无法取消的问题。代价是额外 TCP/TLS 建连开销，后续只能在保持地址检查和有界关闭的前提下优化。目标策略变更需要重启。禁止系统代理自动继承、自动重定向、Cookie 共享、透明认证挑战重发和隐式重试。开发/test 仅显式放行指定 Mock 名称、端口及 CIDR，生产 profile 不能接受该例外。
+
+本地地址例外必须同时满足名称、端口及 `app.outbound.development-allowed-cidrs`；缺少 CIDR 不默认放行整个私网。开发 HTTPS 仍使用 HTTPS 名称/端口允许列表和完整 TLS 校验。固定特殊地址策略参考 [IANA IPv4](https://www.iana.org/assignments/iana-ipv4-special-registry/) 与 [IANA IPv6](https://www.iana.org/assignments/iana-ipv6-special-registry/) 登记，另拒绝 [Azure 平台地址 168.63.129.16](https://learn.microsoft.com/en-us/azure/virtual-network/what-is-ip-address-168-63-129-16)。这是对本服务出站 HTTP 的限制，不修改操作系统或云 Agent 的访问规则；无法识别所有部署自行定义的私有路由，应配合出口网络边界。
 
 不能仅把 `responseTimeout=10s` 当作整个请求 10 秒：连接池等待、DNS、连接、TLS 和响应处理要被外层单调时钟 deadline 覆盖，超时主动取消并关闭请求。DNS 使用有界解析执行器和有限等待；即便 OS 解析无法立即中断，滞留线程数也须有上限，不无限创建新线程。CP01 先验证客户端这些控制点可用，CP08 用真实连接验证 SSRF/超时边界。
 
-业务响应最多丢弃 64 KiB，超过即关闭连接，仍依据已收到的最终 HTTP 状态分类；不记录响应正文。Token 响应必须完整解析且不能超 64 KiB，超限属于认证协议失败。限制响应头总大小和压缩后解码大小，MVP 可关闭自动响应解压缩。拒绝无效 TLS 证书，不添加 trust-all 测试捷径。
+业务响应取得有效最终响应头后立即取消并关闭，不主动读取或排空响应 Body；网络缓冲可能已经接收部分字节，不能将应用不读 Body 表述为对端发送字节为零。Token 响应必须完整解析且不能超 64 KiB，超限属于认证协议失败。响应头解析受单行 16 KiB、最多 100 条约束，解析后另执行总计 64 KiB 的接受预算；因此不声称解析阶段内存只分配 64 KiB。超大 Token 响应头映射固定协议错误并终止，禁止回显内容。关闭自动响应解压缩，压缩 Token 内容不会被无界展开。拒绝无效 TLS 证书，不添加 trust-all 测试捷径。
 
 ## 11 查询、日志、健康与运维
 
@@ -417,7 +421,7 @@ CP07 将初始部署参数具体化为下表，后续性能测试记录实际覆
 
 `GET /v1/notifications/{id}/attempts` 返回授权任务的尝试历史，按 `(runNumber,attemptNo)` 倒序 keyset 分页，默认 20、最多 100。任务投影的 `deferReason` 单独解释当前延期或终止原因；纯截止清理和人工重投保留 `lastOutcome/lastHttpStatus/lastErrorCode`，使状态变化不会伪造一次新投递结果。
 
-结构化日志保留 requestId/notificationId/tenantId/operation/providerId/runNumber/attemptNo/phase/耗时/errorCode。对供应商错误只使用本服务枚举和允许的状态字段，不直接打印异常携带的请求、响应或 Secret。预览的动态业务值默认掩码，保留字段路径/类型/长度与编码格式供核验；精确字节由使用非敏感测试夹具的自动化测试验证。
+结构化日志保留 notificationId/tenantId/operation/providerId/runNumber/attemptNo/phase/耗时/errorCode。API 受理日志记录真实服务端 requestId 与 notificationId 的对应关系；Worker 用 executionId 标识一次租约执行，以 notificationId 跨阶段关联，不将执行标识冒充原入站 requestId，也不为此新增持久字段。对供应商错误只使用本服务枚举和允许的状态字段，不直接打印异常携带的请求、响应或 Secret。预览的动态业务值默认掩码，保留字段路径/类型/长度与编码格式供核验；精确字节由使用非敏感测试夹具的自动化测试验证。
 
 指标包括受理/冲突/拒绝、任务各状态数量、最老到期等待、attempt 结果/延迟、租约回收、Token 获取/等待/失败、熔断、冷却和数据库/HTTP 连接池等待。指标标签使用受控 provider/errorCode/phase，避免 eventId/notificationId/任意 tenantId 造成高基数。需按租户排查时使用受权限控制的日志/查询。
 

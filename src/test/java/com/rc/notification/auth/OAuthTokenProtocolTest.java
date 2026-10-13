@@ -222,7 +222,7 @@ class OAuthTokenProtocolTest {
         final OAuthTokenClient client;
         ProtocolFixture() throws Exception {
             var policy = new OutboundPolicy(new OutboundPolicy.Properties(Set.of("127.0.0.1"), Set.of(443), Set.of("127.0.0.1"),
-                    Set.of(mock.uri("/token").getPort())), new MockEnvironment().withProperty("app.environment", "test"));
+                    Set.of(mock.uri("/token").getPort()), Set.of("127.0.0.1/32")), new MockEnvironment().withProperty("app.environment", "test"));
             transport = new ControlledHttpClient(SystemDefaultDnsResolver.INSTANCE, 2, policy::allowsConnectionAddress);
             client = new OAuthTokenClient(transport, policy);
         }

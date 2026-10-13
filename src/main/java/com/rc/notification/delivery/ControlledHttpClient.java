@@ -3,6 +3,7 @@ package com.rc.notification.delivery;
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import com.rc.notification.security.IpLiteral;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
@@ -29,6 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.IntPredicate;
+import javax.net.ssl.SSLContext;
 import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -38,17 +40,22 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.ClientTlsStrategyBuilder;
+import org.apache.hc.client5.http.ssl.HostnameVerificationPolicy;
+import org.apache.hc.client5.http.ssl.HttpsSupport;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.config.Http1Config;
 import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.hc.core5.util.Timeout;
+import org.apache.hc.core5.ssl.SSLContexts;
 
 /**
  * One physical request, a bounded executor and a total deadline including actual-address validation.
  * Business acknowledgement reads headers only; token exchanges may use bounded body decoding.
  */
 public final class ControlledHttpClient implements AutoCloseable {
+    public static final int MAX_RESPONSE_HEADER_BYTES = 65536;
     private static final Duration MAX_TOTAL_TIMEOUT = Duration.ofMinutes(1);
     private final ThreadLocal<CallState> callState = new ThreadLocal<>();
     private final Semaphore admission;
@@ -57,13 +64,18 @@ public final class ControlledHttpClient implements AutoCloseable {
     private final BiPredicate<URI, InetAddress> allowedTargetAddress;
     private final AtomicBoolean closed = new AtomicBoolean();
 
-    public record Response(int statusCode, Map<String, List<String>> headers) { }
+    public record Response(int statusCode, Map<String, List<String>> headers) {
+        @Override public String toString() { return "Response[statusCode=" + statusCode + ",headers=REDACTED]"; }
+    }
     @FunctionalInterface
     public interface BodyDecoder<T> { T decode(Response response, byte[] body) throws IOException; }
     @FunctionalInterface
     private interface ResponseHandler<T> { T handle(Response headers, ClassicHttpResponse response, CallState state) throws IOException; }
     public static final class ResponseTooLargeException extends IOException {
         public ResponseTooLargeException() { super("Response exceeded the configured byte limit"); }
+    }
+    public static final class ResponseHeadersTooLargeException extends IOException {
+        public ResponseHeadersTooLargeException() { super("Response headers exceeded the configured byte limit"); }
     }
 
     public ControlledHttpClient(DnsResolver resolver, int maxConcurrent) {
@@ -72,6 +84,12 @@ public final class ControlledHttpClient implements AutoCloseable {
 
     public ControlledHttpClient(DnsResolver resolver, int maxConcurrent,
                                 BiPredicate<URI, InetAddress> allowedTargetAddress) {
+        this(resolver, maxConcurrent, allowedTargetAddress, SSLContexts.createDefault());
+    }
+
+    /** A supplied trust context supports private CAs; hostname verification is never configurable. */
+    public ControlledHttpClient(DnsResolver resolver, int maxConcurrent,
+                                BiPredicate<URI, InetAddress> allowedTargetAddress, SSLContext sslContext) {
         Objects.requireNonNull(resolver, "resolver");
         this.allowedTargetAddress = Objects.requireNonNull(allowedTargetAddress, "allowedTargetAddress");
         if (maxConcurrent < 1) {
@@ -87,8 +105,12 @@ public final class ControlledHttpClient implements AutoCloseable {
                 }, new ThreadPoolExecutor.AbortPolicy());
 
         var connections = PoolingHttpClientConnectionManagerBuilder.create()
+                .setTlsSocketStrategy(ClientTlsStrategyBuilder.create().setSslContext(Objects.requireNonNull(sslContext))
+                        .setHostVerificationPolicy(HostnameVerificationPolicy.BOTH)
+                        .setHostnameVerifier(HttpsSupport.getDefaultHostnameVerifier()).buildClassic())
                 .setConnectionFactory(ManagedHttpClientConnectionFactory.builder()
-                        .http1Config(Http1Config.custom().setMaxLineLength(16384).setMaxHeaderCount(100).build())
+                        // HttpCore 5.3 rejects once size >= maxHeaderCount: 101 accepts at most 100.
+                        .http1Config(Http1Config.custom().setMaxLineLength(16384).setMaxHeaderCount(101).build())
                         .requestWriterFactory(Utf8RequestWriter::new).build())
                 .setDnsResolver(new DeadlineDnsResolver(resolver))
                 .setMaxConnTotal(maxConcurrent)
@@ -103,6 +125,9 @@ public final class ControlledHttpClient implements AutoCloseable {
                 .build();
         client = HttpClients.custom()
                 .setConnectionManager(connections)
+                // A fully consumed token entity may release its socket before finally can cancel it.
+                // Disable reuse explicitly so all response paths retain the bounded-close contract.
+                .setConnectionReuseStrategy((request, response, context) -> false)
                 .setDefaultRequestConfig(RequestConfig.custom()
                         .setConnectionRequestTimeout(Timeout.ofSeconds(2))
                         .setResponseTimeout(Timeout.ofSeconds(10))
@@ -162,6 +187,10 @@ public final class ControlledHttpClient implements AutoCloseable {
         if (closed.get()) {
             throw new IOException("HTTP client is closed");
         }
+        try {
+            InetAddress literal = IpLiteral.parse(uri.getHost());
+            if (literal != null && !allowedTargetAddress.test(uri, literal)) throw new TargetAddressRejectedException();
+        } catch (IllegalArgumentException malformed) { throw new TargetAddressRejectedException(); }
         var request = new HttpUriRequestBase(method, uri);
         headers.forEach(request::setHeader);
         if (body != null) {
@@ -232,7 +261,13 @@ public final class ControlledHttpClient implements AutoCloseable {
             response = client.executeOpen(null, request, null);
             state.checkActive();
             Map<String, List<String>> mutable = new LinkedHashMap<>();
+            int headerBytes = 0;
+            if (response.getHeaders().length > 100) throw new ResponseHeadersTooLargeException();
             for (Header header : response.getHeaders()) {
+                // HttpCore first bounds parsing by 16 KiB/line and 100 fields. This is
+                // the additional aggregate limit on decoded field bytes, not the parser's peak memory.
+                headerBytes += header.getName().length() + header.getValue().length() + 4;
+                if (headerBytes > MAX_RESPONSE_HEADER_BYTES) throw new ResponseHeadersTooLargeException();
                 mutable.computeIfAbsent(header.getName().toLowerCase(Locale.ROOT), key -> new ArrayList<>())
                         .add(header.getValue());
             }

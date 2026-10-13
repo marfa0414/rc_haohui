@@ -144,7 +144,7 @@ class WorkerDeliveryTest {
 
     /** CP04 TC-SEC-01/02 basic connector gate; exhaustive rebinding and DNS variants remain CP08. */
     @Test
-    void anAllowedHttpsNumericHostStillFailsTheRealPrivateAddressConnectionCheckWithoutSending() throws Exception {
+    void anAcceptedHttpsNumericSnapshotIsRejectedAfterItsDevelopmentCidrIsRevoked() throws Exception {
         try (var fixture = new WorkerFixture()) {
             fixture.mock.route("/private", exchange -> HttpMock.respond(exchange, 200, "must-not-arrive"));
             var template = scalarTemplate("tenant-a", "private-target")
@@ -155,6 +155,9 @@ class WorkerDeliveryTest {
             var accepted = fixture.api.post(payload("tenant-a", "worker.private", "blocked-numeric-host", "{}"), ADMIN);
             assertEquals(202, accepted.statusCode(), accepted.body());
             var id = java.util.UUID.fromString(fixture.api.json(accepted).path("notificationId").asText());
+            // CP08 development CIDRs now explicitly cover approved HTTPS mocks as well. Revoke the
+            // accepted address before delivery; immutable snapshots do not retain revoked privileges.
+            fixture.restart(java.util.Map.of("app.outbound.development-allowed-cidrs", "127.0.0.2/32"));
             fixture.worker.tick();
             var failed = fixture.awaitStatus(id, "failed", Duration.ofSeconds(5));
             assertEquals("NOT_SENT", failed.path("last_outcome").asText());

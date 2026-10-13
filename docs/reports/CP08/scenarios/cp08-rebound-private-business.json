@@ -1,0 +1,8 @@
+{
+  "scenario" : "cp08-rebound-private-business",
+  "observedAt" : "2026-10-13T06:00:40.918560Z",
+  "targetRole" : "business",
+  "observedCalls" : 0,
+  "observedConnections" : 0,
+  "dnsObservations" : [ "supplier.invalid=127.0.0.1" ]
+}

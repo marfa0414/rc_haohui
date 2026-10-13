@@ -1,0 +1,11 @@
+{
+  "scenarioElapsedMillis" : 14,
+  "postCancellationHealthyRequests" : 12,
+  "remainingActiveConnections" : 0,
+  "path" : "token",
+  "callBudgetMillis" : 5000,
+  "physicalConnectionsClosed" : 12,
+  "cancelledCalls" : 12,
+  "rounds" : 3,
+  "configuredCapacity" : 4
+}

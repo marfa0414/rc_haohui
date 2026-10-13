@@ -117,6 +117,7 @@ class ConfigurationLifecycleTest {
             try (var api = new NotificationApiFixture(new RealPostgres(), "api", Map.of(
                     "app.environment", "test", "app.outbound.allowed-hosts", "127.0.0.1,supplier.invalid",
                     "app.outbound.development-http-hosts", "127.0.0.1",
+                    "app.outbound.development-allowed-cidrs", "127.0.0.1/32",
                     "app.outbound.development-http-ports", Integer.toString(mock.uri("/notify").getPort())))) {
                 var config = new ConfigurationFixture(api);
                 var input = template("tenant-a", "json", JSON.readTree("{\"person\":{\"from\":\"data.name\",\"type\":\"string\",\"required\":true}}"));

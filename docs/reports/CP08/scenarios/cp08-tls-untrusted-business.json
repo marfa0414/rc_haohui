@@ -1,0 +1,12 @@
+{
+  "certificateKind" : "UNTRUSTED",
+  "certificateAccepted" : false,
+  "originalHostAndSniVerified" : false,
+  "healthyTlsProbeRequests" : 1,
+  "httpRequests" : 0,
+  "sameClientCapacityReusable" : true,
+  "path" : "business",
+  "budgetMillis" : 4000,
+  "elapsedMillis" : 7,
+  "dnsResolutionsIncludingHealthyProbe" : 2
+}

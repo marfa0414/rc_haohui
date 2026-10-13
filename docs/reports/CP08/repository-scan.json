@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-10-13T06:04:10.588796+00:00",
+  "filesScanned": 166,
+  "patterns": [
+    "private_key",
+    "github_token",
+    "aws_access_key",
+    "slack_token"
+  ],
+  "patternMatches": [],
+  "environmentExampleSha256": "b6dc902c6c449411f2e6f6799a5a6544ee5e833d8d1c78b725a33a42c4cd4d36",
+  "environmentExampleReview": "placeholders only",
+  "limitation": "Common-pattern scan plus sample review; not proof that arbitrary secret material cannot exist."
+}

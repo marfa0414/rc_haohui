@@ -1,0 +1,40 @@
+{
+  "scenario" : "cp07-quota-during-token-wait",
+  "observedAt" : "2026-10-13T06:01:27.711959Z",
+  "task" : {
+    "id" : "8e2628cf-5281-479f-9d1d-c10be39aa8d6",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T14:01:29.657432+08:00",
+    "deadline_at" : "2026-10-14T14:01:27.622124+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : "QUOTA_COOLDOWN",
+    "last_http_status" : null,
+    "defer_reason" : "RETRY_BACKOFF"
+  },
+  "attempts" : [ {
+    "task_id" : "8e2628cf-5281-479f-9d1d-c10be39aa8d6",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "b2025d43-c263-4ec5-b7ea-76ec7595c17a",
+    "phase" : "COMPLETED",
+    "outcome" : "NOT_SENT",
+    "http_status" : null,
+    "error_code" : "QUOTA_COOLDOWN",
+    "started_at" : "2026-10-13T14:01:27.63591+08:00",
+    "ended_at" : "2026-10-13T14:01:27.672089+08:00",
+    "request_started_at" : "2026-10-13T14:01:27.668977+08:00",
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T14:01:32.63591+08:00"
+  } ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T06:01:26.359310Z",
+    "method" : "POST",
+    "path" : "/business",
+    "bodySha256" : "1e9700de4edac890985143aab5d2d31242d980e40e79c77dc3e8d23eb383397d"
+  } ]
+}

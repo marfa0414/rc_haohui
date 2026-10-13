@@ -1,0 +1,71 @@
+{
+  "scenario" : "cp07-open-no-attempt",
+  "observedAt" : "2026-10-13T06:01:17.724287Z",
+  "task" : {
+    "id" : "ff6c0c7f-0ed6-4eaf-bc5e-e80241ada620",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T14:01:47.57186+08:00",
+    "deadline_at" : "2026-10-14T14:01:17.584552+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : "CIRCUIT_OPEN"
+  },
+  "attempts" : [ ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T06:01:17.295688Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "7aca2b76ea29b00f0f07307ec4f006db543887584f9a67cac58294f6c7e3a660"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:17.325908Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "612a8327f5c0ea7b31556de5e418bf780a2dc747e4dd52fe0a874adadbd0ab8a"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:17.356127Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "3f7715dce85b9a1a0880bf97167d723b901f4bfce5805409594ccf69183d82af"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:17.385447Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "111ce49d8155b90b072625275bba854864fe4f0571d435887ae9ad22d8a40397"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:17.414945Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "c6fa1e2446f82f58ecf976184c49dd8c94d28c5e579f01d42a5c57af42d0229e"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:17.444586Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "8d07a5a88d8ae427deb909cc592f70b237a8c498b35342a914a1e3ab556a66a7"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:17.474696Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "c9658ee4773fde51fd964d8a73855e1be9c8a0a11a00210dfa586c76e1360a89"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:17.503278Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "9c1fcad106ea942185312b694ee4301fd4895707540c4d84fa193dbe21f25440"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:17.533904Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "da0917efe5cbd3d84dc78c65d447515ec8ba2aa8b435ed7685c8904a7cf6e086"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:17.570642Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "19a7a8d1ff0b969fc4d8efae1f2c9be1330fa195e089bacc5e65966c37a4fc1c"
+  } ]
+}

@@ -11,6 +11,7 @@ import com.rc.notification.application.Submission;
 import com.rc.notification.application.SubmissionParser;
 import com.rc.notification.application.TaskCursor;
 import com.rc.notification.auth.ApiKeyAuthStrategy;
+import com.rc.notification.auth.TenantSecretAccess;
 import com.rc.notification.security.CallerPrincipal;
 import com.rc.notification.security.OutboundPolicy;
 import java.net.URLDecoder;
@@ -39,12 +40,14 @@ public class ConfigurationService {
     private final ConfigurationRepository repository;
     private final RequestSnapshotFactory snapshots;
     private final OutboundPolicy outbound;
+    private final TenantSecretAccess secrets;
     private final ObjectMapper json;
     private final ObjectMapper storedJson = StoredConfigurationJson.newMapper();
     private final TransactionTemplate transaction;
     public ConfigurationService(ConfigurationRepository repository, RequestSnapshotFactory snapshots, OutboundPolicy outbound,
-                                ObjectMapper json, PlatformTransactionManager manager) {
+                                ObjectMapper json, PlatformTransactionManager manager, TenantSecretAccess secrets) {
         this.repository = repository; this.snapshots = snapshots; this.outbound = outbound; this.json = json;
+        this.secrets = secrets;
         transaction = new TransactionTemplate(manager);
         transaction.setTimeout(10);
     }
@@ -250,19 +253,26 @@ public class ConfigurationService {
         if (!caller.allowsTenant(tenant)) throw forbidden();
         SubmissionParser.identifier(input.get("authProfileKey"), 128); positiveVersion(input);
         if (!Set.of("api_key", "oauth2_client_credentials").contains(input.path("type").asText())) throw invalid();
-        secretReference(input);
+        permittedSecretReference(input);
     }
     private String secretReference(JsonNode input) {
         String field = "api_key".equals(input.path("type").asText()) ? "secretRef" : "clientSecretRef";
         String value = input.path(field).asText("");
         if (!value.matches("env:[A-Za-z_][A-Za-z0-9_]*") || value.length() > 256) throw invalid(); return value;
     }
+    private void permittedSecretReference(JsonNode input) {
+        String reference = secretReference(input);
+        try { secrets.requireAllowed(input.path("tenantId").asText(), reference); }
+        catch (TenantSecretAccess.ForbiddenReference forbiddenReference) {
+            throw new ApiException(403, "SECRET_REFERENCE_FORBIDDEN", "Secret reference is not permitted for this tenant");
+        }
+    }
     private ObjectNode authParameters(ObjectNode input) {
         if ("api_key".equals(input.path("type").asText())) return select(input, Set.of("headerName", "prefix"));
         return select(input, Set.of("tokenUrl", "clientId", "clientAuthenticationMethod", "scopes", "tokenLifetimeSeconds"));
     }
     private void validateAuth(ObjectNode input) {
-        secretReference(input);
+        permittedSecretReference(input);
         if ("api_key".equals(input.path("type").asText())) {
             try { ApiKeyAuthStrategy.validateParameters(input); }
             catch (IllegalArgumentException invalidHeader) { throw invalid(); }

@@ -7,12 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.rc.notification.support.ConfigurationFixture;
 import com.rc.notification.support.NotificationApiFixture;
+import com.rc.notification.support.RealPostgres;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
@@ -79,9 +81,10 @@ class ConfigurationAccessTest {
 
     @Test
     void maximumTenantAndOperationIdentifiersFitTheRouteAndItsAuditRecord() throws Exception {
-        try (var api = new NotificationApiFixture()) {
+        String tenant = "t".repeat(64), operation = "o".repeat(128);
+        try (var api = new NotificationApiFixture(new RealPostgres(), "api", Map.of(
+                "app.secrets.tenant-references[" + tenant + "]", "env:CP03_NEVER_RESOLVED_SECRET"))) {
             var config = new ConfigurationFixture(api);
-            String tenant = "t".repeat(64), operation = "o".repeat(128);
             var installed = config.install(scalarTemplate(tenant, "max-identifiers"), apiKey(tenant), operation);
             assertEquals(1, installed.route().path("revision").asLong());
             var submitted = api.post(payload(tenant, operation, "maximum-route-event", "{}"), ADMIN);

@@ -69,6 +69,10 @@ public final class NotificationApiFixture implements AutoCloseable {
         caller(properties, 5, "config-b", CONFIG_B, "CONFIG_ADMIN", "tenant-b", "*");
         caller(properties, 6, "operator-a", OPERATOR_A, "OPERATOR", "tenant-a", "*");
         caller(properties, 7, "operator-b", OPERATOR_B, "OPERATOR", "tenant-b", "*");
+        properties.put("app.secrets.tenant-references[tenant-a]", "env:CP02_VENDOR_SECRET,env:CP03_NEVER_RESOLVED_SECRET,"
+                + "env:CP04_TEST_SECRET,env:CP04_INTENTIONALLY_MISSING_SECRET,env:CP06_CLIENT_SECRET,env:CP06_ROTATED_SECRET,"
+                + "env:EXAMPLE_CRM_API_KEY,env:EXAMPLE_ADS_API_KEY,env:EXAMPLE_CRM_CLIENT_SECRET");
+        properties.put("app.secrets.tenant-references[tenant-b]", "env:CP02_VENDOR_SECRET,env:CP03_NEVER_RESOLVED_SECRET");
         properties.putAll(overrides);
         application = new SpringApplicationBuilder(NotificationApplication.class).web(WebApplicationType.SERVLET)
                 .sources(testSources)

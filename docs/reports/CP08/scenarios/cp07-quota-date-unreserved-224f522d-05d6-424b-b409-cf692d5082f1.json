@@ -1,0 +1,31 @@
+{
+  "scenario" : "cp07-quota-date-unreserved",
+  "observedAt" : "2026-10-13T06:01:24.261122Z",
+  "task" : {
+    "id" : "224f522d-05d6-424b-b409-cf692d5082f1",
+    "run_number" : 1,
+    "run_attempt_count" : 0,
+    "total_attempt_count" : 0,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T14:01:26.000992+08:00",
+    "deadline_at" : "2026-10-14T14:01:24.114245+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : null,
+    "last_http_status" : null,
+    "defer_reason" : "QUOTA_COOLDOWN"
+  },
+  "attempts" : [ ],
+  "httpCalls" : [ {
+    "receivedAt" : "2026-10-13T06:01:24.095139Z",
+    "method" : "POST",
+    "path" : "/notify",
+    "bodySha256" : "9b6b2365c8e8cf0a16cf2e776ebfd3c01750a108898da34902cc7f6c7c5d6188"
+  }, {
+    "receivedAt" : "2026-10-13T06:01:24.127497Z",
+    "method" : "POST",
+    "path" : "/other-auth",
+    "bodySha256" : "158c5b3f86f27af1a309de9f317f5023d0d33c688d394107a70d8692050426c2"
+  } ]
+}

@@ -1,0 +1,35 @@
+{
+  "scenario" : "cp06-token-expired-before-send",
+  "observedAt" : "2026-10-13T06:02:55.244386Z",
+  "task" : {
+    "id" : "70c6146c-20b3-499b-933e-32ba5aa0f4af",
+    "run_number" : 1,
+    "run_attempt_count" : 1,
+    "total_attempt_count" : 1,
+    "status" : "pending",
+    "lease_token" : null,
+    "lease_until" : null,
+    "next_attempt_at" : "2026-10-13T14:02:55.200802+08:00",
+    "deadline_at" : "2026-10-14T14:02:53.928579+08:00",
+    "last_outcome" : "NOT_SENT",
+    "last_error_code" : "TOKEN_EXPIRED_BEFORE_SEND",
+    "last_http_status" : null,
+    "defer_reason" : "RETRY_BACKOFF"
+  },
+  "attempts" : [ {
+    "task_id" : "70c6146c-20b3-499b-933e-32ba5aa0f4af",
+    "run_number" : 1,
+    "attempt_no" : 1,
+    "lease_token" : "6fa0332b-1bd9-4956-ac47-71d0d0ea0370",
+    "phase" : "COMPLETED",
+    "outcome" : "NOT_SENT",
+    "http_status" : null,
+    "error_code" : "TOKEN_EXPIRED_BEFORE_SEND",
+    "started_at" : "2026-10-13T14:02:53.934217+08:00",
+    "ended_at" : "2026-10-13T14:02:55.198885+08:00",
+    "request_started_at" : "2026-10-13T14:02:53.937692+08:00",
+    "http_send_started_at" : null,
+    "execution_deadline" : "2026-10-13T14:02:56.934217+08:00"
+  } ],
+  "httpCalls" : [ ]
+}
