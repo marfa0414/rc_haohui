@@ -1,0 +1,11 @@
+/target/
+/.cache/
+/.tools/
+/.runtime/
+/.env
+/.env.*
+!/.env.example
+*.log
+.DS_Store
+.idea/
+*.iml
