@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,6 +24,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 import org.apache.hc.client5.http.DnsResolver;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -30,6 +33,7 @@ import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.config.TlsConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.ManagedHttpClientConnectionFactory;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.Header;
@@ -37,8 +41,7 @@ import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.hc.core5.util.Timeout;
 
 /**
- * CP01 transport foundation: one physical request, a bounded executor and a total deadline.
- * Business URL allowlists, classification, authentication and scheduling are later checkpoints.
+ * One physical request, a bounded executor and a total deadline including actual-address validation.
  * Response bodies are deliberately not consumed: acknowledgement needs the final status/headers only.
  */
 public final class ControlledHttpClient implements AutoCloseable {
@@ -47,12 +50,19 @@ public final class ControlledHttpClient implements AutoCloseable {
     private final Semaphore admission;
     private final ThreadPoolExecutor executor;
     private final CloseableHttpClient client;
+    private final BiPredicate<URI, InetAddress> allowedTargetAddress;
     private final AtomicBoolean closed = new AtomicBoolean();
 
     public record Response(int statusCode, Map<String, List<String>> headers) { }
 
     public ControlledHttpClient(DnsResolver resolver, int maxConcurrent) {
+        this(resolver, maxConcurrent, (target, address) -> true);
+    }
+
+    public ControlledHttpClient(DnsResolver resolver, int maxConcurrent,
+                                BiPredicate<URI, InetAddress> allowedTargetAddress) {
         Objects.requireNonNull(resolver, "resolver");
+        this.allowedTargetAddress = Objects.requireNonNull(allowedTargetAddress, "allowedTargetAddress");
         if (maxConcurrent < 1) {
             throw new IllegalArgumentException("maxConcurrent must be positive");
         }
@@ -66,6 +76,8 @@ public final class ControlledHttpClient implements AutoCloseable {
                 }, new ThreadPoolExecutor.AbortPolicy());
 
         var connections = PoolingHttpClientConnectionManagerBuilder.create()
+                .setConnectionFactory(ManagedHttpClientConnectionFactory.builder()
+                        .requestWriterFactory(Utf8RequestWriter::new).build())
                 .setDnsResolver(new DeadlineDnsResolver(resolver))
                 .setMaxConnTotal(maxConcurrent)
                 .setMaxConnPerRoute(maxConcurrent)
@@ -97,10 +109,18 @@ public final class ControlledHttpClient implements AutoCloseable {
     public Response execute(URI uri, String method, Map<String, String> headers, byte[] body,
                             Duration totalTimeout)
             throws IOException, TimeoutException, InterruptedException {
+        return execute(uri, method, headers, body, totalTimeout, ignored -> { });
+    }
+
+    /** The callback runs only when the bounded I/O task enters the real HTTP transport. */
+    public Response execute(URI uri, String method, Map<String, String> headers, byte[] body,
+                            Duration totalTimeout, Consumer<Instant> onTransportStart)
+            throws IOException, TimeoutException, InterruptedException {
         Objects.requireNonNull(uri, "uri");
         Objects.requireNonNull(method, "method");
         Objects.requireNonNull(headers, "headers");
         Objects.requireNonNull(totalTimeout, "totalTimeout");
+        Objects.requireNonNull(onTransportStart, "onTransportStart");
         if (totalTimeout.isNegative() || totalTimeout.isZero()
                 || totalTimeout.compareTo(MAX_TOTAL_TIMEOUT) > 0) {
             throw new IllegalArgumentException("totalTimeout must be positive and at most one minute");
@@ -116,7 +136,7 @@ public final class ControlledHttpClient implements AutoCloseable {
         if (!admission.tryAcquire()) {
             throw new RejectedExecutionException("HTTP execution capacity is exhausted");
         }
-        CallState state = new CallState(totalTimeout.toNanos(), admission);
+        CallState state = new CallState(uri, totalTimeout.toNanos(), admission, onTransportStart);
         FutureTask<Response> future = new FutureTask<>(() -> {
             state.executionStarted.set(true);
             try {
@@ -174,6 +194,7 @@ public final class ControlledHttpClient implements AutoCloseable {
         ClassicHttpResponse response = null;
         try {
             state.checkActive();
+            state.onTransportStart.accept(Instant.now());
             response = client.executeOpen(null, request, null);
             state.checkActive();
             Map<String, List<String>> mutable = new LinkedHashMap<>();
@@ -218,6 +239,8 @@ public final class ControlledHttpClient implements AutoCloseable {
     }
 
     private static final class CallState {
+        private final URI target;
+        private final Consumer<Instant> onTransportStart;
         private final long startedNanos = System.nanoTime();
         private final long budgetNanos;
         private final AtomicBoolean cancelled = new AtomicBoolean();
@@ -225,7 +248,9 @@ public final class ControlledHttpClient implements AutoCloseable {
         private final AtomicBoolean permitReleased = new AtomicBoolean();
         private final Semaphore admission;
 
-        private CallState(long budgetNanos, Semaphore admission) {
+        private CallState(URI target, long budgetNanos, Semaphore admission, Consumer<Instant> onTransportStart) {
+            this.target = target;
+            this.onTransportStart = onTransportStart;
             this.budgetNanos = budgetNanos;
             this.admission = admission;
         }
@@ -257,7 +282,9 @@ public final class ControlledHttpClient implements AutoCloseable {
         @Override
         public InetAddress[] resolve(String host) throws UnknownHostException {
             checkDeadline();
-            InetAddress[] addresses = delegate.resolve(host);
+            CallState state = callState.get();
+            InetAddress[] addresses = new ValidatedDnsResolver(delegate,
+                    address -> allowedTargetAddress.test(state.target, address)).resolve(host);
             // Blocking system DNS may ignore interruption. Never connect after it finally returns.
             checkDeadline();
             return addresses;

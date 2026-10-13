@@ -9,7 +9,7 @@ public class EnvironmentSecretResolver implements SecretResolver {
         String name = reference.substring(4);
         String value = System.getenv(name);
         String version = System.getenv(name + "_VERSION");
-        if (value == null || value.isEmpty() || version == null || version.isBlank()) {
+        if (value == null || value.isEmpty() || version == null || !version.matches("[A-Za-z0-9._:-]{1,128}")) {
             throw new IllegalStateException("Credential and credential version must both be supplied");
         }
         return new ResolvedSecret(value, version);

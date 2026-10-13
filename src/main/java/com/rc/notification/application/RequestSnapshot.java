@@ -9,4 +9,8 @@ public record RequestSnapshot(String url, String method, Map<String, String> hea
         body = body.clone();
     }
     @Override public byte[] body() { return body.clone(); }
+    @Override public String toString() {
+        return "RequestSnapshot[method=" + method + ",contentType=" + contentType
+                + ",bodyLength=" + body.length + ",url=REDACTED,headers=REDACTED]";
+    }
 }

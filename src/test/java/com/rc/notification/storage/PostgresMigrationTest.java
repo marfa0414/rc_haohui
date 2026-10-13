@@ -80,7 +80,7 @@ class PostgresMigrationTest {
         try (Connection connection = database.connection();
                 var statement = connection.prepareStatement("SELECT count(*) FROM information_schema.tables "
                         + "WHERE table_schema = ? AND table_name = ?")) {
-            for (String table : List.of("notification_template_version", "auth_profile", "notification_route", "audit_event", "notification_task")) {
+            for (String table : List.of("notification_template_version", "auth_profile", "notification_route", "audit_event", "notification_task", "notification_attempt")) {
                 statement.setString(1, database.schema());
                 statement.setString(2, table);
                 try (var rows = statement.executeQuery()) {

@@ -1,6 +1,7 @@
 package com.rc.notification.security;
 
 import com.rc.notification.api.ApiException;
+import java.net.InetAddress;
 import java.net.URI;
 import java.util.Locale;
 import java.util.Set;
@@ -9,7 +10,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-/** Offline policy only. Connection-time address enforcement is added at the CP08 boundary. */
+/** The same policy governs offline configuration and the addresses used by the real connector. */
 @Component
 @EnableConfigurationProperties(OutboundPolicy.Properties.class)
 public class OutboundPolicy {
@@ -52,6 +53,48 @@ public class OutboundPolicy {
             } else throw invalid();
         } catch (ApiException failure) { throw failure; }
         catch (RuntimeException malformed) { throw invalid(); }
+    }
+
+    /** Called on the actual DNS answer; it neither resolves a name nor substitutes another address. */
+    public boolean allowsConnectionAddress(URI target, InetAddress address) {
+        try { validateConfigurationUrl(target.toString()); }
+        catch (RuntimeException rejected) { return false; }
+        if (address == null || address.isAnyLocalAddress() || address.isLinkLocalAddress() || address.isMulticastAddress()) return false;
+        byte[] raw = address.getAddress();
+        boolean uniqueLocal = raw.length == 16 && (raw[0] & 0xfe) == 0xfc;
+        boolean local = address.isLoopbackAddress() || address.isSiteLocalAddress() || uniqueLocal;
+        if (local) {
+            // Only the exact, explicitly approved development HTTP authority may reach a local mock.
+            int port = target.getPort() < 0 ? 80 : target.getPort();
+            return development && "http".equals(target.getScheme())
+                    && properties.developmentHttpHosts().contains(target.getHost().toLowerCase(Locale.ROOT))
+                    && properties.developmentHttpPorts().contains(port);
+        }
+        return publicAddress(raw);
+    }
+
+    /**
+     * Conservative Internet destination policy. Special-use/tunnel ranges are intentionally rejected.
+     * Registry references: https://www.iana.org/assignments/iana-ipv4-special-registry/
+     * and https://www.iana.org/assignments/iana-ipv6-special-registry/ .
+     */
+    private static boolean publicAddress(byte[] raw) {
+        int a = raw[0] & 0xff, b = raw[1] & 0xff;
+        if (raw.length == 4) {
+            int c = raw[2] & 0xff;
+            return !(a == 0 || a == 10 || a == 127 || a >= 224
+                    || a == 100 && b >= 64 && b <= 127
+                    || a == 169 && b == 254
+                    || a == 172 && b >= 16 && b <= 31
+                    || a == 192 && (b == 168 || b == 0 && (c == 0 || c == 2) || b == 88 && c == 99)
+                    || a == 198 && (b == 18 || b == 19 || b == 51 && c == 100)
+                    || a == 203 && b == 0 && c == 113);
+        }
+        if (raw.length != 16 || (a & 0xe0) != 0x20) return false;
+        int c = raw[2] & 0xff, d = raw[3] & 0xff;
+        return !(a == 0x20 && b == 1 && ((c & 0xfe) == 0 || c == 0x0d && d == 0xb8)
+                || a == 0x20 && b == 2
+                || a == 0x3f && b == 0xff && (c & 0xf0) == 0);
     }
     private static ApiException invalid() {
         return new ApiException(400, "INVALID_CONFIGURATION", "Target URL is outside the configured outbound policy");

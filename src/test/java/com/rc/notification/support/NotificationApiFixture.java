@@ -47,6 +47,10 @@ public final class NotificationApiFixture implements AutoCloseable {
     }
 
     public NotificationApiFixture(RealPostgres database, String mode, Map<String, Object> overrides) throws Exception {
+        this(database, mode, overrides, new Class<?>[0]);
+    }
+
+    public NotificationApiFixture(RealPostgres database, String mode, Map<String, Object> overrides, Class<?>... testSources) throws Exception {
         this.database = database;
         Map<String, Object> properties = new HashMap<>(database.springProperties(mode));
         properties.put("app.outbound.allowed-hosts", "supplier.invalid,supplier-two.invalid,oauth.invalid");
@@ -58,6 +62,7 @@ public final class NotificationApiFixture implements AutoCloseable {
         caller(properties, 5, "config-b", CONFIG_B, "CONFIG_ADMIN", "tenant-b", "*");
         properties.putAll(overrides);
         application = new SpringApplicationBuilder(NotificationApplication.class).web(WebApplicationType.SERVLET)
+                .sources(testSources)
                 .initializers(context -> context.getEnvironment().getPropertySources()
                         .addFirst(new MapPropertySource("real-api-test", properties)))
                 .run();

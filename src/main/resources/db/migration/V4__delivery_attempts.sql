@@ -1,0 +1,21 @@
+CREATE TABLE notification_attempt (
+    task_id uuid NOT NULL REFERENCES notification_task(id),
+    run_number integer NOT NULL CHECK (run_number > 0),
+    attempt_no integer NOT NULL CHECK (attempt_no > 0),
+    lease_token uuid NOT NULL,
+    started_at timestamptz NOT NULL,
+    ended_at timestamptz,
+    phase varchar(32) NOT NULL CHECK (phase IN ('RESERVED','REQUEST_STARTED','COMPLETED')),
+    outcome varchar(32) NOT NULL CHECK (outcome IN ('NOT_SENT','HTTP_ACKNOWLEDGED','HTTP_REJECTED','UNKNOWN')),
+    http_status smallint CHECK (http_status IS NULL OR http_status BETWEEN 100 AND 599),
+    error_code varchar(64),
+    credential_version varchar(128),
+    request_started_at timestamptz,
+    http_send_started_at timestamptz,
+    execution_deadline timestamptz NOT NULL,
+    PRIMARY KEY (task_id,run_number,attempt_no),
+    CHECK (ended_at IS NULL OR ended_at >= started_at),
+    CHECK (execution_deadline > started_at),
+    CHECK ((phase='COMPLETED' AND ended_at IS NOT NULL) OR (phase<>'COMPLETED' AND ended_at IS NULL)),
+    CHECK (phase<>'REQUEST_STARTED' OR request_started_at IS NOT NULL)
+);

@@ -253,6 +253,8 @@ Header 按大小写不敏感的名称去重与禁用检查，名称满足 HTTP t
 
 每秒扫描当前有到期任务的 provider，按 providerId 游标轮转；候选 provider 分页读完后才重置游标，避免总取前 N 个导致后续供应商饿死。先非阻塞获得供应商槽位，再尝试获得全局槽位；全局不足立即归还供应商槽位，不持全局槽位等待慢供应商。单轮每个供应商小批量领取且总数不超过空闲槽位。
 
+单轮领取预算固定为进入该轮时的空闲槽位数，不因为本轮快速任务完成而扩增。完成后合并触发下一轮补位，调度队列最多保留一个补位事件；这样既避免轮询间隔限制吞吐，也让租约回收和新 provider 扫描持续获得机会。
+
 T1 使用 `SELECT ... FOR UPDATE SKIP LOCKED` 选取指定 provider 下 `pending AND next_attempt_at <= DB_NOW AND deadline_at > DB_NOW` 的任务，按 next_attempt_at/created_at/id 排序，更新 processing、随机 token、实例 owner、`lease_until=DB_NOW+90s`，清空 next_attempt_at 后提交。空领取归还许可；线程池拒绝提交时条件延期或等租约恢复，不能丢任务。
 
 `SKIP LOCKED` 用于队列表消费者，不能当成业务读取的一般一致性保证。[PostgreSQL SELECT](https://www.postgresql.org/docs/17/sql-select.html)
@@ -271,6 +273,8 @@ T2 提交后才解析 Secret 与准备认证。准备阶段允许的网络仅是
 
 业务发送前做一次短事务 T3：再次验证租约/轮次/attempt 未结束与执行时间，将 phase 改为 REQUEST_STARTED、`request_started_at` 设为 DB 时间、outcome=UNKNOWN，记录凭据版本，提交后才发业务 HTTP。T3 失败或提交结果不明时不发送。Worker 还要用单调时钟校验 30 秒总预算，并将业务请求时间上限设为 `min(10s, attempt剩余时间, lease剩余安全时间)`。
 
+剩余预算用数据库产生的 `execution_deadline/lease_until - started_at` 计算，再扣除从 T2 调用前开始的单调计时耗时；不直接拿 Worker 墙钟减数据库时间。计时包含 T2 等待，保守少用部分预算，并为租约保留 20 ms 余量。
+
 T3 是审计意图，无法与网络发送原子化：T3 后、网络前宕机也记录 UNKNOWN。本版对所有已预留但未完成的尝试保守记 UNKNOWN，不用测试屏障知道的“尚未发送”推断真实进程故障；正常处理路径明确未发送的认证失败等才记 NOT_SENT。已预留仍是一次已消费的 attempt，不能删除记录来“修复计数”。
 
 `request_started_at` 仅是上述持久化发送意图时间，不是已发出网络请求的证据。性能测量另在真正调用 HTTP 传输发送的位置记录 `httpSendStartedAt`；不得拿 T3 或 T2 的时间冒充首次 HTTP 开始。文档中的 `acceptedAt` 对应任务受理事务内由数据库生成的 `created_at`，报告注明该采样定义及进程时钟校准方法。
@@ -278,6 +282,8 @@ T3 是审计意图，无法与网络发送原子化：T3 后、网络前宕机�
 ### 6.5 完成事务 T4
 
 先锁任务，校验 ID/run/token/processing/lease_until 尚有效，再校验该 attempt 未结束，然后在同事务中写入 attempt 结果和任务终态或下一次调度。成功会清空 lease 和 next_attempt_at；重试清空 lease，设置 pending 与 next_attempt_at；永久失败清空 lease、设置 failed。任何必要更新不是恰好一行均整体回滚并记录 `STALE_OWNER`，不得只更新历史或只更新任务。
+
+更新语句重新使用 `clock_timestamp()` 校验租约和 attempt 执行期限，完成写入后再次检查，避免已取得任务锁但在后续数据库锁上等待跨过期限。检查失效时整个事务回滚，不能留下部分更新的历史。
 
 `2xx` 以完整最终响应头为确认点；收到响应头之后关闭不需要的响应流，不等待无限流式 body。网络准备、Token 等待和业务执行共同受 30 秒看门狗限制，取消必须关闭实际出站请求；超时后的晚到回调不能再次完成本 attempt。若落库失败，不在当前 attempt 重发 HTTP，保持 processing 由租约回收处理。
 

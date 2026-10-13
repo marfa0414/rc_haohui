@@ -24,7 +24,7 @@ public final class ValidatedDnsResolver implements DnsResolver {
         }
         for (InetAddress address : addresses) {
             if (address == null || !allowedAddress.test(address)) {
-                throw new UnknownHostException("Target address rejected by policy");
+                throw new TargetAddressRejectedException();
             }
         }
         return addresses.clone();
