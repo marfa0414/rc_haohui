@@ -1,0 +1,8 @@
+{
+  "authProfileKey": "example-crm-key",
+  "version": 1,
+  "tenantId": "tenant-a",
+  "type": "api_key",
+  "headerName": "X-CRM-Key",
+  "secretRef": "env:EXAMPLE_CRM_API_KEY"
+}

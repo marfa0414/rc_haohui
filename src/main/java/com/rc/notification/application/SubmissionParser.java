@@ -29,21 +29,27 @@ public class SubmissionParser {
     private final CanonicalDigest canonical = new CanonicalDigest();
 
     public Submission parse(InputStream input) throws IOException {
+        ObjectNode document = readObject(input);
+        if (document.size() != 4) throw ApiException.invalid();
+        var fields = document.fieldNames();
+        while (fields.hasNext()) {
+            if (!Set.of("tenantId", "operation", "eventId", "data").contains(fields.next())) throw ApiException.invalid();
+        }
+        String tenant = identifier(document.get("tenantId"), 64);
+        String operation = identifier(document.get("operation"), 128);
+        String event = identifier(document.get("eventId"), 128);
+        if (!document.path("data").isObject()) throw ApiException.invalid();
+        return new Submission(tenant, operation, event, document, canonical.digest(document));
+    }
+
+    public ObjectNode readObject(InputStream input) throws IOException {
         byte[] bytes = input.readNBytes(MAX_BYTES + 1);
         if (bytes.length > MAX_BYTES) throw new ApiException(413, "PAYLOAD_TOO_LARGE", "Request exceeds the byte limit");
         try (JsonParser parser = FACTORY.createParser(bytes)) {
             if (parser.nextToken() != JsonToken.START_OBJECT) throw ApiException.invalid();
             ObjectNode document = (ObjectNode) value(parser);
-            if (parser.nextToken() != null || document.size() != 4) throw ApiException.invalid();
-            var fields = document.fieldNames();
-            while (fields.hasNext()) {
-                if (!Set.of("tenantId", "operation", "eventId", "data").contains(fields.next())) throw ApiException.invalid();
-            }
-            String tenant = identifier(document.get("tenantId"), 64);
-            String operation = identifier(document.get("operation"), 128);
-            String event = identifier(document.get("eventId"), 128);
-            if (!document.path("data").isObject()) throw ApiException.invalid();
-            return new Submission(tenant, operation, event, document, canonical.digest(document));
+            if (parser.nextToken() != null) throw ApiException.invalid();
+            return document;
         } catch (ApiException failure) {
             throw failure;
         } catch (IOException | ArithmeticException | NumberFormatException malformed) {

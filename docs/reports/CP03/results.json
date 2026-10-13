@@ -1,0 +1,1226 @@
+{
+  "checkpoint": "CP03",
+  "suiteScope": "Cumulative CP01-CP03: durable intake and configuration; actual Worker delivery is not yet implemented",
+  "suites": [
+    {
+      "suite": "com.rc.notification.api.NotificationAcceptanceFailureTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "anAfterInsertDatabaseFailureRollsBackInsteadOfReturning202",
+          "class": "com.rc.notification.api.NotificationAcceptanceFailureTest",
+          "seconds": "0.292",
+          "status": "PASS"
+        },
+        {
+          "name": "aCommittedResponseLostOnTheWireCanBeResolvedByTheOriginalEventKey",
+          "class": "com.rc.notification.api.NotificationAcceptanceFailureTest",
+          "seconds": "0.244",
+          "status": "PASS"
+        },
+        {
+          "name": "disconnectedDatabaseCannotAcknowledgeAndReadinessRecovers",
+          "class": "com.rc.notification.api.NotificationAcceptanceFailureTest",
+          "seconds": "0.293",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "30147a743a8c9231516f0bd1db109645e8aedd9907c3f0aeab62ea6f2f0778af"
+    },
+    {
+      "suite": "com.rc.notification.api.NotificationAccessAndQueryTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "paginatesEqualCreationTimesWithoutGapsAndFiltersTenantStatusAndOperation",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.251",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsOnlyAfterCommitAndReportsThePendingSnapshotWithoutSecrets",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.209",
+          "status": "PASS"
+        },
+        {
+          "name": "unknownAndUnauthorizedTaskIdsHaveTheSameNotFoundShape",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.201",
+          "status": "PASS"
+        },
+        {
+          "name": "missingDraftAndMalformedConfigurationsCannotBeAccepted",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.228",
+          "status": "PASS"
+        },
+        {
+          "name": "workerModeDoesNotExposeNotificationSubmission",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.193",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsMissingWrongTenantAndUnauthorizedOperationCredentialsBeforeAccepting",
+          "class": "com.rc.notification.api.NotificationAccessAndQueryTest",
+          "seconds": "0.2",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "851b1c683747da5651a3eceefd7dcd0e9de58e04802fc61c24e6a0d5e15021fc"
+    },
+    {
+      "suite": "com.rc.notification.api.NotificationIdempotencyTest",
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "existingEventIsAuthorizedThenDeduplicatedBeforeReadingTheCurrentRoute",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.216",
+          "status": "PASS"
+        },
+        {
+          "name": "fiftySimultaneousFirstSubmissionsProduceOneDurableTask",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "2.428",
+          "status": "PASS"
+        },
+        {
+          "name": "competingContentsHaveOneWinnerAndTheOtherAlwaysConflicts",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "2.407",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[1]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.203",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[2]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.204",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[3]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.205",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[4]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.198",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[5]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.2",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[6]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.203",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[7]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.203",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[8]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.203",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[9]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.201",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[10]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.201",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[11]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.22",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[12]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.211",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[13]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.201",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[14]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.205",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[15]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.203",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[16]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.197",
+          "status": "PASS"
+        },
+        {
+          "name": "hashesOriginalDataWithoutPrecisionLoss(String, String, String, boolean)[17]",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.207",
+          "status": "PASS"
+        },
+        {
+          "name": "tenantAndOperationAreBothPartsOfTheEventKey",
+          "class": "com.rc.notification.api.NotificationIdempotencyTest",
+          "seconds": "0.21",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "c130cdcd6351f2a3f1e628438e0fd32f19131f5e5227b72e195dc4dbe1f65ae2"
+    },
+    {
+      "suite": "com.rc.notification.api.NotificationInputTest",
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "rejectsMoreThan256KiBBeforeCreatingATask",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[1]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[2]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[3]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[4]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[5]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsTheSpecifiedParserBoundary(String, String)[6]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "acceptsMaximumIdentifierLengthsAndKeepsCaseDistinct",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.014",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[1]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.013",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[2]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[3]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[4]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[5]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[6]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[7]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[8]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[9]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.011",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[10]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[11]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[12]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[13]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[14]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.011",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[15]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[16]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[17]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[18]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[19]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[20]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.011",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[21]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[22]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[23]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[24]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[25]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[26]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[27]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[28]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[29]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[30]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[31]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[32]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidInputWithoutPersistenceOrSensitiveEcho(String, String)[33]",
+          "class": "com.rc.notification.api.NotificationInputTest",
+          "seconds": "0.012",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "bbe8be80fd9ab15cc8e91b5f4c4c0742005bb4b3cd6d5a96188fb85abc732cbd"
+    },
+    {
+      "suite": "com.rc.notification.application.SubmissionParserTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "canonicalGoldenVectorSortsByUnicodeCodePointRatherThanUtf16CodeUnit",
+          "class": "com.rc.notification.application.SubmissionParserTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "oversizedStreamStopsAtTheLimitPlusOneWithoutReadingAnUnboundedBody",
+          "class": "com.rc.notification.application.SubmissionParserTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "e4ae1f442e0eef645ce5af3b8b2fd32b867725bb82ed9a4eb886d5d1d263edaf"
+    },
+    {
+      "suite": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "horizontalTabsRemainAllowedInCredentialHeaderValues",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[1]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[2]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[3]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[4]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[5]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "controlCharacterSecretsCannotBecomeHeaders(int)[6]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "resolvesTheCurrentCredentialOnlyDuringPreparationAndRedactsDebugOutput",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[1]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[2]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[3]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.001",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[4]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsTransportHeadersBeforeLookingUpAnySecret(String)[5]",
+          "class": "com.rc.notification.auth.ApiKeyAuthStrategyTest",
+          "seconds": "0.0",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "202e19681d1e386f0a5fbf87ce922438b87aac06c516715c4806d65d1e6bcc88"
+    },
+    {
+      "suite": "com.rc.notification.config.ConfigurationAccessTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "concurrentDifferentTenantsCannotCaptureDifferentVersionsOfOneGlobalTemplateKey",
+          "class": "com.rc.notification.config.ConfigurationAccessTest",
+          "seconds": "0.206",
+          "status": "PASS"
+        },
+        {
+          "name": "maximumTenantAndOperationIdentifiersFitTheRouteAndItsAuditRecord",
+          "class": "com.rc.notification.config.ConfigurationAccessTest",
+          "seconds": "0.219",
+          "status": "PASS"
+        },
+        {
+          "name": "allManagementCollectionsPaginateWithoutRepeatsAndHonorTenantScope",
+          "class": "com.rc.notification.config.ConfigurationAccessTest",
+          "seconds": "0.276",
+          "status": "PASS"
+        },
+        {
+          "name": "sharedTemplatesDoNotShareCredentialAuthorityOrMoveOtherTenantBindings",
+          "class": "com.rc.notification.config.ConfigurationAccessTest",
+          "seconds": "0.239",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "94273021de850379620321ba06f8c34b4c9afcd43c869a783d43b7eb488e206a"
+    },
+    {
+      "suite": "com.rc.notification.config.ConfigurationLifecycleTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "copyingWithOnlyDescriptionChangesKeepsExecutionBytesAndLeavesTheOldVersionAlone",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.253",
+          "status": "PASS"
+        },
+        {
+          "name": "previewAndOAuthPublicationAreOfflineAndRedactAllRenderedValues",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.228",
+          "status": "PASS"
+        },
+        {
+          "name": "checkedInCrmAndAdsExamplesAreAcceptedThroughConfigurationOnly",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.252",
+          "status": "PASS"
+        },
+        {
+          "name": "draftsMustPublishBeforeBindingAndPublishedResourcesAndSnapshotsAreImmutable",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.322",
+          "status": "PASS"
+        },
+        {
+          "name": "largeButAllowedNumericConstantSurvivesTheRealJsonbRoundTrip",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.243",
+          "status": "PASS"
+        },
+        {
+          "name": "configurationJsonbExpansionIsBoundedBeforeCreateOrUpdateCanCommit",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.239",
+          "status": "PASS"
+        },
+        {
+          "name": "staleDraftRevisionCannotBePublishedAndConcurrentEditsHaveOneWinner",
+          "class": "com.rc.notification.config.ConfigurationLifecycleTest",
+          "seconds": "0.206",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "f02202874b61cd12b94df0b188447d6ee1480be75d6c8303a1ebc99581aaca3f"
+    },
+    {
+      "suite": "com.rc.notification.config.ConfigurationValidationTest",
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "customApiKeyHeaderCannotConflictWithAnOrdinaryHeaderIgnoringCase",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.248",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[1]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.228",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[2]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.227",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[3]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.225",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[4]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.226",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[5]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.224",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[6]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.222",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[7]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.226",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[8]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.231",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[9]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.226",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[10]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.216",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[11]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.214",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[12]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.214",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[13]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.214",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[14]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.215",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[15]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.217",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[16]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.215",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[17]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.207",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[18]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.22",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[19]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.21",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[20]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.245",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[21]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.22",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[22]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.22",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[23]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.219",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[24]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.216",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[25]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.211",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[26]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.21",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[27]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.212",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[28]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.211",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[29]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.212",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[30]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.213",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[31]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.213",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[32]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.21",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[33]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.201",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[34]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.211",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[35]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.209",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[36]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.204",
+          "status": "PASS"
+        },
+        {
+          "name": "invalidTemplatesCannotBePublished(String, Consumer)[37]",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.202",
+          "status": "PASS"
+        },
+        {
+          "name": "unknownAuthAndUnsafeCredentialConfigurationCannotPublish",
+          "class": "com.rc.notification.config.ConfigurationValidationTest",
+          "seconds": "0.222",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "682d6fd0da7aad02aca4a2efa764fe14c27eee639ee169cf0fe25b3463e9b2a0"
+    },
+    {
+      "suite": "com.rc.notification.config.ConfigurationVersionTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "routeCompareAndSetHasOneWinnerAndNeverMixesTheTwoVersionReferences",
+          "class": "com.rc.notification.config.ConfigurationVersionTest",
+          "seconds": "1.409",
+          "status": "PASS"
+        },
+        {
+          "name": "oldEventSurvivesNewRequiredFieldsAndRollbackOnlyChangesFutureTasks",
+          "class": "com.rc.notification.config.ConfigurationVersionTest",
+          "seconds": "0.414",
+          "status": "PASS"
+        },
+        {
+          "name": "submissionsDuringRepeatedRouteChangesSnapshotAWholeVersion",
+          "class": "com.rc.notification.config.ConfigurationVersionTest",
+          "seconds": "0.402",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "06a0e4cf95445786fe74f6768f7e11c81c15b5de1adf418653f37fcd26429d6b"
+    },
+    {
+      "suite": "com.rc.notification.config.MappingIntegrationTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "optionalNullAndMissingAreOmittedButFalseAndZeroRemain",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.28",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[1]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.287",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[2]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.274",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[3]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.297",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[4]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.266",
+          "status": "PASS"
+        },
+        {
+          "name": "missingNullAndWrongTypeAreRejectedBeforeAcceptance(String, String)[5]",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.268",
+          "status": "PASS"
+        },
+        {
+          "name": "outputBodyBoundaryUsesUtf8BytesAndRejectsExpansionBeforePersistence",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.301",
+          "status": "PASS"
+        },
+        {
+          "name": "formRejectsEmptyStringNullAndNonScalarValues",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.256",
+          "status": "PASS"
+        },
+        {
+          "name": "ordinaryHeaderBoundaryUsesUtf8BytesAndDynamicValuesCannotInjectLines",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.295",
+          "status": "PASS"
+        },
+        {
+          "name": "jsonSupportsNestedObjectsDirectArraysAndExactScalarTypes",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.256",
+          "status": "PASS"
+        },
+        {
+          "name": "secondSupplierUsesOnlyFormConfigurationAndEncodesSpecialCharactersOnce",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.269",
+          "status": "PASS"
+        },
+        {
+          "name": "jsonBusinessStringMayContainAnEscapedNulWithoutHeaderPolicyRejectingIt",
+          "class": "com.rc.notification.config.MappingIntegrationTest",
+          "seconds": "0.246",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "c0193f0a58f448d0228f1ee7e158f76a3a514cba0db99ced60c93937cd43527d"
+    },
+    {
+      "suite": "com.rc.notification.delivery.ControlledHttpClientTest",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "aDnsRejectionProducesNoHttpConnection",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.033",
+          "status": "PASS"
+        },
+        {
+          "name": "finalResponseHeadersAreEnoughWithoutWaitingForTheBody",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.01",
+          "status": "PASS"
+        },
+        {
+          "name": "dnsThatIgnoresInterruptionCannotConnectAfterDeadline",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.929",
+          "status": "PASS"
+        },
+        {
+          "name": "callerInterruptionCancelsTheRequestAndReleasesCapacity",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.027",
+          "status": "PASS"
+        },
+        {
+          "name": "neverFollowsRedirects(int)[1]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.007",
+          "status": "PASS"
+        },
+        {
+          "name": "neverFollowsRedirects(int)[2]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "neverFollowsRedirects(int)[3]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.005",
+          "status": "PASS"
+        },
+        {
+          "name": "neverFollowsRedirects(int)[4]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "doesNotRetainCookiesAcrossRequests",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.007",
+          "status": "PASS"
+        },
+        {
+          "name": "returnsAuthenticationChallengeWithoutResending",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "neverRetriesAnIdempotentRequestAfterConnectionReset",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "totalTimeoutCancelsSlowResponseAndReleasesCapacity",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.51",
+          "status": "PASS"
+        },
+        {
+          "name": "validatedResolverRejectsMixedAddressesBeforeAnyRealConnection",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.004",
+          "status": "PASS"
+        },
+        {
+          "name": "retryAfterDoesNotCauseATransparentRetry(int)[1]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "retryAfterDoesNotCauseATransparentRetry(int)[2]",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        },
+        {
+          "name": "sendsOneRealHttpRequestWithExactBytesAndInjectedDns",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.003",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsExcessConcurrentRequestsInsteadOfBuildingAnUnboundedQueue",
+          "class": "com.rc.notification.delivery.ControlledHttpClientTest",
+          "seconds": "0.002",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "810b9f961928296c1901aaf47f47d18570cb292ab3c3e56cb7d9535fc03877ee"
+    },
+    {
+      "suite": "com.rc.notification.runtime.ApplicationFoundationTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "enablesOnlyTheSelectedRolesAndExposesHealthyEndpoints(String, boolean, boolean)[1]",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.187",
+          "status": "PASS"
+        },
+        {
+          "name": "enablesOnlyTheSelectedRolesAndExposesHealthyEndpoints(String, boolean, boolean)[2]",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.186",
+          "status": "PASS"
+        },
+        {
+          "name": "enablesOnlyTheSelectedRolesAndExposesHealthyEndpoints(String, boolean, boolean)[3]",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.177",
+          "status": "PASS"
+        },
+        {
+          "name": "readinessBecomesDownOnSchemaMismatchWithoutFailingLiveness",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.204",
+          "status": "PASS"
+        },
+        {
+          "name": "readinessRejectsANewerSchemaVersion",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.173",
+          "status": "PASS"
+        },
+        {
+          "name": "rejectsInvalidRuntimeModeAtStartup",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.024",
+          "status": "PASS"
+        },
+        {
+          "name": "aSecondApplicationStartDoesNotRepeatMigration",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.315",
+          "status": "PASS"
+        },
+        {
+          "name": "readinessRejectsMissingRequiredTablesAndRecoversWhenRestored",
+          "class": "com.rc.notification.runtime.ApplicationFoundationTest",
+          "seconds": "0.188",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "371fa7612d310b6460c247269f1f02de019bbab7e8606aa5bc3c0c47ffed03d9"
+    },
+    {
+      "suite": "com.rc.notification.storage.PostgresMigrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        {
+          "name": "schemaHistoryMismatchIsAnErrorNotASilentRepair",
+          "class": "com.rc.notification.storage.PostgresMigrationTest",
+          "seconds": "0.101",
+          "status": "PASS"
+        },
+        {
+          "name": "twoMigratorsSafelyCompeteForOneEmptySchema",
+          "class": "com.rc.notification.storage.PostgresMigrationTest",
+          "seconds": "1.142",
+          "status": "PASS"
+        },
+        {
+          "name": "migratesAnEmptySchemaAndDoesNotRepeatAppliedMigrations",
+          "class": "com.rc.notification.storage.PostgresMigrationTest",
+          "seconds": "0.118",
+          "status": "PASS"
+        }
+      ],
+      "rawXmlSha256": "6c60c347a567d2fd02f0ca4ca6dc2ace8529306bd573d78470a6d578a5aa20f9"
+    }
+  ],
+  "totals": {
+    "tests": 179,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

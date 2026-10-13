@@ -1,0 +1,39 @@
+{
+  "templateKey": "example-ads-registration",
+  "version": 1,
+  "ownerTenantId": "tenant-a",
+  "shared": false,
+  "providerId": "ads-b",
+  "endpointGroup": "conversions",
+  "description": "注册转化通知，URL 编码由表单编码器负责；上游提交业务字段。",
+  "method": "POST",
+  "url": "https://ads.example.com/conversions",
+  "headers": {
+    "X-Integration": {
+      "constant": "rc-example"
+    }
+  },
+  "body": {
+    "format": "form",
+    "fields": {
+      "conversion_id": {
+        "from": "eventId",
+        "type": "string",
+        "required": true
+      },
+      "click_id": {
+        "from": "data.clickId",
+        "type": "string",
+        "required": true
+      },
+      "user_id": {
+        "from": "data.userId",
+        "type": "string",
+        "required": true
+      },
+      "registered": {
+        "constant": true
+      }
+    }
+  }
+}

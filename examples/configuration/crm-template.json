@@ -1,0 +1,48 @@
+{
+  "templateKey": "example-crm-contact",
+  "version": 1,
+  "ownerTenantId": "tenant-a",
+  "shared": false,
+  "providerId": "crm-a",
+  "endpointGroup": "contacts",
+  "description": "付款成功后更新联系人状态；字段调整通过发布新配置版本完成。",
+  "method": "POST",
+  "url": "https://crm.example.com/contacts/update",
+  "headers": {
+    "X-Source": {
+      "constant": "notification-service"
+    },
+    "X-Event-Id": {
+      "from": "eventId",
+      "type": "string",
+      "required": true
+    }
+  },
+  "body": {
+    "format": "json",
+    "fields": {
+      "contact": {
+        "fields": {
+          "id": {
+            "from": "data.contactId",
+            "type": "string",
+            "required": true
+          },
+          "status": {
+            "constant": "paid"
+          }
+        }
+      },
+      "amount": {
+        "from": "data.amount",
+        "type": "number",
+        "required": true
+      },
+      "event_id": {
+        "from": "eventId",
+        "type": "string",
+        "required": true
+      }
+    }
+  }
+}

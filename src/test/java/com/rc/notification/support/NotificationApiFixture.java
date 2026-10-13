@@ -2,6 +2,9 @@ package com.rc.notification.support;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.StreamReadConstraints;
 import com.rc.notification.NotificationApplication;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -21,11 +24,18 @@ import org.springframework.core.env.MapPropertySource;
 
 /** CP02 real application and real PostgreSQL. No repository or snapshot factory is substituted. */
 public final class NotificationApiFixture implements AutoCloseable {
-    public static final ObjectMapper JSON = new ObjectMapper();
+    // Admin responses may contain PostgreSQL-expanded numeric constants up to the configuration limit.
+    // This client reader does not replace or relax the production request parser's 1000-character limit.
+    public static final ObjectMapper JSON = new ObjectMapper(JsonFactory.builder().streamReadConstraints(
+            StreamReadConstraints.builder().maxNumberLength(262144).build()).build())
+            .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+            .enable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS);
     public static final String CALLER_A = "cp02-business-a-test-only";
     public static final String CALLER_B = "cp02-business-b-test-only";
     public static final String ADMIN = "cp02-admin-test-only";
     public static final String LIMITED = "cp02-limited-test-only";
+    public static final String CONFIG_A = "cp03-config-a-test-only";
+    public static final String CONFIG_B = "cp03-config-b-test-only";
     public static final HttpClient HTTP = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(2))
             .followRedirects(HttpClient.Redirect.NEVER).build();
     public final RealPostgres database;
@@ -39,10 +49,13 @@ public final class NotificationApiFixture implements AutoCloseable {
     public NotificationApiFixture(RealPostgres database, String mode, Map<String, Object> overrides) throws Exception {
         this.database = database;
         Map<String, Object> properties = new HashMap<>(database.springProperties(mode));
+        properties.put("app.outbound.allowed-hosts", "supplier.invalid,supplier-two.invalid,oauth.invalid");
         caller(properties, 0, "caller-a", CALLER_A, "BUSINESS", "tenant-a", "user.registered,order.paid");
         caller(properties, 1, "caller-b", CALLER_B, "BUSINESS", "tenant-b", "user.registered,order.paid");
         caller(properties, 2, "admin", ADMIN, "ADMIN", "*", "*");
         caller(properties, 3, "limited", LIMITED, "BUSINESS", "tenant-a", "order.paid");
+        caller(properties, 4, "config-a", CONFIG_A, "CONFIG_ADMIN", "tenant-a", "*");
+        caller(properties, 5, "config-b", CONFIG_B, "CONFIG_ADMIN", "tenant-b", "*");
         properties.putAll(overrides);
         application = new SpringApplicationBuilder(NotificationApplication.class).web(WebApplicationType.SERVLET)
                 .initializers(context -> context.getEnvironment().getPropertySources()
@@ -142,6 +155,12 @@ public final class NotificationApiFixture implements AutoCloseable {
 
     public HttpResponse<String> get(String path, String token) throws Exception {
         return HTTP.send(request(path, token).GET().build(), HttpResponse.BodyHandlers.ofString());
+    }
+
+    public HttpResponse<String> send(String method, String path, JsonNode body, String token) throws Exception {
+        return HTTP.send(request(path, token).header("Content-Type", "application/json")
+                .method(method, HttpRequest.BodyPublishers.ofString(body.toString())).build(),
+                HttpResponse.BodyHandlers.ofString());
     }
 
     public HttpRequest.Builder request(String path, String token) {

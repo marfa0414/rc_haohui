@@ -1,0 +1,9 @@
+{
+  "authProfileKey": "example-ads-key",
+  "version": 1,
+  "tenantId": "tenant-a",
+  "type": "api_key",
+  "headerName": "X-ADS-Key",
+  "prefix": "Key ",
+  "secretRef": "env:EXAMPLE_ADS_API_KEY"
+}

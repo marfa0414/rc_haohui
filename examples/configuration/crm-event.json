@@ -1,0 +1,9 @@
+{
+  "tenantId": "tenant-a",
+  "operation": "subscription.paid",
+  "eventId": "example-payment-001",
+  "data": {
+    "contactId": "contact-123",
+    "amount": 29.99
+  }
+}

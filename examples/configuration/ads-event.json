@@ -1,0 +1,9 @@
+{
+  "tenantId": "tenant-a",
+  "operation": "user.registered",
+  "eventId": "example-registration-001",
+  "data": {
+    "clickId": "click+A&B=中文",
+    "userId": "user-456"
+  }
+}

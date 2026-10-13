@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.notification.api.ApiException;
+import com.rc.notification.configuration.StoredConfigurationJson;
 import com.rc.notification.application.RequestSnapshot;
 import com.rc.notification.application.Submission;
 import com.rc.notification.application.TaskCursor;
@@ -26,9 +27,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class NotificationRepository {
-    private static final ObjectMapper CONFIG_JSON = new ObjectMapper()
-            .enable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS)
-            .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+    private static final ObjectMapper CONFIG_JSON = StoredConfigurationJson.newMapper();
     private static final String VIEW_COLUMNS = """
             id, tenant_id, operation, event_id, status, run_number, run_attempt_count,
             total_attempt_count, next_attempt_at, deadline_at, last_outcome, last_error_code,
