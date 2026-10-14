@@ -1,6 +1,6 @@
 # 从受理到配置升级、回滚与重投
 
-先按根目录 [README](../README.md#从全新-checkout-开始) 完成真实 PostgreSQL 全量验证、镜像构建和 `all` 启动。本演示只使用真实管理/业务 HTTP API 和 Mock 观测端点，不使用 SQL 修改任务、不替换 Worker、不清空 Mock 或数据库。需要 Python 3.11+，仅使用标准库。
+先按根目录 [README](../README.md#快速开始) 完成真实 PostgreSQL 全量验证、镜像构建和 `all` 启动。本演示只使用真实管理/业务 HTTP API 和 Mock 观测端点，不使用 SQL 修改任务、不替换 Worker、不清空 Mock 或数据库。需要 Python 3.11+，仅使用标准库。
 
 在隔离的演示环境执行，期间不要并发运行性能脚本或其他业务：脚本会把 `tenant-01 / notify` 路由切到本次配置，并核对配置阶段没有 Token/业务网络调用。默认内部身份为公开假值 `rc-demo-admin-token`、`rc-demo-business-token`；第三方 Secret 由 Compose 环境配置，脚本只提交 `env:DEMO_VENDOR_SECRET` 引用，不读取实际 Secret。
 
